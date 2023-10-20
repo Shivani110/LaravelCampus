@@ -51,19 +51,36 @@ class UserController extends Controller
 
         if(Auth::attempt($user)){
             $role = Auth::user()->user_type;
-
+            $approve = Auth::user()->is_approved;
+            
             if($role == 0){
                 return view('admin.index');
-            }else if($role == 1){
-                return view('student.index');
-            }else if($role == 2){
-                return view('staff.index');
-            }else if($role == 3){
-                return view('sponsor.index');
-            }else if($role == 4){
-                return view('alumni.index');
             }
 
+            if($role == 1 && $approve == 1){
+                return view('student.index');
+            }else{
+                return redirect('login')->with('error','The user is not approved by admin');
+            }
+            
+            if($role == 2 && $approve == 1){
+                return view('staff.index');
+            }else{
+                return redirect('login')->with('error','The user is not approved by admin');
+            } 
+
+            if($role == 3 && $approve == 1){
+                return view('sponsor.index');
+            }else{
+                return redirect('login')->with('error','The user is not approved by admin');
+            } 
+            
+            if($role == 4 && $approve == 1){
+                return view('alumni.index');
+            }else{
+                return redirect('login')->with('error','The user is not approved by admin');
+            }
+            
         }else{
             return redirect('login')->with('error','The provided credentials do not match our records');
         }

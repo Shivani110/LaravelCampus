@@ -50,10 +50,11 @@
                                         <span class="nk-menu-text">Student</span>
                                     </a>
                                     <ul class="nk-menu-sub" style="display: block;">
-                                        <!-- <li class="nk-menu-item">
-                                            <a href="" class="nk-menu-link"><span class="nk-menu-text">Users List</span></a>
+                                         <li class="nk-menu-item">
+                                            <!-- <?php $id = Auth::user()->id; ?> -->
+                                            <a href="{{ url('student/') }}" class="nk-menu-link"><span class="nk-menu-text">Add Student</span></a>
                                         </li>
-                                        <li class="nk-menu-item">
+                                        <!-- <li class="nk-menu-item">
                                             <a href="" class="nk-menu-link"><span class="nk-menu-text">Approved Users</span></a>
                                         </li> -->
                                     </ul><!-- .nk-menu-sub -->

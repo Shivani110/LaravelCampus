@@ -3,6 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController; 
 use App\Http\Controllers\AdminController; 
+use App\Http\Controllers\StudentController; 
+use App\Http\Controllers\StaffController; 
+use App\Http\Controllers\SponsorController;
+use App\Http\Controllers\AlumniController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,3 +37,20 @@ Route::get('/approvedusers',[AdminController::class,'getApprovedUsers']);
 Route::post('/ajaxRequest', [AdminController::class, 'approve']);
 Route::post('/disapproveuser',[AdminController::class,'disapprove']);
 Route::post('/deleteuser',[AdminController::class,'deleteusers']);
+
+Route::get('/addcollege',[AdminController::class,'college']);
+Route::post('/college',[AdminController::class,'addcollege']);
+Route::get('/collegelist',[AdminController::class,'getCollege']);
+Route::get('/addcollege/{id}',[AdminController::class,'editCollege']);
+
+Route::get('/student',[StudentController::class,'student']);
+Route::post('/addstudent',[StudentController::class,'updateStudent']);
+
+Route::get('/staff',[StaffController::class,'staff']);
+Route::post('/addstaff',[StaffController::class,'updateStaff']);
+
+Route::get('/sponsor',[SponsorController::class,'sponsor']);
+Route::post('/addsponsor',[SponsorController::class,'updateSponsor']);
+
+Route::get('/alumni',[AlumniController::class,'alumni']);
+Route::post('/addalumni',[AlumniController::class,'updateAlumni']);

@@ -10,6 +10,7 @@ use App\Models\Student;
 use App\Models\Staff;
 use App\Models\Sponsor;
 use App\Models\Alumni;
+use App\Models\CollegeName;
 
 class AdminController extends Controller
 {
@@ -112,6 +113,36 @@ class AdminController extends Controller
         }
 
         return response()->json($user);
+    }
+
+    public function college(Request $request){
+        return view('admin.college');
+    }
+
+    public function addcollege(Request $request){
+       $request->validate([
+            'clg' => 'required',
+            'loc' => 'required'
+       ]);
+
+       $college = new CollegeName;
+       $college->college_name = $request->clg;
+       $college->location = $request->loc;
+       $college->moderator = $request->mod;
+       $college->save();
+
+       return redirect('addcollege')->with('success','Successfully created');
+    }
+
+    public function getCollege(CollegeName $college){
+        $college = CollegeName::get();
+        return view('admin.collegelist',compact('college'));
+    }
+
+    public function editCollege(Request $request,$id){
+        $college = CollegeName::where('id','=',$id)->first();
+
+        return view('admin.college',compact('college'));
     }
 
 }

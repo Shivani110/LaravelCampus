@@ -59,6 +59,20 @@
                                         </li>
                                     </ul><!-- .nk-menu-sub -->
                                 </li>
+                                <li class="nk-menu-item has-sub active">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class=""></em></span>
+                                        <span class="nk-menu-text">Colleges</span>
+                                    </a>
+                                    <ul class="nk-menu-sub" style="display: block;">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('addcollege') }}" class="nk-menu-link"><span class="nk-menu-text">Add College</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('collegelist') }}" class="nk-menu-link"><span class="nk-menu-text">College List</span></a>
+                                        </li>
+                                    </ul><!-- .nk-menu-sub -->
+                                </li>
                                 <li class="nk-menu-heading">
                                     <h6 class="overline-title text-primary-alt">Dashboards</h6>
                                 </li><!-- .nk-menu-item -->

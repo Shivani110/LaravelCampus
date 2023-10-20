@@ -50,12 +50,12 @@
                                         <span class="nk-menu-text">Staff</span>
                                     </a>
                                     <ul class="nk-menu-sub" style="display: block;">
-                                        <!-- <li class="nk-menu-item">
-                                            <a href="" class="nk-menu-link"><span class="nk-menu-text">Users List</span></a>
-                                        </li>
                                         <li class="nk-menu-item">
+                                            <a href="{{ url('staff/') }}" class="nk-menu-link"><span class="nk-menu-text">Add Staff</span></a>
+                                        </li>
+                                        <!-- <li class="nk-menu-item">
                                             <a href="" class="nk-menu-link"><span class="nk-menu-text">Approved Users</span></a>
-                                        </li> -->
+                                        </li>  -->
                                     </ul><!-- .nk-menu-sub -->
                                 </li>
                                 <li class="nk-menu-heading">
