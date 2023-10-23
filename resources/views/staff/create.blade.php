@@ -32,7 +32,13 @@
                     <label class="form-label" for="clg">College name</label>
                     <select id="clg" name="clg">
                         <option value="">Select</option>
-                        <option value=""></option>
+                        @foreach($college as $clg)
+                            @if($clg->id == $staff->college_name)
+                            <option selected value="{{ $clg->id }}">{{ $clg->college_name }}</option>
+                            @else
+                            <option value="{{ $clg->id }}">{{ $clg->college_name }}</option>
+                            @endif
+                        @endforeach
                     </select>
                 </div>
                 <div class="form-group">

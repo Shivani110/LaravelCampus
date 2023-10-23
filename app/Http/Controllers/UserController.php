@@ -53,30 +53,18 @@ class UserController extends Controller
             $role = Auth::user()->user_type;
             $approve = Auth::user()->is_approved;
             
-            if($role == 0){
-                return view('admin.index');
-            }
-
-            if($role == 1 && $approve == 1){
-                return view('student.index');
-            }else{
-                return redirect('login')->with('error','The user is not approved by admin');
-            }
-            
-            if($role == 2 && $approve == 1){
-                return view('staff.index');
-            }else{
-                return redirect('login')->with('error','The user is not approved by admin');
-            } 
-
-            if($role == 3 && $approve == 1){
-                return view('sponsor.index');
-            }else{
-                return redirect('login')->with('error','The user is not approved by admin');
-            } 
-            
-            if($role == 4 && $approve == 1){
-                return view('alumni.index');
+            if($approve == 1){
+                if($role == 0){
+                    return view('admin.index');
+                }elseif($role == 1){
+                    return view('student.index');
+                }elseif($role == 2){
+                    return view('staff.index');
+                }elseif($role == 3){
+                    return view('sponsor.index');
+                }elseif($role == 4){
+                    return view('alumni.index');
+                }
             }else{
                 return redirect('login')->with('error','The user is not approved by admin');
             }

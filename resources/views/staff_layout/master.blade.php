@@ -14,6 +14,7 @@
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('/assets/assets/css/dashlite.css?ver=3.1.2') }}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('/assets/assets/css/theme.css?ver=3.1.2') }}">
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js" ></script>
 </head>
@@ -58,9 +59,23 @@
                                         </li>  -->
                                     </ul><!-- .nk-menu-sub -->
                                 </li>
+                                <?php 
+                                    $id = Auth::user()->id ;
+                                ?>
+
                                 <li class="nk-menu-heading">
                                     <h6 class="overline-title text-primary-alt">Dashboards</h6>
-                                </li><!-- .nk-menu-item -->
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span>
+                                        <span class="nk-menu-text">College</span>
+                                    </a>
+                                    <ul class="nk-menu-sub" style="display: block;">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('collegeTemplate/') }}" class="nk-menu-link"><span class="nk-menu-text">College Template</span></a>
+                                            <a href="" class="nk-menu-link"><span class="nk-menu-text">College Template List</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
                               </ul><!-- .nk-menu -->
                         </div><!-- .nk-sidebar-menu -->
                     </div><!-- .nk-sidebar-content -->

@@ -42,12 +42,15 @@ Route::get('/addcollege',[AdminController::class,'college']);
 Route::post('/college',[AdminController::class,'addcollege']);
 Route::get('/collegelist',[AdminController::class,'getCollege']);
 Route::get('/addcollege/{id}',[AdminController::class,'editCollege']);
+Route::post('/edit',[AdminController::class,'updateCollege']);
 
 Route::get('/student',[StudentController::class,'student']);
 Route::post('/addstudent',[StudentController::class,'updateStudent']);
 
 Route::get('/staff',[StaffController::class,'staff']);
 Route::post('/addstaff',[StaffController::class,'updateStaff']);
+Route::get('/collegeTemplate',[StaffController::class,'collegetemplate']);
+Route::post('/addTemplate',[StaffController::class,'addtemplate']);
 
 Route::get('/sponsor',[SponsorController::class,'sponsor']);
 Route::post('/addsponsor',[SponsorController::class,'updateSponsor']);

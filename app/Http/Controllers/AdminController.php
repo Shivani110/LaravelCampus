@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Mail;
 use App\Mail\ApproveUsers;
@@ -141,8 +142,24 @@ class AdminController extends Controller
 
     public function editCollege(Request $request,$id){
         $college = CollegeName::where('id','=',$id)->first();
-
-        return view('admin.college',compact('college'));
+        
+        $moderator = DB::table('users')
+            ->join('staff', 'users.id', '=', 'staff.user_id')
+            ->join('college_names', 'staff.college_name', '=', 'college_names.id')
+            ->select('users.realname', 'staff.*', 'college_names.college_name','college_names.moderator')
+            ->where('college_names.id','=',$id)
+            ->get();
+        return view('admin.college',compact('college','moderator'));
     }
 
+    public function updateCollege(Request $request){
+        $id = $request->clg_id;
+        $college = CollegeName::where('id','=',$id)->first();
+        $college->college_name = $request->clg;
+        $college->location = $request->loc;
+        $college->moderator = $request->mod;
+        $college->update();
+
+        return redirect('addcollege/'.$id)->with('success','Updated Successfully..');
+    }
 }
