@@ -62,26 +62,29 @@ class StaffController extends Controller
     }
 
     public function collegetemplate(){
-        return view('staff.collegeTemplate');
+        $userid = Auth::user()->id;
+        $users = DB::table('college_names')
+            ->join('staff', 'college_names.id', '=', 'staff.college_name')
+            ->select('college_names.*')
+            ->where('staff.user_id','=',$userid)
+            ->first();
+        return view('staff.collegeTemplate',compact('users'));
     }
 
     public function addtemplate(Request $request){
+      
        $request->validate([
-            'logo' => 'required|file|mimes:jpeg,png,jpg',
+            'temp_title' => 'required',
             'first_title' => 'required',
             'first_des' => 'required',
-            'first_back_img' => 'required|file|mimes:jpeg,png,jpg',
             'first_btn' => 'required',
             'second_text' => 'required',
-            'second_img' => 'required|file|mimes:jpeg,png,jpg',
             'third_title' => 'required',
             'third_sub_title' => 'required',
-            // 'third_img' => 'required|file|mimes:jpeg,png,jpg'
             'third_btn_txt' => 'required',
             'fourth_title' => 'required',
             'fourth_des' => 'required',
             'fourth_btn_txt' => 'required',
-            'fourth_back_img' => 'required|file|mimes:jpeg,png,jpg',
             'fifth_title' => 'required',
             'fifth_subtitle' => 'required',
             'fifth_text' => 'required',
@@ -115,7 +118,7 @@ class StaffController extends Controller
 
             for($i=0;$i<count($third_img);$i++){
                 $imageName = time() . '.' . $third_img[$i]->extension();
-                $request->third_img->move(public_path('images'), $imageName);
+                $third_img[$i]->move(public_path('images'), $imageName);
                 array_push($images,$imageName);
             }
        }else{
@@ -123,21 +126,23 @@ class StaffController extends Controller
        }
 
        $jsonimages = json_encode($images);
-        // print_r($jsonimages);
 
        $logo = time() . '.' . $request->logo->extension();
-       $request->logo->move(pubic_path('images'), $logo);
+       $request->logo->move(public_path('images'), $logo);
 
        $firstImage = time() . '.' . $request->first_back_img->extension();
        $request->first_back_img->move(public_path('images'), $firstImage);
-
+   
        $secondImage = time() . '.' . $request->second_img->extension();
        $request->second_img->move(public_path('images'), $secondImage);
+    
 
        $fourthImage = time() . '.' . $request->fourth_back_img->extension();
-       $request->fourth_back_img->move(public_path('images'), $fourthImage);
+       $request->fourth_back_img->move(public_path('images'), $fourthImage);  
 
        $template = new CollegeTemplate;
+       $template->template_title = $request->temp_title;
+    //    $template->slug = $request->slug;
        $template->logo = $logo;
        $template->first_section_title = $request->first_title;
        $template->first_section_description = $request->first_des;
@@ -162,8 +167,144 @@ class StaffController extends Controller
        $template->last_section_twitter_link = $request->twitter_link;
        $template->last_section_instagram_link = $request->insta_link;
        $template->last_section_linkedin_link = $request->linkdn_link;
+       $template->clg_id = $request->clg_id;
+       $template->affilated_by = $request->aff_by;
        $template->save();
-
+       
        return redirect('collegeTemplate')->with('success','Successfully created...');
+    }
+
+    public function getTemplate(){
+        $clgtemplate = CollegeTemplate::get();
+        return view('staff.templatelist',compact('clgtemplate'));
+    }
+
+    public function editTemplate(Request $request,$id){
+        $template = CollegeTemplate::where('id','=',$id)->first();
+        return view('staff.collegeTemplate',compact('template'));
+
+    }
+
+    public function updateTemplate(Request $request){
+        // print_r($request->all());
+        $id = $request->id;
+        $clgtemplate = CollegeTemplate::where('id','=',$id)->first();
+
+        $thirdimg = json_decode($clgtemplate->third_section_image);
+        $thirdtxt = json_decode($clgtemplate->third_section_image_txt);
+
+        if(isset($request->third_img_txt)){
+            $third_img_txt = $request->third_img_txt;
+
+            for($i=0;$i<count($third_img_txt);$i++){
+                $imgtxt = $third_img_txt[$i];
+                array_push($thirdtxt,$imgtxt);
+            }
+        }else{
+            $third_img_txt = $clgtemplate->third_section_image_text;
+        }
+
+        $jsontext = json_encode($thirdtxt);
+
+        if(isset($request->third_img)){
+            $third_img = $request->third_img;
+
+            for($i=0;$i<count($third_img);$i++){
+                $imageName = time() . '.' . $third_img[$i]->extension();
+                $third_img[$i]->move(public_path('images'), $imageName);
+                array_push($thirdimg,$imageName);
+            }
+       }else{
+            $third_img = $clgtemplate->third_section_image;
+       }
+
+       $jsonimages = json_encode($thirdimg);
+
+       if($request->logo != null){
+            $logo = time() . '.' . $request->logo->extension();
+            $request->logo->move(public_path('images'), $logo);
+        }else{
+            $logo = $clgtemplate->logo;
+        }
+
+        if($request->first_back_img != null){
+            $firstImage = time() . '.' . $request->first_back_img->extension();
+            $request->first_back_img->move(public_path('images'), $firstImage);
+        }else{
+            $firstImage = $clgtemplate->first_section_background_img;
+        }
+
+        if($request->second_img != null){
+            $secondImage = time() . '.' .$request->second_img->extension();
+            $request->second_img->move(public_path('images'), $secondImage);
+        }else{
+            $secondImage = $clgtemplate->second_section_right_image;
+        }
+
+        if($request->fourth_back_img != null){
+            $fourthImage = time() . '.' .$request->fourth_back_img->extension();
+            $request->fourth->back_img->move(public_path('images'), $fourthImage);
+        }else{
+            $fourthImage = $clgtemplate->fourth_section_background_img;
+        }
+        
+       $template = CollegeTemplate::where('id','=',$id)->first();
+       $template->logo = $logo;
+       $template->first_section_title = $request->first_title;
+       $template->first_section_description = $request->first_des;
+       $template->first_section_background_img = $firstImage ;
+       $template->first_section_button_text = $request->first_btn;
+       $template->second_section_left_textarea = $request->second_text;
+       $template->second_section_right_image = $secondImage;
+       $template->third_section_title = $request->third_title;
+       $template->third_section_subtitle = $request->third_sub_title;
+       $template->third_section_image = $jsonimages;
+       $template->third_section_image_txt = $jsontext;
+       $template->third_section_button_txt = $request->third_btn_txt;
+       $template->fourth_section_title = $request->fourth_title;
+       $template->fourth_section_description = $request->fourth_des;
+       $template->fourth_section_button_txt = $request->fourth_btn_txt;
+       $template->fourth_section_background_img = $fourthImage;
+       $template->fifth_section_title = $request->fifth_title;
+       $template->fifth_section_subtitle = $request->fifth_subtitle;
+       $template->fifth_section_textarea = $request->fifth_text;
+       $template->last_section_textarea = $request->last_text;
+       $template->last_section_fb_link = $request->fb_link;
+       $template->last_section_twitter_link = $request->twitter_link;
+       $template->last_section_instagram_link = $request->insta_link;
+       $template->last_section_linkedin_link = $request->linkdn_link;
+       $template->update();
+       
+       return redirect('collegeTemplate/'.$id)->with('success','Successfully Updated...');
+    }
+
+    public function removedata(Request $request){
+        $id = $request->id;
+        $key = $request->key;
+
+        $clgtemplate = CollegeTemplate::where('id','=',$id)->first();
+
+        $image = json_decode($clgtemplate->third_section_image);
+        $text = json_decode($clgtemplate->third_section_image_txt);
+
+        $updateimages = array();
+        $updatetext = array();
+
+        for($i=0;$i<count($image);$i++){
+            if($i == $key){
+                continue;
+            }
+            array_push($updateimages,$image[$i]);
+            array_push($updatetext,$text[$i]);
+        }
+        $img = json_encode($updateimages);
+        $txt = json_encode($updatetext);
+
+        $template = CollegeTemplate::where('id','=',$id)->first();
+        $template->third_section_image = $img;
+        $template->third_section_image_txt = $txt;
+        $template->update();
+
+        return response()->json($template);
     }
 }

@@ -54,15 +54,24 @@
                                         <li class="nk-menu-item">
                                             <a href="{{ url('staff/') }}" class="nk-menu-link"><span class="nk-menu-text">Add Staff</span></a>
                                         </li>
-                                        <!-- <li class="nk-menu-item">
-                                            <a href="" class="nk-menu-link"><span class="nk-menu-text">Approved Users</span></a>
-                                        </li>  -->
                                     </ul><!-- .nk-menu-sub -->
                                 </li>
-                                <?php 
-                                    $id = Auth::user()->id ;
-                                ?>
+                                
+                                <?php $userid = Auth::user()->id; ?>
+                                @foreach(\App\Models\Staff::where('user_id','=',$userid)->get() as $staff)
+                                  <?php  
+                                        $clg_id = $staff->college_name; 
+                                        $id = $staff->id;
+                                  ?>
+                                @endforeach
 
+                                @foreach(\App\Models\CollegeName::where('id','=',$clg_id)->get() as $clg)
+                                <?php $mod_id = $clg->moderator ?>
+                                @endforeach
+
+                                @if($id == $mod_id)
+                                <!-- {{ $id }}
+                                {{ $mod_id }} -->
                                 <li class="nk-menu-heading">
                                     <h6 class="overline-title text-primary-alt">Dashboards</h6>
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
@@ -72,10 +81,11 @@
                                     <ul class="nk-menu-sub" style="display: block;">
                                         <li class="nk-menu-item">
                                             <a href="{{ url('collegeTemplate/') }}" class="nk-menu-link"><span class="nk-menu-text">College Template</span></a>
-                                            <a href="" class="nk-menu-link"><span class="nk-menu-text">College Template List</span></a>
+                                            <a href="{{ url('list/') }}" class="nk-menu-link"><span class="nk-menu-text">College Template List</span></a>
                                         </li>
                                     </ul>
                                 </li>
+                                @endif
                               </ul><!-- .nk-menu -->
                         </div><!-- .nk-sidebar-menu -->
                     </div><!-- .nk-sidebar-content -->

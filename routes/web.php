@@ -51,6 +51,10 @@ Route::get('/staff',[StaffController::class,'staff']);
 Route::post('/addstaff',[StaffController::class,'updateStaff']);
 Route::get('/collegeTemplate',[StaffController::class,'collegetemplate']);
 Route::post('/addTemplate',[StaffController::class,'addtemplate']);
+Route::get('/list',[StaffController::class,'getTemplate']);
+Route::get('/collegeTemplate/{id}',[StaffController::class,'editTemplate']);
+Route::post('/updateTemplate',[StaffController::class,'updateTemplate']);
+Route::post('/remove',[StaffController::class,'removedata']);
 
 Route::get('/sponsor',[SponsorController::class,'sponsor']);
 Route::post('/addsponsor',[SponsorController::class,'updateSponsor']);

@@ -15,12 +15,14 @@ return new class extends Migration
     {
         Schema::create('college_templates', function (Blueprint $table) {
             $table->id();
+            $table->string('template_title');
+            $table->string('slug');
             $table->string('logo');
             $table->string('first_section_title');
-            $table->string('first_section_description');
+            $table->text('first_section_description');
             $table->string('first_section_background_img');
             $table->string('first_section_button_text');
-            $table->string('second_section_left_textarea');
+            $table->text('second_section_left_textarea');
             $table->string('second_section_right_image');
             $table->string('third_section_title');
             $table->string('third_section_subtitle');
@@ -28,13 +30,13 @@ return new class extends Migration
             $table->string('third_section_image_txt');
             $table->string('third_section_button_txt');
             $table->string('fourth_section_title');
-            $table->string('fourth_section_description');
+            $table->text('fourth_section_description');
             $table->string('fourth_section_button_txt');
             $table->string('fourth_section_background_img');
             $table->string('fifth_section_title');
             $table->string('fifth_section_subtitle');
-            $table->string('fifth_section_textarea');
-            $table->string('last_section_textarea');
+            $table->text('fifth_section_textarea');
+            $table->text('last_section_textarea');
             $table->string('last_section_fb_link');
             $table->string('last_section_twitter_link');
             $table->string('last_section_instagram_link');
