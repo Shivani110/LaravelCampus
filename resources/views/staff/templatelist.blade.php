@@ -16,7 +16,7 @@
             <tr>
                 <td><img src="{{ asset('/images/'.$clg->logo) }}" ></td>
                 <td>
-                    <a href="{{ url('collegeTemplate/'.$clg->id) }}" class="btn btn-primary">Edit</a>
+                    <a href="{{ url('collegeTemplate/'.$clg->slug) }}" class="btn btn-primary">Edit</a>
                 </td>
             </tr>
             @endforeach

@@ -75,6 +75,7 @@ class StaffController extends Controller
       
        $request->validate([
             'temp_title' => 'required',
+            'slug'    =>  'unique:college_templates,slug',
             'first_title' => 'required',
             'first_des' => 'required',
             'first_btn' => 'required',
@@ -110,46 +111,61 @@ class StaffController extends Controller
 
        $jsontext = json_encode($text);
        
-
        $images = array();
 
-       if(isset($request->third_img)){
-            $third_img = $request->third_img;
+       if($request->hasFile('third_img')){
+            $thirdimage = $request->file('third_img');
 
-            for($i=0;$i<count($third_img);$i++){
-                $imageName = time() . '.' . $third_img[$i]->extension();
-                $third_img[$i]->move(public_path('images'), $imageName);
-                array_push($images,$imageName);
+            for($i=0;$i<count($thirdimage);$i++){
+                $extension = $thirdimage[$i]->getClientOriginalExtension();
+                $thirdImageName = 'third_' . rand(0, 1000) . time() . '.' . $extension;
+                $thirdimage[$i]->move(public_path('images'), $thirdImageName);
+                array_push($images,$thirdImageName);
             }
        }else{
-            $third_img = [];
+            $thirdimage = [];
        }
 
        $jsonimages = json_encode($images);
 
-       $logo = time() . '.' . $request->logo->extension();
-       $request->logo->move(public_path('images'), $logo);
+        if($request->hasFile('logo')) {
+            $logoimage = $request->file('logo');
+            $extension = $logoimage->getClientOriginalExtension();
+            $logoImageName = 'logo_' . rand(0, 1000) . time() . '.' . $extension;
+            $logoimage->move(public_path('images'), $logoImageName);
+        }
 
-       $firstImage = time() . '.' . $request->first_back_img->extension();
-       $request->first_back_img->move(public_path('images'), $firstImage);
-   
-       $secondImage = time() . '.' . $request->second_img->extension();
-       $request->second_img->move(public_path('images'), $secondImage);
-    
+        if($request->hasFile('first_back_img')) {
+            $firstimage = $request->file('first_back_img');
+            $extension = $firstimage->getClientOriginalExtension();
+            $firstImageName = 'first_' . rand(0, 1000) . time() . '.' . $extension;
+            $firstimage->move(public_path('images'), $firstImageName);
+        }
 
-       $fourthImage = time() . '.' . $request->fourth_back_img->extension();
-       $request->fourth_back_img->move(public_path('images'), $fourthImage);  
+        if($request->hasFile('second_img')) {
+            $secondimage = $request->file('second_img');
+            $extension = $secondimage->getClientOriginalExtension();
+            $secondImageName = 'second_' . rand(0, 1000) . time() . '.' . $extension;
+            $secondimage->move(public_path('images'), $secondImageName);
+        }
+        
+        if($request->hasFile('fourth_back_img')) {
+            $fourthimage = $request->file('fourth_back_img');
+            $extension = $fourthimage->getClientOriginalExtension();
+            $fourthImageName = 'fourth' . rand(0, 1000) . time() . '.' . $extension;
+            $fourthimage->move(public_path('images'), $fourthImageName);
+        }
 
        $template = new CollegeTemplate;
        $template->template_title = $request->temp_title;
-    //    $template->slug = $request->slug;
-       $template->logo = $logo;
+       $template->slug = $request->slug;
+       $template->logo = $logoImageName;
        $template->first_section_title = $request->first_title;
        $template->first_section_description = $request->first_des;
-       $template->first_section_background_img = $firstImage ;
+       $template->first_section_background_img = $firstImageName;
        $template->first_section_button_text = $request->first_btn;
        $template->second_section_left_textarea = $request->second_text;
-       $template->second_section_right_image = $secondImage;
+       $template->second_section_right_image = $secondImageName;
        $template->third_section_title = $request->third_title;
        $template->third_section_subtitle = $request->third_sub_title;
        $template->third_section_image = $jsonimages;
@@ -158,7 +174,7 @@ class StaffController extends Controller
        $template->fourth_section_title = $request->fourth_title;
        $template->fourth_section_description = $request->fourth_des;
        $template->fourth_section_button_txt = $request->fourth_btn_txt;
-       $template->fourth_section_background_img = $fourthImage;
+       $template->fourth_section_background_img = $fourthImageName;
        $template->fifth_section_title = $request->fifth_title;
        $template->fifth_section_subtitle = $request->fifth_subtitle;
        $template->fifth_section_textarea = $request->fifth_text;
@@ -170,7 +186,7 @@ class StaffController extends Controller
        $template->clg_id = $request->clg_id;
        $template->affilated_by = $request->aff_by;
        $template->save();
-       
+
        return redirect('collegeTemplate')->with('success','Successfully created...');
     }
 
@@ -179,15 +195,17 @@ class StaffController extends Controller
         return view('staff.templatelist',compact('clgtemplate'));
     }
 
-    public function editTemplate(Request $request,$id){
-        $template = CollegeTemplate::where('id','=',$id)->first();
+    public function editTemplate(Request $request, $slug){
+        $template = CollegeTemplate::where('slug','=',$slug)->first();
         return view('staff.collegeTemplate',compact('template'));
-
+        // print_r($slug);
     }
 
     public function updateTemplate(Request $request){
+
         // print_r($request->all());
         $id = $request->id;
+        $slug = $request->slug;
         $clgtemplate = CollegeTemplate::where('id','=',$id)->first();
 
         $thirdimg = json_decode($clgtemplate->third_section_image);
@@ -206,56 +224,79 @@ class StaffController extends Controller
 
         $jsontext = json_encode($thirdtxt);
 
-        if(isset($request->third_img)){
-            $third_img = $request->third_img;
+        if($request->hasFile('third_img')){
+            $thirdimage = $request->file('third_img');
 
-            for($i=0;$i<count($third_img);$i++){
-                $imageName = time() . '.' . $third_img[$i]->extension();
-                $third_img[$i]->move(public_path('images'), $imageName);
-                array_push($thirdimg,$imageName);
+            for($i=0;$i<count($thirdimage);$i++){
+                $extension = $thirdimage[$i]->getClientOriginalExtension();
+                $thirdImageName = 'third_' . rand(0, 1000) . time() . '.' . $extension;
+                $thirdimage[$i]->move(public_path('images'), $thirdImageName);
+                array_push($thirdimg,$thirdImageName);
             }
        }else{
-            $third_img = $clgtemplate->third_section_image;
+            $thirdimage = $clgtemplate->third_section_image;
        }
 
        $jsonimages = json_encode($thirdimg);
 
-       if($request->logo != null){
-            $logo = time() . '.' . $request->logo->extension();
-            $request->logo->move(public_path('images'), $logo);
-        }else{
-            $logo = $clgtemplate->logo;
+       if(($request->logo) != null){
+            if($request->hasFile('logo')) {
+                $logoimage = $request->file('logo');
+                $extension = $logoimage->getClientOriginalExtension();
+                $logoImageName = 'logo_' . rand(0, 1000) . time() . '.' . $extension;
+                $logoimage->move(public_path('images'), $logoImageName);
+            }
+        }    
+        else{
+            $logoimage = $clgtemplate->logo;
+        }
+            
+        if(($request->first_back_img) != null){
+            if($request->hasFile('first_back_img')) {
+                $firstimage = $request->file('first_back_img');
+                $extension = $firstimage->getClientOriginalExtension();
+                $firstImageName = 'first_' . rand(0, 1000) . time() . '.' . $extension;
+                $firstimage->move(public_path('images'), $firstImageName);
+            }
+        }
+        else{
+            $firstimage = $clgtemplate->first_section_background_img;
         }
 
-        if($request->first_back_img != null){
-            $firstImage = time() . '.' . $request->first_back_img->extension();
-            $request->first_back_img->move(public_path('images'), $firstImage);
-        }else{
-            $firstImage = $clgtemplate->first_section_background_img;
+        if(($request->second_img) != null){
+            if($request->hasFile('second_img')) {
+                $secondimage = $request->file('second_img');
+                $extension = $secondimage->getClientOriginalExtension();
+                $secondImageName = 'second_' . rand(0, 1000) . time() . '.' . $extension;
+                $secondimage->move(public_path('images'), $secondImageName);
+            }
+        }
+        else{
+            $secondimage = $clgtemplate->second_section_right_image;
         }
 
-        if($request->second_img != null){
-            $secondImage = time() . '.' .$request->second_img->extension();
-            $request->second_img->move(public_path('images'), $secondImage);
-        }else{
-            $secondImage = $clgtemplate->second_section_right_image;
+        if(($request->fourth_back_img) != null){
+            if($request->hasFile('fourth_back_img')) {
+                $fourthimage = $request->file('fourth_back_img');
+                $extension = $fourthimage->getClientOriginalExtension();
+                $fourthImageName = 'fourth' . rand(0, 1000) . time() . '.' . $extension;
+                $fourthimage->move(public_path('images'), $fourthImageName);
+            }
         }
-
-        if($request->fourth_back_img != null){
-            $fourthImage = time() . '.' .$request->fourth_back_img->extension();
-            $request->fourth->back_img->move(public_path('images'), $fourthImage);
-        }else{
-            $fourthImage = $clgtemplate->fourth_section_background_img;
+        else{
+            $fourthimage = $clgtemplate->fourth_section_background_img;
         }
         
        $template = CollegeTemplate::where('id','=',$id)->first();
-       $template->logo = $logo;
+       $template->logo = $logoimage;
+       $template->template_title = $request->temp_title;
+       $template->slug = $request->slug;
        $template->first_section_title = $request->first_title;
        $template->first_section_description = $request->first_des;
-       $template->first_section_background_img = $firstImage ;
+       $template->first_section_background_img = $firstimage ;
        $template->first_section_button_text = $request->first_btn;
        $template->second_section_left_textarea = $request->second_text;
-       $template->second_section_right_image = $secondImage;
+       $template->second_section_right_image = $secondimage;
        $template->third_section_title = $request->third_title;
        $template->third_section_subtitle = $request->third_sub_title;
        $template->third_section_image = $jsonimages;
@@ -264,7 +305,7 @@ class StaffController extends Controller
        $template->fourth_section_title = $request->fourth_title;
        $template->fourth_section_description = $request->fourth_des;
        $template->fourth_section_button_txt = $request->fourth_btn_txt;
-       $template->fourth_section_background_img = $fourthImage;
+       $template->fourth_section_background_img = $fourthimage;
        $template->fifth_section_title = $request->fifth_title;
        $template->fifth_section_subtitle = $request->fifth_subtitle;
        $template->fifth_section_textarea = $request->fifth_text;
@@ -275,7 +316,7 @@ class StaffController extends Controller
        $template->last_section_linkedin_link = $request->linkdn_link;
        $template->update();
        
-       return redirect('collegeTemplate/'.$id)->with('success','Successfully Updated...');
+       return redirect('collegeTemplate/'.$template->slug)->with('success','Successfully Updated...');
     }
 
     public function removedata(Request $request){

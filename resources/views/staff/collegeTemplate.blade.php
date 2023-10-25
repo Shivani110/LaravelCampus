@@ -14,7 +14,7 @@
                 </div>
             @endif
 
-            @if (isset($template))
+            @if(isset($template))
                 <form method="post" id="myform" enctype="multipart/form-data" action="{{ url('updateTemplate') }}">
                 @csrf
             @else
@@ -24,15 +24,18 @@
                 <h4>First Section</h4>
                 <div class="form-group">
                     <label class="form-label" for="temp_title">Template Title</label>
-                    <input type="text" class="form-control" id="temp_title" name="temp_title" value="">
+                    <input type="text" class="form-control" id="temp_title" name="temp_title" value="{{ old('temp_title', $template->template_title ??'') }}">
                     @error('temp_title')
                     {{ $message }}
                     @enderror
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="slug">Slug</label>
-                    <input type="text" class="form-control" id="slug" name="slug" value="">
+                    <input type="text" class="form-control" id="slug" name="slug" value="{{ old('slug', $template->slug ??'') }}">
                 </div>
+                @error('slug')
+                {{ $message }}
+                @enderror
                 <div class="form-group">
                     <label class="form-label" for="logo">Logo</label>
                     @isset($template->logo)

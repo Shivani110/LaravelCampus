@@ -10,7 +10,7 @@
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="./images/favicon.png">
     <!-- Page Title  -->
-    <title> Admin Dashboard</title>
+    <title> Public Dashboard</title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('/assets/assets/css/dashlite.css?ver=3.1.2') }}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('/assets/assets/css/theme.css?ver=3.1.2') }}">
@@ -45,7 +45,7 @@
                                     <h6 class="overline-title text-primary-alt">Use-Case Preview</h6>
                                 </li><!-- .nk-menu-item -->
 
-                                <li class="nk-menu-item has-sub active">
+                                <!-- <li class="nk-menu-item has-sub active">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class=""></em></span>
                                         <span class="nk-menu-text">Users</span>
@@ -57,22 +57,22 @@
                                         <li class="nk-menu-item">
                                             <a href="{{ url('approvedusers') }}" class="nk-menu-link"><span class="nk-menu-text">Approved Users</span></a>
                                         </li>
-                                    </ul><!-- .nk-menu-sub -->
-                                </li>
-                                <li class="nk-menu-item has-sub active">
-                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                    </ul>
+                                </li> -->
+                                <!-- <li class="nk-menu-item has-sub active">
+                                   <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class=""></em></span>
                                         <span class="nk-menu-text">Colleges</span>
                                     </a>
-                                    <ul class="nk-menu-sub" style="display: block;">
-                                        <li class="nk-menu-item">
+                                    <ul class="nk-menu-sub" style="display: block;"> 
+                                         <li class="nk-menu-item">
                                             <a href="{{ url('addcollege') }}" class="nk-menu-link"><span class="nk-menu-text">Add College</span></a>
                                         </li>
                                         <li class="nk-menu-item">
                                             <a href="{{ url('collegelist') }}" class="nk-menu-link"><span class="nk-menu-text">College List</span></a>
-                                        </li>
-                                    </ul><!-- .nk-menu-sub -->
-                                </li>
+                                        </li> 
+                                    </ul> 
+                                </li> -->
                                 <li class="nk-menu-heading">
                                     <h6 class="overline-title text-primary-alt">Dashboards</h6>
                                 </li><!-- .nk-menu-item -->
@@ -133,8 +133,6 @@
                                                     <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
                                                     <li><a href="html/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
                                                     <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
-                                                    {{ Auth::user()->user_type }}
-                                                    <li><a href="{{ url('index') }}"><em></em><span>Public Dashboard</span></a></li>
                                                     <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
                                                 </ul>
                                             </div>

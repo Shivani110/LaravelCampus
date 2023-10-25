@@ -7,6 +7,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StaffController; 
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\AlumniController;
+use App\Http\Controllers\PublicController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +53,7 @@ Route::post('/addstaff',[StaffController::class,'updateStaff']);
 Route::get('/collegeTemplate',[StaffController::class,'collegetemplate']);
 Route::post('/addTemplate',[StaffController::class,'addtemplate']);
 Route::get('/list',[StaffController::class,'getTemplate']);
-Route::get('/collegeTemplate/{id}',[StaffController::class,'editTemplate']);
+Route::get('/collegeTemplate/{slug}',[StaffController::class,'editTemplate']);
 Route::post('/updateTemplate',[StaffController::class,'updateTemplate']);
 Route::post('/remove',[StaffController::class,'removedata']);
 
@@ -61,3 +62,5 @@ Route::post('/addsponsor',[SponsorController::class,'updateSponsor']);
 
 Route::get('/alumni',[AlumniController::class,'alumni']);
 Route::post('/addalumni',[AlumniController::class,'updateAlumni']);
+
+Route::get('/index',[UserController::class,'publicDashboard']);
