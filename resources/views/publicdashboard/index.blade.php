@@ -4,7 +4,7 @@
 
 <div class = "nk-content">
    <h4> Welcome to public dashboard</h4>
-   {{ Auth::user()->user_type }}
+   <!-- {{ Auth::user()->user_type }} -->
 </div>
 
 @endsection

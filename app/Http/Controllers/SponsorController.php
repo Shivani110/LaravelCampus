@@ -33,7 +33,7 @@ class SponsorController extends Controller
             $sponsor->social_link = $request->social;
             $sponsor->update();
 
-            return redirect('sponsor')->with('success','Successfully updated...');
+            return redirect('/sponsor-dashboard/sponsor')->with('success','Successfully updated...');
         }else{
             $request->validate([
                 'abt_me' => 'required',
@@ -48,7 +48,7 @@ class SponsorController extends Controller
             $sponsor->social_link = $request->social;
             $sponsor->update();
 
-            return redirect('sponsor')->with('success','Successfully updated...');
+            return redirect('/sponsor-dashboard/sponsor')->with('success','Successfully updated...');
         }
     }
 }

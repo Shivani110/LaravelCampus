@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Staff;
 use App\Models\CollegeName;
 use App\Models\CollegeTemplate;
+use App\Models\Post;
 
 class StaffController extends Controller
 {
@@ -39,7 +40,7 @@ class StaffController extends Controller
             $staff->college_name = $request->clg;
             $staff->update();
     
-            return redirect('staff')->with('success','Successfully updated...');
+            return redirect('/staff-dashboard/staff')->with('success','Successfully updated...');
         }else{
             $request->validate([
                 'abt_me' => 'required',
@@ -57,7 +58,7 @@ class StaffController extends Controller
             $staff->college_name = $request->clg;
             $staff->update();
     
-            return redirect('staff')->with('success','Successfully updated...');
+            return redirect('/staff-dashboard/staff')->with('success','Successfully updated...');
         }
     }
 
@@ -187,7 +188,7 @@ class StaffController extends Controller
        $template->affilated_by = $request->aff_by;
        $template->save();
 
-       return redirect('collegeTemplate')->with('success','Successfully created...');
+       return redirect('/staff-dashboard/collegeTemplate')->with('success','Successfully created...');
     }
 
     public function getTemplate(){
@@ -239,64 +240,56 @@ class StaffController extends Controller
 
        $jsonimages = json_encode($thirdimg);
 
-       if(($request->logo) != null){
-            if($request->hasFile('logo')) {
-                $logoimage = $request->file('logo');
-                $extension = $logoimage->getClientOriginalExtension();
-                $logoImageName = 'logo_' . rand(0, 1000) . time() . '.' . $extension;
-                $logoimage->move(public_path('images'), $logoImageName);
-            }
-        }    
+
+        if($request->hasFile('logo')) {
+            $logoimage = $request->file('logo');
+            $extension = $logoimage->getClientOriginalExtension();
+            $logoImageName = 'logo_' . rand(0, 1000) . time() . '.' . $extension;
+            $logoimage->move(public_path('images'), $logoImageName);
+        }
         else{
-            $logoimage = $clgtemplate->logo;
+            $logoImageName = $clgtemplate->logo;
         }
             
-        if(($request->first_back_img) != null){
-            if($request->hasFile('first_back_img')) {
-                $firstimage = $request->file('first_back_img');
-                $extension = $firstimage->getClientOriginalExtension();
-                $firstImageName = 'first_' . rand(0, 1000) . time() . '.' . $extension;
-                $firstimage->move(public_path('images'), $firstImageName);
-            }
+        if($request->hasFile('first_back_img')) {
+            $firstimage = $request->file('first_back_img');
+            $extension = $firstimage->getClientOriginalExtension();
+            $firstImageName = 'first_' . rand(0, 1000) . time() . '.' . $extension;
+            $firstimage->move(public_path('images'), $firstImageName);
         }
         else{
-            $firstimage = $clgtemplate->first_section_background_img;
+            $firstImageName = $clgtemplate->first_section_background_img;
         }
 
-        if(($request->second_img) != null){
-            if($request->hasFile('second_img')) {
-                $secondimage = $request->file('second_img');
-                $extension = $secondimage->getClientOriginalExtension();
-                $secondImageName = 'second_' . rand(0, 1000) . time() . '.' . $extension;
-                $secondimage->move(public_path('images'), $secondImageName);
-            }
-        }
-        else{
-            $secondimage = $clgtemplate->second_section_right_image;
+        if($request->hasFile('second_img')) {
+            $secondimage = $request->file('second_img');
+            $extension = $secondimage->getClientOriginalExtension();
+            $secondImageName = 'second_' . rand(0, 1000) . time() . '.' . $extension;
+            $secondimage->move(public_path('images'), $secondImageName);
+        }else{
+            $secondImageName = $clgtemplate->second_section_right_image;
         }
 
-        if(($request->fourth_back_img) != null){
-            if($request->hasFile('fourth_back_img')) {
-                $fourthimage = $request->file('fourth_back_img');
-                $extension = $fourthimage->getClientOriginalExtension();
-                $fourthImageName = 'fourth' . rand(0, 1000) . time() . '.' . $extension;
-                $fourthimage->move(public_path('images'), $fourthImageName);
-            }
+        if($request->hasFile('fourth_back_img')) {
+            $fourthimage = $request->file('fourth_back_img');
+            $extension = $fourthimage->getClientOriginalExtension();
+            $fourthImageName = 'fourth' . rand(0, 1000) . time() . '.' . $extension;
+            $fourthimage->move(public_path('images'), $fourthImageName);
         }
         else{
-            $fourthimage = $clgtemplate->fourth_section_background_img;
+            $fourthImageName = $clgtemplate->fourth_section_background_img;
         }
         
        $template = CollegeTemplate::where('id','=',$id)->first();
-       $template->logo = $logoimage;
+       $template->logo = $logoImageName;
        $template->template_title = $request->temp_title;
        $template->slug = $request->slug;
        $template->first_section_title = $request->first_title;
        $template->first_section_description = $request->first_des;
-       $template->first_section_background_img = $firstimage ;
+       $template->first_section_background_img = $firstImageName ;
        $template->first_section_button_text = $request->first_btn;
        $template->second_section_left_textarea = $request->second_text;
-       $template->second_section_right_image = $secondimage;
+       $template->second_section_right_image = $secondImageName;
        $template->third_section_title = $request->third_title;
        $template->third_section_subtitle = $request->third_sub_title;
        $template->third_section_image = $jsonimages;
@@ -305,7 +298,7 @@ class StaffController extends Controller
        $template->fourth_section_title = $request->fourth_title;
        $template->fourth_section_description = $request->fourth_des;
        $template->fourth_section_button_txt = $request->fourth_btn_txt;
-       $template->fourth_section_background_img = $fourthimage;
+       $template->fourth_section_background_img = $fourthImageName;
        $template->fifth_section_title = $request->fifth_title;
        $template->fifth_section_subtitle = $request->fifth_subtitle;
        $template->fifth_section_textarea = $request->fifth_text;
@@ -316,7 +309,7 @@ class StaffController extends Controller
        $template->last_section_linkedin_link = $request->linkdn_link;
        $template->update();
        
-       return redirect('collegeTemplate/'.$template->slug)->with('success','Successfully Updated...');
+       return redirect('/staff-dashboard/collegeTemplate/'.$template->slug)->with('success','Successfully Updated...');
     }
 
     public function removedata(Request $request){
@@ -347,5 +340,49 @@ class StaffController extends Controller
         $template->update();
 
         return response()->json($template);
+    }
+
+    public function createpost(){
+        $userid = Auth::user()->id;
+        $users = DB::table('college_names')
+            ->join('staff', 'college_names.id', '=', 'staff.college_name')
+            ->select('college_names.*')
+            ->where('staff.user_id','=',$userid)
+            ->first();
+
+        return view('staff.posts',compact('users'));
+    }
+
+    public function addposts(Request $request){
+        
+        $request->validate([
+            'post_title' => 'required',
+            'slug' => 'unique:posts,slug',
+            'image' => 'required',
+            'txt' => 'required',
+        ]);
+
+        $imagename = time() . '.' . $request->image->extension();
+        $request->image->move(public_path('images'), $imagename);
+        
+        $posts = new Post;
+        $posts->title = $request->post_title;
+        $posts->slug = $request->slug;
+        $posts->image = $imagename;
+        $posts->text = $request->txt;
+        $posts->clg_id = $request->clg_id;
+        $posts->save();
+
+        return redirect('/staff-dashboard/addposts')->with('success','Post created successfully');
+    }
+
+    public function getposts(){
+        $posts = Post::all();
+        return view('staff.allposts',compact('posts'));
+    }
+
+    public function editposts(Request $request, $slug){
+        $posts = Post::where('slug','=',$slug)->first();
+        return view('staff.posts',compact('posts'));
     }
 }

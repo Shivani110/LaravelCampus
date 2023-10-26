@@ -6,17 +6,16 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th scope="col">Logo</th>
+                <th scope="col">Image</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
-            <!-- {{ $clgtemplate }} -->
-            @foreach($clgtemplate as $clg)
+           @foreach($posts as $post)
             <tr>
-                <td><img src="{{ asset('/images/'.$clg->logo) }}" ></td>
+                <td><img src="{{ asset('/images/'.$post->image) }}" ></td>
                 <td>
-                    <a href="{{ url('/staff-dashboard/collegeTemplate/'.$clg->slug) }}" class="btn btn-primary">Edit</a>
+                    <a href="{{ asset('/staff-dashboard/addposts/'.$post->slug) }}" class="btn btn-primary">Edit</a>
                 </td>
             </tr>
             @endforeach

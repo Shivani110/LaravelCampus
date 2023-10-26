@@ -32,7 +32,7 @@ class AlumniController extends Controller
             $alumni->social_link = $request->social;
             $alumni->update();
 
-            return redirect('alumni')->with('success','Successfully updated...');
+            return redirect('/alumni-dashboard/alumni')->with('success','Successfully updated...');
         }else {
             $request->validate([
                 'abt_me' => 'required',
@@ -45,7 +45,7 @@ class AlumniController extends Controller
             $alumni->social_link = $request->social;
             $alumni->update();
 
-            return redirect('alumni')->with('success','Successfully updated...');
+            return redirect('/alumni-dashboard/alumni')->with('success','Successfully updated...');
         }
 
     }

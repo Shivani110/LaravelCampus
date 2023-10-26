@@ -52,7 +52,7 @@
                                     </a>
                                     <ul class="nk-menu-sub" style="display: block;">
                                         <li class="nk-menu-item">
-                                            <a href="{{ url('staff/') }}" class="nk-menu-link"><span class="nk-menu-text">Add Staff</span></a>
+                                            <a href="{{ url('/staff-dashboard/staff/') }}" class="nk-menu-link"><span class="nk-menu-text">Add Staff</span></a>
                                         </li>
                                     </ul><!-- .nk-menu-sub -->
                                 </li>
@@ -80,8 +80,20 @@
                                     </a>
                                     <ul class="nk-menu-sub" style="display: block;">
                                         <li class="nk-menu-item">
-                                            <a href="{{ url('collegeTemplate/') }}" class="nk-menu-link"><span class="nk-menu-text">College Template</span></a>
-                                            <a href="{{ url('list/') }}" class="nk-menu-link"><span class="nk-menu-text">College Template List</span></a>
+                                            <a href="{{ url('/staff-dashboard/collegeTemplate/') }}" class="nk-menu-link"><span class="nk-menu-text">College Template</span></a>
+                                            <a href="{{ url('/staff-dashboard/collegetemplatelist/') }}" class="nk-menu-link"><span class="nk-menu-text">College Template List</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nk-menu-heading">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span>
+                                        <span class="nk-menu-text">Posts</span>
+                                    </a>
+                                    <ul class="nk-menu-sub" style="display: block;">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/staff-dashboard/addposts/') }}" class="nk-menu-link"><span class="nk-menu-text">Add posts</span></a>
+                                            <a href="{{ url('/staff-dashboard/allposts/') }}" class="nk-menu-link"><span class="nk-menu-text">All posts</span></a>
                                         </li>
                                     </ul>
                                 </li>
@@ -143,7 +155,7 @@
                                                     <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
                                                     <li><a href="html/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
                                                     <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
-                                                    {{ Auth::user()->user_type }}
+                                                    <!-- {{ Auth::user()->user_type }} -->
                                                     <li><a href="{{ url('index') }}"><em></em><span>Public Dashboard</span></a></li>
                                                     <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
                                                 </ul>

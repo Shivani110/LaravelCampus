@@ -36,7 +36,7 @@ class StudentController extends Controller
             $student->college_name = $request->clg;
             $student->update();
     
-            return redirect('student')->with('success','Successfully updated...');
+            return redirect('/student-dashboard/student')->with('success','Successfully updated...');
         }else{
             $request->validate([
                 'abt_me' => 'required',
@@ -56,7 +56,7 @@ class StudentController extends Controller
             $student->college_name = $request->clg;
             $student->update();
     
-            return redirect('student')->with('success','Successfully updated...');
+            return redirect('/student-dashboard/student')->with('success','Successfully updated...');
         }
        
     }

@@ -80,7 +80,5 @@ class UserController extends Controller
         return redirect('login');
     }
 
-    public function publicDashboard(){
-        return view('publicdashboard.index');
-    }
+   
 }

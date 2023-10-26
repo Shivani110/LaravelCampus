@@ -132,7 +132,7 @@ class AdminController extends Controller
        $college->moderator = $request->mod;
        $college->save();
 
-       return redirect('addcollege')->with('success','Successfully created');
+       return redirect('/admin-dashboard/addcollege')->with('success','Successfully created');
     }
 
     public function getCollege(CollegeName $college){
@@ -160,6 +160,6 @@ class AdminController extends Controller
         $college->moderator = $request->mod;
         $college->update();
 
-        return redirect('addcollege/'.$id)->with('success','Updated Successfully..');
+        return redirect('/admin-dashboard/addcollege/'.$id)->with('success','Updated Successfully..');
     }
 }

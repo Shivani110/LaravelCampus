@@ -51,7 +51,7 @@
                                     </a>
                                     <ul class="nk-menu-sub" style="display: block;">
                                         <li class="nk-menu-item">
-                                            <a href="{{ url('sponsor/') }}" class="nk-menu-link"><span class="nk-menu-text">Add Sponsor</span></a>
+                                            <a href="{{ url('/sponsor-dashboard/sponsor/') }}" class="nk-menu-link"><span class="nk-menu-text">Add Sponsor</span></a>
                                         </li>
                                         <!-- <li class="nk-menu-item">
                                             <a href="" class="nk-menu-link"><span class="nk-menu-text">Approved Users</span></a>
@@ -118,7 +118,7 @@
                                                     <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
                                                     <li><a href="html/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
                                                     <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
-                                                    {{ Auth::user()->user_type }}
+                                                    <!-- {{ Auth::user()->user_type }} -->
                                                     <li><a href="{{ url('index') }}"><em></em><span>Public Dashboard</span></a></li>
                                                     <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
                                                 </ul>

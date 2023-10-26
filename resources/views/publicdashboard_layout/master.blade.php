@@ -45,20 +45,20 @@
                                     <h6 class="overline-title text-primary-alt">Use-Case Preview</h6>
                                 </li><!-- .nk-menu-item -->
 
-                                <!-- <li class="nk-menu-item has-sub active">
+                                <li class="nk-menu-item has-sub active">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class=""></em></span>
-                                        <span class="nk-menu-text">Users</span>
+                                        <span class="nk-menu-text">College</span>
                                     </a>
                                     <ul class="nk-menu-sub" style="display: block;">
                                         <li class="nk-menu-item">
-                                            <a href="{{ url('allusers') }}" class="nk-menu-link"><span class="nk-menu-text">Users List</span></a>
+                                            <a href="{{ url('allcollege/') }}" class="nk-menu-link"><span class="nk-menu-text">All College</span></a>
                                         </li>
-                                        <li class="nk-menu-item">
-                                            <a href="{{ url('approvedusers') }}" class="nk-menu-link"><span class="nk-menu-text">Approved Users</span></a>
-                                        </li>
+                                        <!-- <li class="nk-menu-item">
+                                            <a href="" class="nk-menu-link"><span class="nk-menu-text">Approved Users</span></a>
+                                        </li> -->
                                     </ul>
-                                </li> -->
+                                </li>
                                 <!-- <li class="nk-menu-item has-sub active">
                                    <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class=""></em></span>
@@ -133,6 +133,18 @@
                                                     <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
                                                     <li><a href="html/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
                                                     <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
+                                                    <!-- {{ Auth::user()->user_type }} -->
+                                                    @if((Auth::user()->user_type) == 0)
+                                                        <li><a href="{{ url('/admin-dashboard/allusers') }}"><span>Back</span></a></li>
+                                                    @elseif((Auth::user()->user_type) == 1)
+                                                        <li><a href="{{ url('/student-dashboard/student') }}"><span>Back</span></a></li>
+                                                    @elseif((Auth::user()->user_type) == 2)
+                                                        <li><a href="{{ url('/staff-dashboard/staff') }}"><span>Back</span></a></li>
+                                                    @elseif((Auth::user()->user_type) == 3)
+                                                        <li><a href="{{ url('/sponsor-dashboard/sponsor') }}"><span>Back</span></a></li>  
+                                                    @elseif((Auth::user()->user_type) == 4)
+                                                        <li><a href="{{ url('/alumni-dashboard/alumni') }}"><span>Back</span></a></li>  
+                                                    @endif
                                                     <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
                                                 </ul>
                                             </div>
