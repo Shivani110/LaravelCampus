@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('college_names', function (Blueprint $table) {
             $table->id();
             $table->string('college_name');
+            $table->string('slug');
             $table->string('location');
             $table->string('status');
             $table->string('moderator');

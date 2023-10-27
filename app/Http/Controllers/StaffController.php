@@ -192,7 +192,13 @@ class StaffController extends Controller
     }
 
     public function getTemplate(){
-        $clgtemplate = CollegeTemplate::get();
+        $userid = Auth::user()->id;
+        $clgtemplate = DB::table('college_templates')
+            ->join('staff', 'college_templates.affilated_by', '=', 'staff.id')
+            ->where('staff.user_id','=',$userid)
+            ->select('college_templates.*')
+            ->get();
+
         return view('staff.templatelist',compact('clgtemplate'));
     }
 
@@ -362,13 +368,17 @@ class StaffController extends Controller
             'txt' => 'required',
         ]);
 
-        $imagename = time() . '.' . $request->image->extension();
-        $request->image->move(public_path('images'), $imagename);
+        if($request->hasFile('image')) {
+            $image = $request->file('image');
+            $extension = $image->getClientOriginalExtension();
+            $imageName = rand(0, 1000) . time() . '.' . $extension;
+            $image->move(public_path('images'), $imageName);
+        }
         
         $posts = new Post;
         $posts->title = $request->post_title;
         $posts->slug = $request->slug;
-        $posts->image = $imagename;
+        $posts->image = $imageName;
         $posts->text = $request->txt;
         $posts->clg_id = $request->clg_id;
         $posts->save();
@@ -377,12 +387,44 @@ class StaffController extends Controller
     }
 
     public function getposts(){
-        $posts = Post::all();
-        return view('staff.allposts',compact('posts'));
+        $userid = Auth::user()->id;
+        $userpost = DB::table('college_names')
+            ->join('posts', 'college_names.id', '=', 'posts.clg_id')
+            ->join('staff', 'college_names.id', '=', 'staff.college_name')
+            ->where('staff.user_id','=',$userid)
+            ->select('posts.*')
+            ->get();
+
+        return view('staff.allposts',compact('userpost'));
     }
 
     public function editposts(Request $request, $slug){
         $posts = Post::where('slug','=',$slug)->first();
         return view('staff.posts',compact('posts'));
     }
+
+    public function updateposts(Request $request){
+        $id = $request->id;
+        $post = Post::where('id','=',$id)->first();
+
+        if($request->hasFile('image')) {
+            $image = $request->file('image');
+            $extension = $image->getClientOriginalExtension();
+            $imageName = rand(0, 1000) . time() . '.' . $extension;
+            $image->move(public_path('images'), $imageName);
+        }
+        else{
+            $imageName = $post->image;
+        }
+
+        $posts = Post::where('id','=',$id)->first();
+        $posts->title = $request->post_title;
+        $posts->slug = $request->slug;
+        $posts->text = $request->txt;
+        $posts->image = $imageName;
+        $posts->update();
+
+        return redirect('/staff-dashboard/addposts/'.$posts->slug)->with('success','Post Updated');
+    }
+    
 }

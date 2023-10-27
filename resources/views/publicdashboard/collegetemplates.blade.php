@@ -23,7 +23,7 @@
                                             <div class="user-card">
                                                 <img src="{{ asset('/images/'.$temp->logo) }}" height="100px" width="100px">
                                                 <div>
-                                                    <a href="{{ url('template/'.$temp->id) }}" class="btn btn-p-0 btn-nofocus">View</a>
+                                                    <a href="{{ url('template/'.$temp->slug) }}" class="btn btn-p-0 btn-nofocus">View</a>
                                                 </div>
                                             </div>
                                         </div>

@@ -34,8 +34,10 @@ Route::get('/logout',[UserController::class,'logout']);
 
 Route::get('/index',[PublicController::class,'publicDashboard']);
 Route::get('/allcollege',[PublicController::class,'getCollegename']);
-Route::get('/collegetemplates/{id}',[PublicController::class,'getTemplate']);
-Route::get('/template/{id}',[PublicController::class,'viewTemplate']);
+Route::get('/collegetemplates/{slug}',[PublicController::class,'getTemplate']);
+Route::get('/template/{slug}',[PublicController::class,'viewTemplate']);
+Route::get('/blogposts/{slug}',[PublicController::class,'getposts']);
+Route::post('/likes',[PublicController::class,'postlikes']);
 
 Route::middleware(['Auth'=>'admin'])->group(function () {
     Route::get('/admin-dashboard/allusers',[AdminController::class,'getUsers']);
@@ -46,7 +48,7 @@ Route::middleware(['Auth'=>'admin'])->group(function () {
     Route::get('/admin-dashboard/addcollege',[AdminController::class,'college']);
     Route::post('/college',[AdminController::class,'addcollege']);
     Route::get('/admin-dashboard/collegelist',[AdminController::class,'getCollege']);
-    Route::get('/admin-dashboard/addcollege/{id}',[AdminController::class,'editCollege']);
+    Route::get('/admin-dashboard/addcollege/{slug}',[AdminController::class,'editCollege']);
     Route::post('/edit',[AdminController::class,'updateCollege']);
 });
 
@@ -68,6 +70,7 @@ Route::middleware(['Auth'=>'staff'])->group(function() {
     Route::post('/posts',[StaffController::class,'addposts']);
     Route::get('/staff-dashboard/allposts',[StaffController::class,'getposts']);
     Route::get('/staff-dashboard/addposts/{slug}',[StaffController::class,'editposts']);
+    Route::post('/editposts',[StaffController::class,'updateposts']);
 });
 
 Route::middleware(['Auth'=>'sponsor'])->group(function() {

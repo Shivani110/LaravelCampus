@@ -20,7 +20,7 @@
                 <th scope="row">{{ $i++ }}</th>
                 <td>{{ $data->college_name }}</td>
                 <td>{{ $data->location }}</td>
-                <td><a href="{{ url('collegetemplates/'.$data->id ) }}" class="btn btn-primary">View</a></td>
+                <td><a href="{{ url('collegetemplates/'.$data->slug ) }}" class="btn btn-primary">View</a></td>
             </tr>
            @endforeach
         </tbody>

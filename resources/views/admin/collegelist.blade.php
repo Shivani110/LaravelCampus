@@ -20,7 +20,7 @@
             <td>{{ $data->college_name }}</td>
             <td>{{ $data->location }}</td>
             <td>
-                <a href="{{ url('/admin-dashboard/addcollege/'.$data->id)}}" class="btn btn-primary"> Edit</a>
+                <a href="{{ url('/admin-dashboard/addcollege/'.$data->slug)}}" class="btn btn-primary"> Edit</a>
             </td>
         </tr>
         @endforeach

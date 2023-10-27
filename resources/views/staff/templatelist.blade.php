@@ -11,15 +11,15 @@
             </tr>
         </thead>
         <tbody>
-            <!-- {{ $clgtemplate }} -->
             @foreach($clgtemplate as $clg)
             <tr>
-                <td><img src="{{ asset('/images/'.$clg->logo) }}" ></td>
+                <td><img src="{{ asset('/images/'.$clg->logo) }}"></td>
                 <td>
                     <a href="{{ url('/staff-dashboard/collegeTemplate/'.$clg->slug) }}" class="btn btn-primary">Edit</a>
                 </td>
             </tr>
             @endforeach
+           
         </tbody>
     </table>
 </div>

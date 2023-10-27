@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class CollegeTemplate extends Model
 {
     use HasFactory;
+
+    public function colleges(){
+        return $this->hasOne(CollegeName::class,'id','clg_id');
+    }
+
 }

@@ -123,11 +123,13 @@ class AdminController extends Controller
     public function addcollege(Request $request){
        $request->validate([
             'clg' => 'required',
-            'loc' => 'required'
+            'loc' => 'required',
+            'slug' => 'unique:college_names,slug'
        ]);
 
        $college = new CollegeName;
        $college->college_name = $request->clg;
+       $college->slug = $request->slug;
        $college->location = $request->loc;
        $college->moderator = $request->mod;
        $college->save();
@@ -140,14 +142,14 @@ class AdminController extends Controller
         return view('admin.collegelist',compact('college'));
     }
 
-    public function editCollege(Request $request,$id){
-        $college = CollegeName::where('id','=',$id)->first();
+    public function editCollege(Request $request,$slug){
+        $college = CollegeName::where('slug','=',$slug)->first();
         
         $moderator = DB::table('users')
             ->join('staff', 'users.id', '=', 'staff.user_id')
             ->join('college_names', 'staff.college_name', '=', 'college_names.id')
             ->select('users.realname', 'staff.*', 'college_names.college_name','college_names.moderator')
-            ->where('college_names.id','=',$id)
+            ->where('college_names.slug','=',$slug)
             ->get();
         return view('admin.college',compact('college','moderator'));
     }
@@ -156,10 +158,11 @@ class AdminController extends Controller
         $id = $request->clg_id;
         $college = CollegeName::where('id','=',$id)->first();
         $college->college_name = $request->clg;
+        $college->slug = $request->slug;
         $college->location = $request->loc;
         $college->moderator = $request->mod;
         $college->update();
 
-        return redirect('/admin-dashboard/addcollege/'.$id)->with('success','Updated Successfully..');
+        return redirect('/admin-dashboard/addcollege/'.$college->slug)->with('success','Updated Successfully..');
     }
 }

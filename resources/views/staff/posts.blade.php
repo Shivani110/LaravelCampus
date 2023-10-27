@@ -10,7 +10,7 @@
     @endif
 
     @if(isset($posts))
-        <form action="" method="post" id="myform" enctype="multipart/form-data">
+        <form action="{{ url('editposts') }}" method="post" id="myform" enctype="multipart/form-data">
         @csrf
     @else
         <form action="{{ url('posts') }}" method="post" id="myform" enctype="multipart/form-data">
@@ -33,6 +33,9 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="image">Image</label>
+                    @isset($posts->image)
+                        <img src="{{ asset('/images/'.$posts->image) }}">
+                    @endisset
                     <input type="file" name="image" id="image" class="form-control" value="">
                     @error('image')
                     {{ $message }}
@@ -47,7 +50,7 @@
                 </div>
             </div>
             <input type="hidden" name="clg_id" id="clg_id" value="{{ $users->id ?? ''}}">
-            <input type="hidden" name="id" id="id" value="{{ $posts->text ?? ''}}">
+            <input type="hidden" name="id" id="id" value="{{ $posts->id ?? ''}}">
             <input type="submit" value="Submit" class="btn btn-primary mt-2" id="submit">
     </form>
 </div>

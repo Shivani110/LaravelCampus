@@ -3,6 +3,7 @@
 @section('content')
 
 <div class="nk-content">
+    <!-- {{ $userpost }} -->
     <table class="table table-hover">
         <thead>
             <tr>
@@ -11,9 +12,9 @@
             </tr>
         </thead>
         <tbody>
-           @foreach($posts as $post)
+           @foreach($userpost as $post)
             <tr>
-                <td><img src="{{ asset('/images/'.$post->image) }}" ></td>
+                <td><img src="{{ asset('/images/'.$post->image) }}" height="200px" width="250px"></td>
                 <td>
                     <a href="{{ asset('/staff-dashboard/addposts/'.$post->slug) }}" class="btn btn-primary">Edit</a>
                 </td>
