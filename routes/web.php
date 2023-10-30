@@ -38,6 +38,7 @@ Route::get('/collegetemplates/{slug}',[PublicController::class,'getTemplate']);
 Route::get('/template/{slug}',[PublicController::class,'viewTemplate']);
 Route::get('/blogposts/{slug}',[PublicController::class,'getposts']);
 Route::post('/likes',[PublicController::class,'postlikes']);
+Route::post('/comments',[PublicController::class,'postcomments']);
 
 Route::middleware(['Auth'=>'admin'])->group(function () {
     Route::get('/admin-dashboard/allusers',[AdminController::class,'getUsers']);

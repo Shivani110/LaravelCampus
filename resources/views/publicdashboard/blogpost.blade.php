@@ -92,6 +92,7 @@
 					<!-- row -->
 						<div class="row">
 							@foreach($posts as $post)
+							
 							<div class="col-md-6">
 								<div class="single-blog">
 									<div class="blog-img">
@@ -101,13 +102,43 @@
 									</div>
 									<h4>{{ $post->text }}</h4>
 									<div class="blog-meta">
-                                        <div class="pull-left">
-                                            <button class="fa fa-thumbs-up like-btn" onclick="likepost(postid={{ $post->id }})"></button>
-                                        </div>
+										<?php 
+										$like_id = $post->id;
+										$likes = json_decode($post->likes);
+										$userId = Auth::user()->id;
+
+										if($likes != null){
+											if(in_array($userId, $likes)){
+											?>
+											<div class="pull-left like" id="dislike={{ $post->id }}">
+												<button class="fa fa-thumbs-down dislike-btn like{{ $post->id }}" d_likeid="{{ $post->id }}" onclick="likepost(postid={{ $post->id }})"></button>
+											</div>
+											<?php }else{ ?>
+											<div class="pull-left" id="like={{ $post->id }}">
+												<button class="fa fa-thumbs-up like-btn like{{ $post->id }}" likeid="{{ $post->id }}" onclick="likepost(postid={{ $post->id }})"></button>
+											</div>
+										<?php }
+										}else{ ?>
+											<div class="pull-left" id="like={{ $post->id }}">
+												<button class="fa fa-thumbs-up like-btn like{{ $post->id }}" likeid="{{ $post->id }}" onclick="likepost(postid={{ $post->id }})"></button>
+											</div>
+										<?php 
+											}
+										?>
+
 										<div class="pull-right comment-box">
-											<button class="blog-meta-comments comment" dataid=""><i class="fa fa-comments"></i></button>
+											<button class="blog-meta-comments comment" dataid="{{ $post->id }}"><i class="fa fa-comments"></i></button>
+											<div id="comment{{ $post->id }}" style="display:none">
+												<input type="text" name="cmnt" id="cmnt{{ $post->id }}">
+												<button class="btn btn-primary" onclick="postcomment(id={{ $post->id }})">Comment</button>
+											</div>
+											<div id="showcomments{{ $post->id }}" style="display:none">
 											
-											<div id="showcomments" style="display:none">
+													@foreach($post->commentss as $cmnt)
+													  <?php  
+															print_r($cmnt->comments);
+													  ?>
+													@endforeach
 												
 											</div>
 										</div>
@@ -290,10 +321,48 @@
 				data: data,
 				dataType: 'JSON',
 				success:function(response){
-					console.log(response);
+					const array = response;
+					console.log(array);
+
+					if(array.includes(data.userid)){
+						$('.like'+id).removeClass('fa-thumbs-up like-btn');
+						$('.like'+id).addClass('fa-thumbs-down dislike-btn');
+						
+					}else{
+						$('.like'+id).removeClass('fa-thumbs-down dislike-btn');
+						$('.like'+id).addClass('fa-thumbs-up like-btn');
+					}
+
 				}
 			});
 		}
+
+		$('.comment').click(function(e){
+			var id = $(this).attr('dataid');
+			$('#comment'+id).toggle();
+			$('#showcomments'+id).toggle();
+
+		})
+
+		function postcomment(id){
+			var data={
+				id: id,
+				userid:{{ Auth::user()->id }},
+				_token:"{{ csrf_token() }}",
+				comment:$('#cmnt'+id).val(),
+			}
+
+			$.ajax({
+				url:'/comments',
+				type:'post',
+				data:data,
+				dataType:"JSON",
+				success:function(response){
+					console.log(response);
+				}
+			})
+		}
+		
 	</script>
 
 		<div id='preloader'><div class='preloader'></div></div>

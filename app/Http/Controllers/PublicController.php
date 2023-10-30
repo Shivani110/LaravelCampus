@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\CollegeName;
 use App\Models\CollegeTemplate;
 use App\Models\Post;
+use App\Models\Comment;
 
 class PublicController extends Controller
 {
@@ -38,8 +39,10 @@ class PublicController extends Controller
 
     public function getposts($slug){
         $clgtemplate = CollegeTemplate::where('slug','=',$slug)->with('colleges','colleges.posts')->first();
+
         $id = $clgtemplate->colleges->id;
-        $posts = Post::where('clg_id','=',$id)->paginate(2);
+        $posts = Post::where('clg_id','=',$id)->with('commentss.users.students')->paginate(2);
+        dd($posts);
         return view('publicdashboard.blogpost',compact('clgtemplate','posts'));
     }
 
@@ -77,9 +80,20 @@ class PublicController extends Controller
             }
         }
 
-        $posts->likes = $likes;
-        $posts->update();
+        $post = Post::where('id','=',$id)->first();
+        $post->likes = $postlikes;
+        $post->update();
 
-        return response()->json($posts);
+        return response()->json($postlikes);
+    }
+
+    public function postcomments(Request $request){
+        $comment = new Comment;
+        $comment->comments = $request->comment;
+        $comment->user_id = $request->userid;
+        $comment->post_id = $request->id;
+        $comment->save();
+
+        return response()->json($comment);
     }
 }
