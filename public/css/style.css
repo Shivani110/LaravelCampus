@@ -154,6 +154,13 @@ blockquote:before{
 	opacity: 0.7;
 }
 
+.user-image {
+	height: 50px;
+	width: 50px;
+	vertical-align: middle;
+	border-radius: 50%;
+}
+
 /* --- Buttons --- */
 .main-button {
 	position:relative;

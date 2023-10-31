@@ -106,26 +106,28 @@
 										$like_id = $post->id;
 										$likes = json_decode($post->likes);
 										$userId = Auth::user()->id;
-
+										$like_count = count($likes);
+										
 										if($likes != null){
 											if(in_array($userId, $likes)){
 											?>
 											<div class="pull-left like" id="dislike={{ $post->id }}">
-												<button class="fa fa-thumbs-down dislike-btn like{{ $post->id }}" d_likeid="{{ $post->id }}" onclick="likepost(postid={{ $post->id }})"></button>
+												<button class="fa fa-thumbs-down dislike-btn like{{ $post->id }}" d_likeid="{{ $post->id }}" onclick="likepost(postid={{ $post->id }})"><?php echo $like_count ?></button>
 											</div>
-											<?php }else{ ?>
+										<?php }else{ ?>
 											<div class="pull-left" id="like={{ $post->id }}">
-												<button class="fa fa-thumbs-up like-btn like{{ $post->id }}" likeid="{{ $post->id }}" onclick="likepost(postid={{ $post->id }})"></button>
+												<button class="fa fa-thumbs-up like-btn like{{ $post->id }}" likeid="{{ $post->id }}" onclick="likepost(postid={{ $post->id }})"><?php echo $like_count ?></button>
+												
 											</div>
 										<?php }
 										}else{ ?>
 											<div class="pull-left" id="like={{ $post->id }}">
-												<button class="fa fa-thumbs-up like-btn like{{ $post->id }}" likeid="{{ $post->id }}" onclick="likepost(postid={{ $post->id }})"></button>
+												<button class="fa fa-thumbs-up like-btn like{{ $post->id }}" likeid="{{ $post->id }}" onclick="likepost(postid={{ $post->id }})"><?php echo $like_count ?></button>
 											</div>
 										<?php 
 											}
 										?>
-
+										
 										<div class="pull-right comment-box">
 											<button class="blog-meta-comments comment" dataid="{{ $post->id }}"><i class="fa fa-comments"></i></button>
 											<div id="comment{{ $post->id }}" style="display:none">
@@ -133,13 +135,83 @@
 												<button class="btn btn-primary" onclick="postcomment(id={{ $post->id }})">Comment</button>
 											</div>
 											<div id="showcomments{{ $post->id }}" style="display:none">
-											
-													@foreach($post->commentss as $cmnt)
-													  <?php  
-															print_r($cmnt->comments);
-													  ?>
-													@endforeach
-												
+												@foreach($post->commentss as $cmnt)
+													<?php   
+														$usertype = $cmnt->users[0]->user_type;
+														$comment_id = $cmnt->id;
+													?>
+													@if($cmnt->comment_type == 'comment') 
+														@if($usertype == 1)
+															<?php
+																$stu = $cmnt->users[0]->students;
+																$image = $stu[0]->pictures;
+															?>
+															<img src="{{ asset('/images/'.$image) }}" class="user-image">
+															<p>{{ $cmnt->users[0]->realname }} : {{ $cmnt->comments }}</p>
+														@elseif($usertype == 2)
+															<?php
+																$staf = $cmnt->users[0]->staff;
+																$image = $staf[0]->pictures;
+															?>
+															<img src="{{ asset('/images/'.$image) }}" class="user-image">
+															<p>{{ $cmnt->users[0]->realname }} : {{ $cmnt->comments }}</p>
+														@elseif($usertype == 3)
+															<?php
+																$spon = $cmnt->users[0]->sponsor;
+																$image = $spon[0]->pictures;
+															?>
+															<img src="{{ asset('/images/'.$image) }}" class="user-image">
+															<p>{{ $cmnt->users[0]->realname }} : {{ $cmnt->comments }}</p>
+														@elseif($usertype == 4)
+															<?php
+																$alu = $cmnt->users[0]->alumni;
+																$image = $alu[0]->pictures;
+															?>
+															<img src="{{ asset('/images/'.$image) }}" class="user-image">
+															<p>{{ $cmnt->users[0]->realname }} : {{ $cmnt->comments }}</p>
+														@endif
+														<button class="blog-meta-comments reply" replyid="{{ $cmnt->id }}"><i class="fa fa-reply"></i></button>
+														<div id="reply{{ $cmnt->id }}" style="display:none">
+															<input type="text" name="reply" id="rply{{ $cmnt->id }}">
+															<button class="btn btn-primary" onclick="replycomment(id={{ $cmnt->id }},post_id={{ $post->id }})" >Reply</button>
+														</div>
+														<div id="showreply{{ $cmnt->id }}" style="display:none">
+														@foreach($cmnt->reply as $reply)
+															@if($usertype == 1)
+																<?php
+																	$stu = $cmnt->users[0]->students;
+																	$image = $stu[0]->pictures;
+																?>
+																<img src="{{ asset('/images/'.$image) }}" class="user-image">
+																<p>{{ $cmnt->users[0]->realname }} : {{ $reply->comments }}</p>
+															@elseif($usertype == 2)
+																<?php
+																	$staff = $cmnt->users[0]->staff;
+																	$image = $staff[0]->pictures;
+																?>
+																<img src="{{ asset('/images/'.$image) }}" class="user-image">
+																<p>{{ $cmnt->users[0]->realname }} : {{ $reply->comments }}</p>
+															@elseif($usertype == 3)
+																<?php
+																	$sponsor = $cmnt->users[0]->sponsor;
+																	$image = $sponsor[0]->pictures;
+																?>
+																<img src="{{ asset('/images/'.$image) }}" class="user-image">
+																<p>{{ $cmnt->users[0]->realname }} : {{ $reply->comments }}</p>
+															@elseif($usertype == 4)
+																<?php
+																	$alumni = $cmnt->users[0]->alumni;
+																	$image = $alumni[0]->pictures;
+																?>
+																<img src="{{ asset('/images/'.$image) }}" class="user-image">
+																<p>{{ $cmnt->users[0]->realname }} : {{ $reply->comments }}</p>
+															@endif
+
+														@endforeach
+														
+														</div>
+													@endif
+												@endforeach
 											</div>
 										</div>
 									</div>
@@ -308,6 +380,28 @@
 			</div>
 		</footer>
 
+	<?php 
+		$role = Auth::user()->user_type;
+		$id = Auth::user()->id;
+	?>
+		@if($role == 1)
+			@foreach(\App\Models\Student::where('user_id','=',$id)->get() as $student)
+			<?php $profile =  $student->pictures; ?> 
+			@endforeach
+		@elseif($role == 2)
+			@foreach(\App\Models\Staff::where('user_id','=',$id)->get() as $staff)
+			<?php $profile = $staff->pictures; ?>
+			@endforeach
+		@elseif($role == 3)
+			@foreach(\App\Models\Sponsor::where('user_id','=',$id)->get() as $sponsor)
+			<?php $profile = $sponsor->pictures; ?>
+			@endforeach
+		@elseif($role == 4)
+			@foreach(\App\Models\Sponsor::where('user_id','=',$id)->get() as $alumni)
+			<?php $profile =  $alumni->pictures; ?>
+			@endforeach
+		@endif
+
 	<script>
 		function likepost(id){
 			var data = {
@@ -322,17 +416,17 @@
 				dataType: 'JSON',
 				success:function(response){
 					const array = response;
-					console.log(array);
-
+					var likes=parseInt($('button.like'+id).html());
+					
 					if(array.includes(data.userid)){
 						$('.like'+id).removeClass('fa-thumbs-up like-btn');
 						$('.like'+id).addClass('fa-thumbs-down dislike-btn');
-						
+						$('button.like'+id).html(likes+1);
 					}else{
 						$('.like'+id).removeClass('fa-thumbs-down dislike-btn');
 						$('.like'+id).addClass('fa-thumbs-up like-btn');
+						$('button.like'+id).html(likes-1);
 					}
-
 				}
 			});
 		}
@@ -350,6 +444,7 @@
 				userid:{{ Auth::user()->id }},
 				_token:"{{ csrf_token() }}",
 				comment:$('#cmnt'+id).val(),
+				type:"comment",
 			}
 
 			$.ajax({
@@ -357,6 +452,38 @@
 				type:'post',
 				data:data,
 				dataType:"JSON",
+				success:function(response){
+					var comment = data.comment;
+					var username = "{{ Auth::user()->realname }}";
+					var image = "{{ $profile }}";
+					var html = '<div><img class="user-image" src="http://127.0.0.1:8000/images/'+image+'"><p>'+username+':'+comment+'</p></div>'; 
+
+					$('#showcomments'+id).append(html);
+					$('#cmnt'+id).val('');
+				}
+			})
+		}
+
+		$('.reply').click(function(e){
+			var id = $(this).attr('replyid');
+			$('#reply'+id).toggle();
+			$('#showreply'+id).toggle();
+		})
+
+		function replycomment(id,postid){
+			var data = {
+				id: id,
+				postid: postid,
+				userid:{{ Auth::user()->id }},
+				_token:"{{ csrf_token() }}",
+				reply:$('#rply'+id).val(),
+				type:"reply",
+			}
+			$.ajax({
+				url:'/reply',
+				type:"post",
+				data:data,
+				dataType:"json",
 				success:function(response){
 					console.log(response);
 				}

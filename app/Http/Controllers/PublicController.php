@@ -41,8 +41,7 @@ class PublicController extends Controller
         $clgtemplate = CollegeTemplate::where('slug','=',$slug)->with('colleges','colleges.posts')->first();
 
         $id = $clgtemplate->colleges->id;
-        $posts = Post::where('clg_id','=',$id)->with('commentss.users.students')->paginate(2);
-        dd($posts);
+        $posts = Post::where('clg_id','=',$id)->paginate(2);
         return view('publicdashboard.blogpost',compact('clgtemplate','posts'));
     }
 
@@ -92,6 +91,19 @@ class PublicController extends Controller
         $comment->comments = $request->comment;
         $comment->user_id = $request->userid;
         $comment->post_id = $request->id;
+        $comment->comment_type = $request->type;
+        $comment->save();
+
+        return response()->json($comment);
+    }
+
+    public function replyComments(Request $request){
+        $comment = new Comment;
+        $comment->comments = $request->reply;
+        $comment->user_id = $request->userid;
+        $comment->post_id = $request->postid;
+        $comment->comment_type = $request->type;
+        $comment->reply_id = $request->id;
         $comment->save();
 
         return response()->json($comment);

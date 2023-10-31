@@ -12,4 +12,8 @@ class Comment extends Model
     public function users(){
         return $this->hasMany(User::class,'id','user_id');
     }
+    
+    public function reply(){
+        return $this->hasMany(Comment::class,'reply_id','id')->where('comment_type','reply');
+    }
 }

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('comments');
             $table->integer('user_id');
             $table->integer('post_id');
+            $table->string('comment_type')->nullable;
+            $table->string('reply_id')->nullable;
             $table->timestamps();
         });
     }

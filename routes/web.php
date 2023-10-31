@@ -39,6 +39,7 @@ Route::get('/template/{slug}',[PublicController::class,'viewTemplate']);
 Route::get('/blogposts/{slug}',[PublicController::class,'getposts']);
 Route::post('/likes',[PublicController::class,'postlikes']);
 Route::post('/comments',[PublicController::class,'postcomments']);
+Route::post('/reply',[PublicController::class,'replyComments']);
 
 Route::middleware(['Auth'=>'admin'])->group(function () {
     Route::get('/admin-dashboard/allusers',[AdminController::class,'getUsers']);
