@@ -90,7 +90,7 @@
 					<!-- main blog -->
 					<div id="main" class="col-md-9">
 					<!-- row -->
-						<div class="row">
+						<div class="row" id="srch-post">
 							@foreach($posts as $post)
 							
 							<div class="col-md-6">
@@ -137,38 +137,38 @@
 											<div id="showcomments{{ $post->id }}" style="display:none">
 												@foreach($post->commentss as $cmnt)
 													<?php   
-														$usertype = $cmnt->users[0]->user_type;
+														$usertype = $cmnt->users->user_type;
 														$comment_id = $cmnt->id;
 													?>
 													@if($cmnt->comment_type == 'comment') 
 														@if($usertype == 1)
 															<?php
-																$stu = $cmnt->users[0]->students;
-																$image = $stu[0]->pictures;
+																$stu = $cmnt->users->students;
+																$image = $stu->pictures;
 															?>
 															<img src="{{ asset('/images/'.$image) }}" class="user-image">
-															<p>{{ $cmnt->users[0]->realname }} : {{ $cmnt->comments }}</p>
+															<p>{{ $cmnt->users->realname }} : {{ $cmnt->comments }}</p>
 														@elseif($usertype == 2)
 															<?php
-																$staf = $cmnt->users[0]->staff;
-																$image = $staf[0]->pictures;
+																$staf = $cmnt->users->staff;
+																$image = $staf->pictures;
 															?>
 															<img src="{{ asset('/images/'.$image) }}" class="user-image">
-															<p>{{ $cmnt->users[0]->realname }} : {{ $cmnt->comments }}</p>
+															<p>{{ $cmnt->users->realname }} : {{ $cmnt->comments }}</p>
 														@elseif($usertype == 3)
 															<?php
-																$spon = $cmnt->users[0]->sponsor;
-																$image = $spon[0]->pictures;
+																$spon = $cmnt->users->sponsor;
+																$image = $spon->pictures;
 															?>
 															<img src="{{ asset('/images/'.$image) }}" class="user-image">
-															<p>{{ $cmnt->users[0]->realname }} : {{ $cmnt->comments }}</p>
+															<p>{{ $cmnt->users->realname }} : {{ $cmnt->comments }}</p>
 														@elseif($usertype == 4)
 															<?php
-																$alu = $cmnt->users[0]->alumni;
-																$image = $alu[0]->pictures;
+																$alu = $cmnt->users->alumni;
+																$image = $alu->pictures;
 															?>
 															<img src="{{ asset('/images/'.$image) }}" class="user-image">
-															<p>{{ $cmnt->users[0]->realname }} : {{ $cmnt->comments }}</p>
+															<p>{{ $cmnt->users->realname }} : {{ $cmnt->comments }}</p>
 														@endif
 														<button class="blog-meta-comments reply" replyid="{{ $cmnt->id }}"><i class="fa fa-reply"></i></button>
 														<div id="reply{{ $cmnt->id }}" style="display:none">
@@ -177,39 +177,38 @@
 														</div>
 														<div id="showreply{{ $cmnt->id }}" style="display:none">
 														@foreach($cmnt->reply as $reply)
+														<?php $usertype = $reply->users->user_type; ?>
 															@if($usertype == 1)
 																<?php
-																	$stu = $cmnt->users[0]->students;
-																	$image = $stu[0]->pictures;
+																	$stu = $reply->users->students;
+																	$image = $stu->pictures;
 																?>
 																<img src="{{ asset('/images/'.$image) }}" class="user-image">
-																<p>{{ $cmnt->users[0]->realname }} : {{ $reply->comments }}</p>
+																<p>{{ $reply->users->realname }} : {{ $reply->comments }}</p>
 															@elseif($usertype == 2)
 																<?php
-																	$staff = $cmnt->users[0]->staff;
-																	$image = $staff[0]->pictures;
+																	$staff = $reply->users->staff;
+																	$image = $staff->pictures;
 																?>
 																<img src="{{ asset('/images/'.$image) }}" class="user-image">
-																<p>{{ $cmnt->users[0]->realname }} : {{ $reply->comments }}</p>
+																<p>{{ $reply->users->realname }} : {{ $reply->comments }}</p>
 															@elseif($usertype == 3)
 																<?php
-																	$sponsor = $cmnt->users[0]->sponsor;
-																	$image = $sponsor[0]->pictures;
+																	$sponsor = $reply->users->sponsor;
+																	$image = $sponsor->pictures;
 																?>
 																<img src="{{ asset('/images/'.$image) }}" class="user-image">
-																<p>{{ $cmnt->users[0]->realname }} : {{ $reply->comments }}</p>
+																<p>{{ $reply->users->realname }} : {{ $reply->comments }}</p>
 															@elseif($usertype == 4)
 																<?php
-																	$alumni = $cmnt->users[0]->alumni;
-																	$image = $alumni[0]->pictures;
+																	$alumni = $reply->users->alumni;
+																	$image = $alumni->pictures;
 																?>
 																<img src="{{ asset('/images/'.$image) }}" class="user-image">
-																<p>{{ $cmnt->users[0]->realname }} : {{ $reply->comments }}</p>
+																<p>{{ $reply->users->realname }} : {{ $reply->comments }}</p>
 															@endif
-
 														@endforeach
-														
-														</div>
+													</div>
 													@endif
 												@endforeach
 											</div>
@@ -238,8 +237,8 @@
 						<!-- search widget -->
 						<div class="widget search-widget">
 							<form>
-								<input class="input" type="text" name="search">
-								<button><i class="fa fa-search"></i></button>
+								<input type="text" name="search" id="search" class="input">
+								<button class="srch-btn" clgid="{{$post->clg_id}}" type="button"><i class="fa fa-search"></i></button>
 							</form>
 						</div>
 						<!-- /search widget -->
@@ -431,11 +430,10 @@
 			});
 		}
 
-		$('.comment').click(function(e){
+		$('body').delegate('.comment','click',function(e){
 			var id = $(this).attr('dataid');
 			$('#comment'+id).toggle();
 			$('#showcomments'+id).toggle();
-
 		})
 
 		function postcomment(id){
@@ -464,7 +462,7 @@
 			})
 		}
 
-		$('.reply').click(function(e){
+		$('body').delegate('.reply','click', function(e){
 			var id = $(this).attr('replyid');
 			$('#reply'+id).toggle();
 			$('#showreply'+id).toggle();
@@ -490,6 +488,80 @@
 			})
 		}
 		
+		$('.srch-btn').click(function(e){
+			var data={
+				search:$('#search').val(),
+				clg_id:$(this).attr('clgid'),
+				_token:"{{ csrf_token() }}"
+			}
+			$.ajax({
+				url:'/search',
+				type:'post',
+				data:data,
+				dataType:'json',
+				success:function(response){
+					// console.table(response);
+					data = [];
+					
+					$.each(response, function(key,val){
+						allcomments = [];
+						allreplies = [];
+						$.each(val.commentss, function(ckey,cval){
+							id = cval.id;
+							replies = cval.reply;
+							comments = cval.comments;
+							type = cval.comment_type;
+							user = cval.users;
+							name = user.realname;
+							user_type = user.user_type;
+							student = user.students;
+							staff = user.staff;
+							sponsor = user.sponsor;
+							alumni = user.alumni;
+
+							if(type == 'comment'){
+								if(user_type == 1){
+									image = student.pictures;
+									cmnt_html = '<img class="user-image" src="http://127.0.0.1:8000/images/'+image+'"><p>'+name+' : '+comments+'</p>';
+								}else if(user_type == 2){
+									image = staff.pictures;
+									cmnt_html = '<img class="user-image" src="http://127.0.0.1:8000/images/'+image+'"><p>'+name+' : '+comments+'</p>';
+								}else if(user_type == 3){
+									image = sponsor.pictures;
+									cmnt_html = '<img class="user-image" src="http://127.0.0.1:8000/images/'+image+'"><p>'+name+' : '+comments+'</p>';
+								}else if(user_type == 4){
+									image = alumni.pictures;
+									cmnt_html = '<img class="user-image" src="http://127.0.0.1:8000/images/'+image+'"><p>'+name+' : '+comments+'</p>';
+								}
+								allcomments.push(cmnt_html);
+							}
+
+							$.each(replies, function(rkey,rval){
+								reply = rval.comments;
+								user = rval.users;
+								console.log(rval);
+								console.log(user);
+							})
+							
+						})
+
+						total_likes = JSON.parse(val.likes);
+						userid = '{{ Auth::user()->id }}';
+
+						if(total_likes.includes(userid)){
+							like = '<div class="pull-left like" id="dislike'+val.id+'"><button class="fa fa-thumbs-down dislike-btn like'+val.id+'" d_likeid="'+val.id+'" onclick="likepost(postid='+val.id+')">'+total_likes.length+'</button></div>';
+						}else{
+							like = '<div class="pull-left" id="like='+val.id+'"><button class="fa fa-thumbs-up like-btn like'+val.id+'" likeid="'+val.id+'" onclick="likepost(postid='+val.id+')">'+total_likes.length+'</button></div>';
+						}
+						
+						var html = '<div class="col-md-6"><div class="single-blog"><div class="blog-img"><a href="blog-post.html"><img src="http://127.0.0.1:8000/images/'+val.image+'" alt=""></a></div><h4>'+val.text+'</h4></div><div class="blog-meta">'+like+'<div class="pull-right comment-box"><button class="blog-meta-comments comment" dataid="'+val.id+'"><i class="fa fa-comments"></i></button><div id="comment'+val.id+'" style="display:none"><input type="text" name="cmnt" id="cmnt'+val.id+'"><button class="btn btn-primary" onclick="postcomment(id='+val.id+')">Comment</button></div><div id="showcomments'+val.id+'" style="display:none">'+allcomments+'<button class="blog-meta-comments reply" replyid="'+id+'"><i class="fa fa-reply"></i></button><div id="reply'+id+'" style="display:none"><input type="text" name="reply" id="rply'+id+'"><button class="btn btn-primary" onclick="replycomment(id='+id+',post_id='+val.id+')">Reply</button></div><div id="showreply'+id+'" style="display:none"></div></div></div></div></div>';
+						data.push(html);
+					})
+					$('#srch-post').html(data);
+				}
+			})
+		})
+
 	</script>
 
 		<div id='preloader'><div class='preloader'></div></div>

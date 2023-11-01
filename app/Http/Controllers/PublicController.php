@@ -41,7 +41,7 @@ class PublicController extends Controller
         $clgtemplate = CollegeTemplate::where('slug','=',$slug)->with('colleges','colleges.posts')->first();
 
         $id = $clgtemplate->colleges->id;
-        $posts = Post::where('clg_id','=',$id)->paginate(2);
+        $posts = Post::where('clg_id','=',$id)->paginate(4);
         return view('publicdashboard.blogpost',compact('clgtemplate','posts'));
     }
 
@@ -107,5 +107,13 @@ class PublicController extends Controller
         $comment->save();
 
         return response()->json($comment);
+    }
+
+    public function searchPost(Request $request){
+        $text = $request->search;
+        $clg_id = $request->clg_id;
+        $post = Post::where('text','LIKE',$text.'%')->where('clg_id','=',$clg_id)->with('commentss.users','commentss.users.students','commentss.users.staff','commentss.users.sponsor','commentss.users.alumni','commentss.reply.users')->get();
+      
+        return response()->json($post);
     }
 }

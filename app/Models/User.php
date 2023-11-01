@@ -47,19 +47,19 @@ class User extends Authenticatable
      */
 
     public function students(){
-        return $this->hasMany(Student::class,'user_id','id');
+        return $this->hasOne(Student::class,'user_id','id');
     }
 
     public function staff(){
-        return $this->hasMany(Staff::class,'user_id','id');
+        return $this->hasOne(Staff::class,'user_id','id');
     }
 
     public function sponsor(){
-        return $this->hasMany(Sponsor::class,'user_id','id');
+        return $this->hasOne(Sponsor::class,'user_id','id');
     }
 
     public function alumni(){
-        return $this->hasMany(Alumni::class,'user_id','id');
+        return $this->hasOne(Alumni::class,'user_id','id');
     }
 
 }

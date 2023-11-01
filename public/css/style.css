@@ -155,8 +155,8 @@ blockquote:before{
 }
 
 .user-image {
-	height: 50px;
-	width: 50px;
+	height: 30px;
+	width: 30px;
 	vertical-align: middle;
 	border-radius: 50%;
 }
