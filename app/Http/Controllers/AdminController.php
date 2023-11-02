@@ -12,6 +12,7 @@ use App\Models\Staff;
 use App\Models\Sponsor;
 use App\Models\Alumni;
 use App\Models\CollegeName;
+use App\Models\Category;
 
 class AdminController extends Controller
 {
@@ -164,5 +165,32 @@ class AdminController extends Controller
         $college->update();
 
         return redirect('/admin-dashboard/addcollege/'.$college->slug)->with('success','Updated Successfully..');
+    }
+
+    public function category(){
+        return view('admin.categories');
+    }
+
+    public function createCategory(Request $request){
+        $request->validate([
+            'category' => 'required',
+            'slug' => 'unique:categories,slug'
+        ]);
+        $category = new Category;
+        $category->category_name = $request->category;
+        $category->slug = $request->slug;
+        $category->save();
+
+        return response()->json($category);
+    }
+
+    public function getCategory(Category $category){
+        $category = Category::all();
+        return view('admin.allcategories',compact('category'));
+    }
+
+    public function editCategory($slug){
+        $category = Cateogry::where('slug','=',$slug)->first();
+        return view('admin.categories',compact('category'));
     }
 }

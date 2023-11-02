@@ -87,6 +87,9 @@ class PublicController extends Controller
     }
 
     public function postcomments(Request $request){
+        $request->validate([
+            'comment' => 'required',
+        ]);
         $comment = new Comment;
         $comment->comments = $request->comment;
         $comment->user_id = $request->userid;
@@ -98,6 +101,9 @@ class PublicController extends Controller
     }
 
     public function replyComments(Request $request){
+        $request->validate([
+            'reply' => 'required',
+        ]);
         $comment = new Comment;
         $comment->comments = $request->reply;
         $comment->user_id = $request->userid;
@@ -112,7 +118,7 @@ class PublicController extends Controller
     public function searchPost(Request $request){
         $text = $request->search;
         $clg_id = $request->clg_id;
-        $post = Post::where('text','LIKE',$text.'%')->where('clg_id','=',$clg_id)->with('commentss.users','commentss.users.students','commentss.users.staff','commentss.users.sponsor','commentss.users.alumni','commentss.reply.users')->get();
+        $post = Post::where('text','LIKE',$text.'%')->where('clg_id','=',$clg_id)->with('commentss.users','commentss.users.students','commentss.users.staff','commentss.users.sponsor','commentss.users.alumni','commentss.reply.users','commentss.reply.users.students','commentss.reply.users.staff','commentss.reply.users.sponsor','commentss.reply.users.alumni')->get();
       
         return response()->json($post);
     }

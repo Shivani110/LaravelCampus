@@ -502,13 +502,38 @@
 				success:function(response){
 					// console.table(response);
 					data = [];
-					
 					$.each(response, function(key,val){
 						allcomments = [];
-						allreplies = [];
 						$.each(val.commentss, function(ckey,cval){
 							id = cval.id;
 							replies = cval.reply;
+							allreplies = [];
+							$.each(replies, function(rkey,rval){
+								reply = rval.comments;
+								user = rval.users;
+								name = user.realname;
+								user_type = user.user_type;
+								student = user.students;
+								staff = user.staff;
+								sponsor = user.sponsor;
+								alumni = user.alumni;
+
+								if(user_type == 1){
+									image = student.pictures;
+									reply_html = '<img class="user-image" src="http://127.0.0.1:8000/images/'+image+'"><p>'+name+' : '+reply+'</p>';
+								}else if(user_type == 2){
+									image = staff.pictures;
+									reply_html = '<img class="user-image" src="http://127.0.0.1:8000/images/'+image+'"><p>'+name+' : '+reply+'</p>';
+								}else if(user_type == 3){
+									image = sponsor.pictures;
+									reply_html = '<img class="user-image" src="http://127.0.0.1:8000/images/'+image+'"><p>'+name+' : '+reply+'</p>';
+								}else if(user_type == 4){
+									image = alumni.pictures;
+									reply_html = '<img class="user-image" src="http://127.0.0.1:8000/images/'+image+'"><p>'+name+' : '+reply+'</p>';
+								}
+								allreplies.push(reply_html);
+							})
+
 							comments = cval.comments;
 							type = cval.comment_type;
 							user = cval.users;
@@ -522,27 +547,19 @@
 							if(type == 'comment'){
 								if(user_type == 1){
 									image = student.pictures;
-									cmnt_html = '<img class="user-image" src="http://127.0.0.1:8000/images/'+image+'"><p>'+name+' : '+comments+'</p>';
+									cmnt_html = '<img class="user-image" src="http://127.0.0.1:8000/images/'+image+'"><p>'+name+' : '+comments+'</p><button class="blog-meta-comments reply" replyid="'+id+'"><i class="fa fa-reply"></i></button><div id="reply'+id+'" style="display:none"><input type="text" name="reply" id="rply'+id+'"><button class="btn btn-primary" onclick="replycomment(id='+id+',post_id='+val.id+')">Reply</button></div><div id="showreply'+id+'" style="display:none">'+allreplies+'</div>';
 								}else if(user_type == 2){
 									image = staff.pictures;
-									cmnt_html = '<img class="user-image" src="http://127.0.0.1:8000/images/'+image+'"><p>'+name+' : '+comments+'</p>';
+									cmnt_html = '<img class="user-image" src="http://127.0.0.1:8000/images/'+image+'"><p>'+name+' : '+comments+'</p><button class="blog-meta-comments reply" replyid="'+id+'"><i class="fa fa-reply"></i></button><div id="reply'+id+'" style="display:none"><input type="text" name="reply" id="rply'+id+'"><button class="btn btn-primary" onclick="replycomment(id='+id+',post_id='+val.id+')">Reply</button></div><div id="showreply'+id+'" style="display:none">'+allreplies+'</div>';
 								}else if(user_type == 3){
 									image = sponsor.pictures;
-									cmnt_html = '<img class="user-image" src="http://127.0.0.1:8000/images/'+image+'"><p>'+name+' : '+comments+'</p>';
+									cmnt_html = '<img class="user-image" src="http://127.0.0.1:8000/images/'+image+'"><p>'+name+' : '+comments+'</p><button class="blog-meta-comments reply" replyid="'+id+'"><i class="fa fa-reply"></i></button><div id="reply'+id+'" style="display:none"><input type="text" name="reply" id="rply'+id+'"><button class="btn btn-primary" onclick="replycomment(id='+id+',post_id='+val.id+')">Reply</button></div><div id="showreply'+id+'" style="display:none">'+allreplies+'</div>';
 								}else if(user_type == 4){
 									image = alumni.pictures;
-									cmnt_html = '<img class="user-image" src="http://127.0.0.1:8000/images/'+image+'"><p>'+name+' : '+comments+'</p>';
+									cmnt_html = '<img class="user-image" src="http://127.0.0.1:8000/images/'+image+'"><p>'+name+' : '+comments+'</p><button class="blog-meta-comments reply" replyid="'+id+'"><i class="fa fa-reply"></i></button><div id="reply'+id+'" style="display:none"><input type="text" name="reply" id="rply'+id+'"><button class="btn btn-primary" onclick="replycomment(id='+id+',post_id='+val.id+')">Reply</button></div><div id="showreply'+id+'" style="display:none">'+allreplies+'</div>';
 								}
 								allcomments.push(cmnt_html);
 							}
-
-							$.each(replies, function(rkey,rval){
-								reply = rval.comments;
-								user = rval.users;
-								console.log(rval);
-								console.log(user);
-							})
-							
 						})
 
 						total_likes = JSON.parse(val.likes);
@@ -554,7 +571,7 @@
 							like = '<div class="pull-left" id="like='+val.id+'"><button class="fa fa-thumbs-up like-btn like'+val.id+'" likeid="'+val.id+'" onclick="likepost(postid='+val.id+')">'+total_likes.length+'</button></div>';
 						}
 						
-						var html = '<div class="col-md-6"><div class="single-blog"><div class="blog-img"><a href="blog-post.html"><img src="http://127.0.0.1:8000/images/'+val.image+'" alt=""></a></div><h4>'+val.text+'</h4></div><div class="blog-meta">'+like+'<div class="pull-right comment-box"><button class="blog-meta-comments comment" dataid="'+val.id+'"><i class="fa fa-comments"></i></button><div id="comment'+val.id+'" style="display:none"><input type="text" name="cmnt" id="cmnt'+val.id+'"><button class="btn btn-primary" onclick="postcomment(id='+val.id+')">Comment</button></div><div id="showcomments'+val.id+'" style="display:none">'+allcomments+'<button class="blog-meta-comments reply" replyid="'+id+'"><i class="fa fa-reply"></i></button><div id="reply'+id+'" style="display:none"><input type="text" name="reply" id="rply'+id+'"><button class="btn btn-primary" onclick="replycomment(id='+id+',post_id='+val.id+')">Reply</button></div><div id="showreply'+id+'" style="display:none"></div></div></div></div></div>';
+						var html = '<div class="col-md-6"><div class="single-blog"><div class="blog-img"><a href="blog-post.html"><img src="http://127.0.0.1:8000/images/'+val.image+'" alt=""></a></div><h4>'+val.text+'</h4></div><div class="blog-meta">'+like+'<div class="pull-right comment-box"><button class="blog-meta-comments comment" dataid="'+val.id+'"><i class="fa fa-comments"></i></button><div id="comment'+val.id+'" style="display:none"><input type="text" name="cmnt" id="cmnt'+val.id+'"><button class="btn btn-primary" onclick="postcomment(id='+val.id+')">Comment</button><div id="showcomments'+val.id+'" style="display:none">'+allcomments.join('')+'</div></div></div></div></div>';
 						data.push(html);
 					})
 					$('#srch-post').html(data);

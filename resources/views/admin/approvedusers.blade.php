@@ -8,7 +8,7 @@
   
       <thead>
         <tr>
-            <!-- <th scope="col">S.no</th> -->
+            <th scope="col">S.no</th>
             <th scope="col">Realname</th>
             <th scope="col">Nickname</th>
             <th scope="col">Email</th>
@@ -20,8 +20,10 @@
         </tr>
       </thead>
       <tbody>
+      <?php $i=1; ?>
         @foreach($users as $user)
                 <tr id="data{{$user->id}}">
+                    <td>{{ $i++ }}</td>
                     <td>{{ $user->realname }}</td>
                     <td>{{ $user->nickname }}</td>
                     <td>{{ $user->email }}</td>
