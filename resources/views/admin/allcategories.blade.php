@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="nk-content">
-    <table class="table table hover">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th scope="col">S.No</th>

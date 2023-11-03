@@ -32,8 +32,7 @@
                     </div>
                     <div class="nk-sidebar-brand">
                         <a href="html/index.html" class="logo-link nk-sidebar-logo">
-                        <img class="logo-light logo-img" src="{{ asset('/assets/images/logo.png') }}" srcset="{{ asset('/assets/images/logo2x.png 2x') }}" alt="logo">
-                            <img class="logo-dark logo-img" src="{{ asset('assets/images/logo-dark.png') }}" srcset="{{ asset('/assets/images/logo-dark2x.png 2x') }}" alt="logo-dark">
+                            <h3 class="logo-light text-light">Campus</h3>
                         </a>
                     </div>
                 </div><!-- .nk-sidebar-element -->
@@ -50,7 +49,7 @@
                                         <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span>
                                         <span class="nk-menu-text">Staff</span>
                                     </a>
-                                    <ul class="nk-menu-sub" style="display: block;">
+                                    <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/staff-dashboard/staff/') }}" class="nk-menu-link"><span class="nk-menu-text">Add Staff</span></a>
                                         </li>
@@ -78,7 +77,7 @@
                                         <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span>
                                         <span class="nk-menu-text">College</span>
                                     </a>
-                                    <ul class="nk-menu-sub" style="display: block;">
+                                    <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/staff-dashboard/collegeTemplate/') }}" class="nk-menu-link"><span class="nk-menu-text">College Template</span></a>
                                             <a href="{{ url('/staff-dashboard/collegetemplatelist/') }}" class="nk-menu-link"><span class="nk-menu-text">College Template List</span></a>
@@ -90,7 +89,7 @@
                                         <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span>
                                         <span class="nk-menu-text">Posts</span>
                                     </a>
-                                    <ul class="nk-menu-sub" style="display: block;">
+                                    <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/staff-dashboard/addposts/') }}" class="nk-menu-link"><span class="nk-menu-text">Add posts</span></a>
                                             <a href="{{ url('/staff-dashboard/allposts/') }}" class="nk-menu-link"><span class="nk-menu-text">All posts</span></a>
@@ -115,8 +114,7 @@
                             </div>
                             <div class="nk-header-brand d-xl-none">
                                 <a href="html/index.html" class="logo-link">
-                                <img class="logo-light logo-img" src="{{ asset('assets/images/logo.png') }}" srcset="{{ asset('assets/images/logo2x.png 2x') }}" alt="logo">
-                                    <img class="logo-dark logo-img" src="{{ asset('assets/images/logo-dark.png') }}" srcset="{{ asset('assets/images/logo-dark2x.png 2x') }}" alt="logo-dark">
+                                    <h6 class="logo-light text-light">Campus</h6>
                                 </a>
                             </div><!-- .nk-header-brand -->
                             <div class="nk-header-news d-none d-xl-block">

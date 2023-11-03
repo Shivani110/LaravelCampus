@@ -168,29 +168,36 @@ class AdminController extends Controller
     }
 
     public function category(){
-        return view('admin.categories');
+        $category = Category::all();
+        return view('admin.categories',compact('category'));
     }
 
     public function createCategory(Request $request){
-        $request->validate([
-            'category' => 'required',
-            'slug' => 'unique:categories,slug'
-        ]);
-        $category = new Category;
-        $category->category_name = $request->category;
-        $category->slug = $request->slug;
-        $category->save();
+        if($request->id){
+            $catgry = Category::where('id','=', $request->id)->first(); 
+            $catgry->category_name = $request->category;
+            $catgry->slug = $request->slug;
+            $catgry->update();  
+            $status = 'edit';        
+        }else{
+            $request->validate([
+                'category' => 'required',
+                'slug' => 'unique:categories,slug'
+            ]);
+            $catgry = new Category;
+            $catgry->category_name = $request->category;
+            $catgry->slug = $request->slug;
+            $catgry->save();
+            $status = 'add';
+        }
+        
+        return response()->json([$catgry,$status]);
+    }
+
+    public function deletCategory(Request $request){
+        $id = $request->id;
+        $category = Category::where('id','=',$id)->delete();
 
         return response()->json($category);
-    }
-
-    public function getCategory(Category $category){
-        $category = Category::all();
-        return view('admin.allcategories',compact('category'));
-    }
-
-    public function editCategory($slug){
-        $category = Cateogry::where('slug','=',$slug)->first();
-        return view('admin.categories',compact('category'));
     }
 }

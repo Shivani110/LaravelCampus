@@ -55,9 +55,8 @@ Route::middleware(['Auth'=>'admin'])->group(function () {
     Route::post('/edit',[AdminController::class,'updateCollege']);
     Route::get('/admin-dashboard/category',[AdminController::class,'category']);
     Route::post('/admin-dashboard/createcategory',[AdminController::class,'createCategory']);
-    Route::get('/admin-dashboard/allcategories',[AdminController::class,'getCategory']);
-    // Route::post('/admin-dashboard/createcategory/{slug}',[AdminController::class,'editCategory']);
-    
+    Route::post('/admin-dashboard/editcategory',[AdminController::class, 'createCategory']);
+    Route::post('/admin-dashboard/deletecategory',[AdminController::class, 'deletCategory']);
 });
 
 Route::middleware(['Auth'=>'student'])->group(function() {

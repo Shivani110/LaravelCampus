@@ -32,8 +32,7 @@
                     </div>
                     <div class="nk-sidebar-brand">
                         <a href="html/index.html" class="logo-link nk-sidebar-logo">
-                        <img class="logo-light logo-img" src="{{ asset('/assets/images/logo.png') }}" srcset="{{ asset('/assets/images/logo2x.png 2x') }}" alt="logo">
-                            <img class="logo-dark logo-img" src="{{ asset('assets/images/logo-dark.png') }}" srcset="{{ asset('/assets/images/logo-dark2x.png 2x') }}" alt="logo-dark">
+                            <h3 class="logo-light text-light">Campus</h3>
                         </a>
                     </div>
                 </div><!-- .nk-sidebar-element -->
@@ -50,7 +49,7 @@
                                         <span class="nk-menu-icon"><em class=""></em></span>
                                         <span class="nk-menu-text">Users</span>
                                     </a>
-                                    <ul class="nk-menu-sub" style="display: block;">
+                                    <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/allusers') }}" class="nk-menu-link"><span class="nk-menu-text">Users List</span></a>
                                         </li>
@@ -64,7 +63,7 @@
                                         <span class="nk-menu-icon"><em class=""></em></span>
                                         <span class="nk-menu-text">Colleges</span>
                                     </a>
-                                    <ul class="nk-menu-sub" style="display: block;">
+                                    <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/addcollege') }}" class="nk-menu-link"><span class="nk-menu-text">Add College</span></a>
                                         </li>
@@ -78,7 +77,7 @@
                                         <span class="nk-menu-icon"><em class=""></em></span>
                                         <span class="nk-menu-text">Categories</span>
                                     </a>
-                                    <ul class="nk-menu-sub" style="display: block;">
+                                    <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/category') }}" class="nk-menu-link"><span class="nk-menu-text">Category</span></a>
                                         </li>
