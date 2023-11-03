@@ -6,12 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User; 
 use App\Models\Student;
+use App\Models\CollegeName;
 
 class StudentController extends Controller
 {
     public function student(Request $request){
         $student = Student::where('user_id','=',Auth::user()->id)->first();
-        return view('student.create',compact('student'));
+        $college = CollegeName::get();
+        return view('student.create',compact('student','college'));
     }
 
     public function updateStudent(Request $request){

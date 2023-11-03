@@ -6,12 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User; 
 use App\Models\Alumni;
+use App\Models\CollegeName;
 
 class AlumniController extends Controller
 {
     public function alumni(Request $request){
         $alumni = Alumni::where('user_id','=',Auth::user()->id)->first();
-        return view('alumni.create',compact('alumni'));
+        $college = CollegeName::get();
+        return view('alumni.create',compact('alumni','college'));
     }
 
     public function updateAlumni(Request $request){
@@ -30,6 +32,7 @@ class AlumniController extends Controller
             $alumni->about_me = $request->abt_me;
             $alumni->pictures = $fileName;
             $alumni->social_link = $request->social;
+            $alumni->school = $request->graduate;
             $alumni->update();
 
             return redirect('/alumni-dashboard/alumni')->with('success','Successfully updated...');
@@ -43,6 +46,7 @@ class AlumniController extends Controller
 
             $alumni->about_me = $request->abt_me;
             $alumni->social_link = $request->social;
+            $alumni->school = $request->graduate;
             $alumni->update();
 
             return redirect('/alumni-dashboard/alumni')->with('success','Successfully updated...');
