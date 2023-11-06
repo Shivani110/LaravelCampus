@@ -81,8 +81,16 @@
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/category') }}" class="nk-menu-link"><span class="nk-menu-text">Category</span></a>
                                         </li>
+                                    </ul><!-- .nk-menu-sub -->
+                                </li>
+                                <li class="nk-menu-item has-sub active">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class=""></em></span>
+                                        <span class="nk-menu-text">Tags</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/allcategories') }}" class="nk-menu-link"><span class="nk-menu-text">All Category</span></a>
+                                            <a href="{{ url('/admin-dashboard/tag') }}" class="nk-menu-link"><span class="nk-menu-text">Tags</span></a>
                                         </li>
                                     </ul><!-- .nk-menu-sub -->
                                 </li>

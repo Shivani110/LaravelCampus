@@ -64,13 +64,11 @@
                                   ?>
                                 @endforeach
 
-                                @foreach(\App\Models\CollegeName::where('id','=',$clg_id)->get() as $clg)
-                                <?php $mod_id = $clg->moderator ?>
-                                @endforeach
-
+                                <?php $moderator = (\App\Models\CollegeName::where('id','=',$clg_id)->first()); 
+                                $mod_id = $moderator->id ?>
+                               
                                 @if($id == $mod_id)
-                                <!-- {{ $id }}
-                                {{ $mod_id }} -->
+
                                 <li class="nk-menu-heading">
                                     <h6 class="overline-title text-primary-alt">Dashboards</h6>
                                     <a href="#" class="nk-menu-link nk-menu-toggle">

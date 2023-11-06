@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('image');
             $table->string('text');
             $table->integer('clg_id');
-            $table->integer('status');
-            $table->string('likes');
-            $table->string('comments');
+            $table->tinyInteger('status')->default('1');
+            $table->string('likes')->nullable();
+            $table->string('comments')->nullable();
             $table->timestamps();
         });
     }

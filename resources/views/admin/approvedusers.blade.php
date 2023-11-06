@@ -71,7 +71,7 @@
                     _token:"{{ csrf_token() }}"
                 }
                 $.ajax({
-                    url:'/deleteuser',
+                    url:"{{ url('deleteuser') }}",
                     type:'Post',
                     data: data,
                     dataType:'json',

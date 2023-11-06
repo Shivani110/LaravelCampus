@@ -9,7 +9,5 @@ class Alumni extends Model
 {
     use HasFactory;
     
-    public function alumni(){
-        return $this->hasMany(User::class,'id','user_id');
-    }
+    
 }

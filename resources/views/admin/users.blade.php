@@ -57,7 +57,7 @@
             _token:"{{ csrf_token() }}"
         }
         $.ajax({
-            url:"/ajaxRequest",
+            url:"{{ url('ajaxRequest') }}",
             type:'Post',
             data: data,
             dataType:'json',
@@ -87,7 +87,7 @@
                     _token:"{{ csrf_token() }}"
                 }
                 $.ajax({
-                    url:"/disapproveuser",
+                    url:"{{ url('disapproveuser') }}",
                     type:'Post',
                     data: data,
                     dataType:'json',

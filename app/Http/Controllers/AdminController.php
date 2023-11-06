@@ -13,6 +13,7 @@ use App\Models\Sponsor;
 use App\Models\Alumni;
 use App\Models\CollegeName;
 use App\Models\Category;
+use App\Models\Tag;
 
 class AdminController extends Controller
 {
@@ -27,6 +28,7 @@ class AdminController extends Controller
 
     public function approve(Request $request){
         $id = $request->id;
+
         $users = User::where('id','=',$id)->first();
         $mailData = array(
             $users->realname,
@@ -64,7 +66,7 @@ class AdminController extends Controller
         $data = [
             'success' => true,
             'message'=> 'approved users'
-          ] ;
+        ] ;
           
         return response()->json($data);
     }
@@ -152,6 +154,7 @@ class AdminController extends Controller
             ->select('users.realname', 'staff.*', 'college_names.college_name','college_names.moderator')
             ->where('college_names.slug','=',$slug)
             ->get();
+
         return view('admin.college',compact('college','moderator'));
     }
 
@@ -199,5 +202,41 @@ class AdminController extends Controller
         $category = Category::where('id','=',$id)->delete();
 
         return response()->json($category);
+    }
+
+    public function tag(){
+        $tags = Tag::all();
+
+        return view('admin.tag',compact('tags'));
+    }
+
+    public function createTag(Request $request){
+        if($request->id){
+            $tag = Tag::where('id','=',$request->id)->first();
+            $tag->name = $request->name;
+            $tag->slug = $request->slug;
+            $tag->update();
+            $status = 'edit';
+
+        }else{
+            $request->validate([
+                'name' => 'required',
+                'slug' => 'unique:categories,slug'
+            ]);
+    
+            $tag = new Tag;
+            $tag->name = $request->name;
+            $tag->slug = $request->slug;
+            $tag->save();
+            $status = 'add';
+        }
+        
+        return response()->json([$tag,$status]);
+    }
+
+    public function deleteTag(Request $request){
+        $id = $request->id;
+        $tag = Tag::where('id','=',$id)->delete();
+        return response()->json($tag);
     }
 }

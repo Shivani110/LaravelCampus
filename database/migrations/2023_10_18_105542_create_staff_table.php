@@ -16,18 +16,18 @@ return new class extends Migration
         Schema::create('staff', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->string('about_me');
-            $table->string('pictures');
-            $table->string('college_name');
-            $table->string('location');
-            $table->string('position');
-            $table->string('department');
-            $table->string('social_link');
-            $table->string('profession');
-            $table->string('mailbox');
-            $table->string('calendar');
-            $table->string('political_position');
-            $table->string('review');
+            $table->string('about_me')->nullable();
+            $table->string('pictures')->nullable();
+            $table->string('college_name')->nullable();
+            $table->string('location')->nullable();
+            $table->string('position')->nullable();
+            $table->string('department')->nullable();
+            $table->string('social_link')->nullable();
+            $table->string('profession')->nullable();
+            $table->string('mailbox')->nullable();
+            $table->string('calendar')->nullable();
+            $table->string('political_position')->nullable();
+            $table->string('review')->nullable();
             $table->timestamps();
         });
     }

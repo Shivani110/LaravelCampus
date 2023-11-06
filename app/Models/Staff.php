@@ -10,8 +10,4 @@ class Staff extends Model
 {
     use HasFactory;
 
-    public function staff(){
-        return $this->hasMany(User::class,'id','user_id');
-    }
-
 }

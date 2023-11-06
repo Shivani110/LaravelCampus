@@ -44,16 +44,16 @@
             <?php $i=1; ?>
             <!-- @if(isset($category)) -->
             @foreach($category as $data)                 
-                <tr class="tb-tnx-item" id="category{{ $data->id ?? ''}}">
+            <tr class="tb-tnx-item" id="category{{ $data->id ?? ''}}">
                 <td class="tb-tnx-id">
                     <a href="#"><span>{{ $i++ }}</span></a>
                 </td>
-                <td class="tb-tnx-info">
+                <td class="tb-tnx-info c-name{{ $data->id ?? ''}}">
                     <div class="tb-tnx-desc">
                         <input type="text" data-id="{{ $data->id }}" class="" value="{{ $data->category_name }}" disabled="" style="border: none; background: transparent;">
                     </div>
                 </td>
-                <td class="tb-tnx-info">
+                <td class="tb-tnx-info c-slug{{ $data->id ?? ''}}">
                     <div class="tb-tnx-desc">
                         <input type="text" data-id="{{ $data->id }}" class="" value="{{ $data->slug }}" disabled="" style="border: none; background: transparent;">
                     </div>
@@ -95,7 +95,7 @@
                 _token:"{{ csrf_token() }}"
             }
             $.ajax({
-                url:'/admin-dashboard/createcategory',
+                url:"{{ url('admin-dashboard/createcategory') }}",
                 type:'POST',
                 data:data,
                 dataType:"json",
@@ -105,11 +105,14 @@
                     $('#myform')[0].reset();
 
                     if(response[1] == 'edit'){
-                       var tdata = $('<td class="tb-tnx-id"><a href="#"><span>'+id+'</span></a></td><td class="tb-tnx-info"><div class="tb-tnx-desc"><input type="text" data-id="'+id+'" class="" value="'+response[0].category_name+'" disabled="" style="border: none; background: transparent;"></div></td><td class="tb-tnx-info"><div class="tb-tnx-desc"><input type="text" data-id="'+id+'" class="" value="'+response[0].slug+'" disabled="" style="border: none; background: transparent;"></div></td><td><div class="dropdown drop"><a class="text-soft=" dropdown-toggle="" btn="" btn-icon="" btn-trigger="" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em><div class="dropdown-menu dropdown-menu-end dropdown-menu-xs"><ul class="link-list-plain"><li><a data-id="'+id+'" data-name="'+response[0].category_name+'" data-slug="'+response[0].slug+'" class="edit-category">Edit</a></li><li><a href="#" data-id="" class="remove-category">Remove</a></li></ul></div></div></td>')
-                        $("#category"+id).html(tdata);
+                        var c_name = ('<input type="text" data-id="'+id+'" class="" value="'+response[0].category_name+'" disabled="" style="border: none; background: transparent;">')
+                        var c_slug = ('<input type="text" data-id="'+id+'" class="" value="'+response[0].slug+'" disabled="" style="border: none; background: transparent;">')
+                        $('.c-name'+id).html(c_name);
+                        $('.c-slug'+id).html(c_slug);
+                    }
 
-                    }else if(response[1] == 'add'){
-                        var row = $('<tr class="tb-tnx-item"><td class="tb-tnx-id"><a href="#"><span>'+ +i +'</span></a></td><td class="tb-tnx-info"><div class="tb-tnx-desc"><input type="text" data-id="'+id+'" class="" value="'+response[0].category_name+'" disabled="" style="border: none; background: transparent;"></div></td><td class="tb-tnx-info"><div class="tb-tnx-desc"><input type="text" data-id="'+id+'" class="" value="'+response[0].slug+'" disabled="" style="border: none; background: transparent;"></div></td><td><div class="dropdown drop"><a class="text-soft=" dropdown-toggle="" btn="" btn-icon="" btn-trigger="" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em><div class="dropdown-menu dropdown-menu-end dropdown-menu-xs"><ul class="link-list-plain"><li><a data-id="'+id+'" data-name="'+response[0].category_name+'" data-slug="'+response[0].slug+'" class="edit-category">Edit</a></li><li><a href="#" data-id="" class="remove-category">Remove</a></li></ul></div></div></td></tr>');
+                    if(response[1] == 'add'){
+                        var row = $('<tr class="tb-tnx-item"><td class="tb-tnx-id"><a href="#"><span>'+ +i +'</span></a></td><td class="tb-tnx-info"><div class="tb-tnx-desc"><input type="text" data-id="'+id+'" class="" value="'+response[0].category_name+'" disabled="" style="border: none; background: transparent;"></div></td><td class="tb-tnx-info"><div class="tb-tnx-desc"><input type="text" data-id="'+id+'" class="" value="'+response[0].slug+'" disabled="" style="border: none; background: transparent;"></div></td><td><div class="dropdown drop"><a class="text-soft=" dropdown-toggle="" btn="" btn-icon="" btn-trigger="" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em><div class="dropdown-menu dropdown-menu-end dropdown-menu-xs"><ul class="link-list-plain"><li><a data-id="'+id+'" data-name="'+response[0].category_name+'" data-slug="'+response[0].slug+'" class="edit-category">Edit</a></li><li><a href="#" data-id="'+id+'" class="remove-category">Remove</a></li></ul></div></div></td></tr>');
                         $("tbody").append(row);
                     }
                 }
@@ -117,7 +120,7 @@
         });
     });
 
-    $('.edit-category').on('click', function(){
+    $('body').delegate('.edit-category','click', function(){
         
         var c_name = $(this).attr('data-name');
         var c_slug = $(this).attr('data-slug');
@@ -128,13 +131,13 @@
 
     })
 
-    $('.remove-category').on('click', function(){
+    $('body').delegate('.remove-category','click', function(){
         var data = {
            id:$(this).attr('data-id'),
            _token:"{{ csrf_token() }}"
         }
         $.ajax({
-            url:'/admin-dashboard/deletecategory',
+            url:"{{ url('admin-dashboard/deletecategory') }}",
             type:'post',
             data:data,
             dataType:"json",

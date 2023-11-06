@@ -16,16 +16,16 @@ return new class extends Migration
         Schema::create('sponsors', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->string('about_me');
-            $table->string('pictures');
-            $table->string('type_of_support');
-            $table->string('social_link');
-            $table->string('profession');
-            $table->string('company');
-            $table->string('mailbox');
-            $table->string('calendar');
-            $table->string('political_position');
-            $table->string('review');
+            $table->string('about_me')->nullable();
+            $table->string('pictures')->nullable();
+            $table->string('type_of_support')->nullable();
+            $table->string('social_link')->nullable();
+            $table->string('profession')->nullable();
+            $table->string('company')>nullable();
+            $table->string('mailbox')->nullable();
+            $table->string('calendar')->nullable();
+            $table->string('political_position')->nullable();
+            $table->string('review')->nullable();
             $table->timestamps();
         });
     }

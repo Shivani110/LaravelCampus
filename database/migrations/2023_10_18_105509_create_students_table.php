@@ -16,19 +16,19 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->string('about_me');
-            $table->string('pictures');
-            $table->string('college_name');
-            $table->string('location');
-            $table->string('course');
-            $table->string('level');
-            $table->string('state_of_origin');
-            $table->string('authenticate_student');
-            $table->string('social_link');
-            $table->string('mailbox');
-            $table->string('calendar');
-            $table->string('political_position');
-            $table->string('review');
+            $table->string('about_me')->nullable();
+            $table->string('pictures')->nullable();
+            $table->string('college_name')->nullable();
+            $table->string('location')->nullable();
+            $table->string('course')->nullable();
+            $table->string('level')->nullable();
+            $table->string('state_of_origin')->nullable();
+            $table->string('authenticate_student')->nullable();
+            $table->string('social_link')->nullable();
+            $table->string('mailbox')->nullable();
+            $table->string('calendar')->nullable();
+            $table->string('political_position')->nullable();
+            $table->string('review')->nullable();
             $table->timestamps();
         });
     }

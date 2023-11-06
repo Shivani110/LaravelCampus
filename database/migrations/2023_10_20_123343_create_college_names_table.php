@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('college_name');
             $table->string('slug');
             $table->string('location');
-            $table->string('status');
-            $table->string('moderator');
+            $table->tinyInteger('status')->default('1');
+            $table->string('moderator')->nullable();
             $table->timestamps();
         });
     }

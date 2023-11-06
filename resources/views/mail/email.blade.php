@@ -30,8 +30,7 @@
                             </div>
                             <div class="nk-header-brand d-xl-none">
                                 <a href="html/index.html" class="logo-link">
-                                    <img class="logo-light logo-img" src="{{ asset('/assets/images/logo.png') }}" srcset="{{ asset('/assets/images/logo2x.png 2x') }}" alt="logo">
-                                    <img class="logo-dark logo-img" src="{{ asset('/assets/images/logo-dark.png') }}" srcset="{{ asset('/assets/images/logo-dark2x.png 2x') }}" alt="logo-dark">
+                                    <h3 class="logo-light text-light">Campus</h3>
                                 </a>
                             </div><!-- .nk-header-brand -->
                             <div class="nk-header-tools">
@@ -177,7 +176,7 @@
                                                                 <tbody>
                                                                     <tr>
                                                                         <td class="text-center pb-4">
-                                                                            <a href="#"><img class="email-logo" src="{{ asset('/assets/images/logo.png') }}" alt="logo"></a>
+                                                                            <h3 class="logo-light text-light">Campus</h3>
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>
@@ -199,14 +198,14 @@
                                                                 <tbody>
                                                                     <tr>
                                                                         <td class="text-center pt-4">
-                                                                            <p class="email-copyright-text">Copyright © 2020 DashLite. All rights reserved. <br> Template Made By <a href="https://themeforest.net/user/softnio/portfolio">Softnio</a>.</p>
+                                                                            <p class="email-copyright-text">Copyright © 2023 Campus. All rights reserved.</p>
                                                                             <ul class="email-social">
                                                                                 <li><a href="#"><img src="{{ asset('/assets/images/socials/facebook.png') }}" alt=""></a></li>
                                                                                 <li><a href="#"><img src="{{ asset('/assets/images/socials/twitter.png') }}" alt=""></a></li>
                                                                                 <li><a href="#"><img src="{{ asset('/assets/images/socials/youtube.png') }}" alt=""></a></li>
                                                                                 <li><a href="#"><img src="{{ asset('/assets/images/socials/medium.png') }}" alt=""></a></li>
                                                                             </ul>
-                                                                            <p class="fs-12px pt-4">This email was sent to you as a registered member of <a href="https://softnio.com">softnio.com</a>. To update your emails preferences <a href="#">click here</a>.</p>
+                                                                            <p class="fs-12px pt-4">This email was sent to you as a registered member of Campus.</p>
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>

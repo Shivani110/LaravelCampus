@@ -9,7 +9,5 @@ class Sponsor extends Model
 {
     use HasFactory;
 
-    public function sponsor(){
-        return $this->hasMany(User::class,'id','user_id');
-    }
+    
 }

@@ -9,7 +9,5 @@ class Student extends Model
 {
     use HasFactory;
 
-    public function students(){
-        return $this->hasMany(User::class,'id','user_id');
-    }
+    
 }

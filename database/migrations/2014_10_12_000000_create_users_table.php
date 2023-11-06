@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('user_type');
             $table->integer('is_admin');
             $table->integer('is_approved');
-            $table->integer('status');
+            $table->tinyInteger('status')->default('1');
             $table->rememberToken();
             $table->timestamps();
         });
