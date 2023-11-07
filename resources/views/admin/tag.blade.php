@@ -83,7 +83,7 @@
     $(document).ready(function(){
         $('#form1').submit(function(e){
             e.preventDefault();
-            var i = "{{ $i }}";
+            var i='{{ $i }}';
             var data = {
                 id:$('#tag_id').val(),
                 name:$('#tag_name').val(),

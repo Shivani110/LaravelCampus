@@ -55,29 +55,29 @@ class UserController extends Controller
             
             if($approve == 1){
                 if($role == 0){
-                    return view('admin.index');
+                    return redirect('/admin-dashboard');
                 }elseif($role == 1){
-                    return view('student.index');
+                    return redirect('/student-dashboard');
                 }elseif($role == 2){
-                    return view('staff.index');
+                    return redirect('/staff-dashboard');
                 }elseif($role == 3){
-                    return view('sponsor.index');
+                    return redirect('/sponsor-dashboard');
                 }elseif($role == 4){
-                    return view('alumni.index');
+                    return redirect('/alumni-dashboard');
                 }
             }else{
-                return redirect('login')->with('error','The user is not approved by admin');
+                return redirect('/')->with('error','The user is not approved by admin');
             }
             
         }else{
-            return redirect('login')->with('error','The provided credentials do not match our records');
+            return redirect('/')->with('error','The provided credentials do not match our records');
         }
     }
 
     public function logout(Request $request){
         Auth::logout();
 
-        return redirect('login');
+        return redirect('/');
     }
 
    

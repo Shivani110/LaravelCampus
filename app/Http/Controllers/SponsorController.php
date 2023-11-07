@@ -9,6 +9,10 @@ use App\Models\Sponsor;
 
 class SponsorController extends Controller
 {
+    public function sponsorIndex(){
+        return view('sponsor.index');
+    }
+
     public function sponsor(Request $request){
         $sponsor = Sponsor::where('user_id','=',Auth::user()->id)->first();
         return view('sponsor.create',compact('sponsor'));

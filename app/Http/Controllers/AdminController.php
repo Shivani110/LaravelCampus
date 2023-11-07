@@ -14,9 +14,16 @@ use App\Models\Alumni;
 use App\Models\CollegeName;
 use App\Models\Category;
 use App\Models\Tag;
+use App\Models\Product;
+use App\Models\Media;
+use App\Models\Variation;
 
 class AdminController extends Controller
 {
+    public function admin(){
+        return view('admin.index');
+    }
+
     public function getUsers(){
         $users = User::where([
             ['is_admin','=','0'],
@@ -221,7 +228,7 @@ class AdminController extends Controller
         }else{
             $request->validate([
                 'name' => 'required',
-                'slug' => 'unique:categories,slug'
+                'slug' => 'unique:tags,slug'
             ]);
     
             $tag = new Tag;
@@ -238,5 +245,69 @@ class AdminController extends Controller
         $id = $request->id;
         $tag = Tag::where('id','=',$id)->delete();
         return response()->json($tag);
+    }
+
+    public function products(){
+        $category = Category::get();
+        $tag = Tag::get();
+        return view('admin.product',compact('category','tag'));
+    }
+
+    public function addproducts(Request $request){
+       $request->validate([
+            'pname' => 'required',
+            'pslug' => 'unique:products,slug',
+            'category' => 'required',
+            'tag' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+            'strength' => 'required',
+            'quantity' => 'required',
+            'variation_price' => 'required',
+        ]);
+        $tag = json_encode($request->tag);
+
+        if($request->hasFile('f_image')) {
+            $featureimage = $request->file('f_image');
+            $extension = $featureimage->getClientOriginalExtension();
+            $imageName =  time().rand(1,50).'.'.$extension;
+            $featureimage->move(public_path('images'), $imageName);
+        }
+
+        $product = new Product;
+        $product->product_name = $request->pname;
+        $product->slug = $request->pslug;
+        $product->category = $request->category;
+        $product->tags = $tag;
+        $product->feature_images = $imageName;
+        $product->price = $request->price;
+        $product->description = $request->description;
+        $product->save();
+
+        $files = [];
+        if($request->hasFile('g_image')){
+            foreach($request->file('g_image') as $file){
+                $name = time().rand(1,50).'.'.$file->extension();
+                $file->move(public_path('images'), $name);  
+                $files[] = $name; 
+            }
+        }
+
+        if(isset($request->strength)){
+            $strength = $request->strength;
+            $quantity = $request->quantity;
+            $variation_price = $request->variation_price;
+
+            for($i=0;$i<count($strength);$i++){
+                $variation = new Variation;
+                $variation->strength = $strength[$i];
+                $variation->quantity = $quantity[$i];
+                $variation->price = $variation_price[$i];
+                $variation->product_id = $product->id;
+                $variation->save();
+            }
+        }
+
+        return redirect('/admin-dashboard/product')->with('success','Product Added Successfully..');
     }
 }

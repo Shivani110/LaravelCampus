@@ -87,7 +87,7 @@
     $(document).ready(function(){
         $('#myform').submit(function(e){
             e.preventDefault();
-            var i = '{{ $i }}';
+            var i='{{ $i }}';
             var data = {
                 id:$('#c_id').val(),
                 category:$('#catgry').val(),

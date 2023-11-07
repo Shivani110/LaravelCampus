@@ -13,6 +13,10 @@ use App\Models\Post;
 
 class StaffController extends Controller
 {
+    public function staffIndex(){
+        return view('staff.index');
+    }
+
     public function staff(Request $request){
         $staff = Staff::where('user_id','=',Auth::user()->id)->first();
         $college = CollegeName::get();

@@ -27,7 +27,7 @@ use App\Http\Controllers\PublicController;
 Route::get('/register',[UserController::class,'create']);
 Route::post('/signup',[UserController::class,'register']);
 
-Route::get('/login',[UserController::class,'login']);
+Route::get('/',[UserController::class,'login']);
 Route::post('/signin',[UserController::class,'signin']);
 
 Route::get('/logout',[UserController::class,'logout']);
@@ -43,6 +43,7 @@ Route::post('/reply',[PublicController::class,'replyComments']);
 Route::post('/search',[PublicController::class,'searchPost']);
 
 Route::middleware(['Auth'=>'admin'])->group(function () {
+    Route::get('/admin-dashboard',[AdminController::class,'admin']);
     Route::get('/admin-dashboard/allusers',[AdminController::class,'getUsers']);
     Route::get('/admin-dashboard/approvedusers',[AdminController::class,'getApprovedUsers']);
     Route::post('/ajaxRequest', [AdminController::class, 'approve']);
@@ -59,14 +60,18 @@ Route::middleware(['Auth'=>'admin'])->group(function () {
     Route::get('/admin-dashboard/tag',[AdminController::class,'tag']);
     Route::post('/admin-dashboard/createtag',[AdminController::class,'createTag']);
     Route::post('/admin-dashboard/deletetag',[AdminController::class,'deleteTag']);
+    Route::get('/admin-dashboard/product',[AdminController::class,'products']);
+    Route::post('/admin-dashboard/addproduct',[AdminController::class,'addproducts']);
 });
 
 Route::middleware(['Auth'=>'student'])->group(function() {
+    Route::get('/student-dashboard',[StudentController::class,'studentIndex']);
     Route::get('/student-dashboard/student',[StudentController::class,'student']);
     Route::post('/addstudent',[StudentController::class,'updateStudent']);
 });
 
 Route::middleware(['Auth'=>'staff'])->group(function() {
+    Route::get('/staff-dashboard',[StaffController::class,'staffIndex']);
     Route::get('/staff-dashboard/staff',[StaffController::class,'staff']);
     Route::post('/addstaff',[StaffController::class,'updateStaff']);
     Route::get('/staff-dashboard/collegeTemplate',[StaffController::class,'collegetemplate']);
@@ -83,11 +88,13 @@ Route::middleware(['Auth'=>'staff'])->group(function() {
 });
 
 Route::middleware(['Auth'=>'sponsor'])->group(function() {
+    Route::get('/sponsor-dashboard',[SponsorController::class,'sponsorIndex']);
     Route::get('/sponsor-dashboard/sponsor',[SponsorController::class,'sponsor']);
     Route::post('/addsponsor',[SponsorController::class,'updateSponsor']);
 });
 
 Route::middleware(['Auth'=>'alumni'])->group(function() {
+    Route::get('/alumni-dashboard',[AlumniController::class,'alumniIndex']);
     Route::get('/alumni-dashboard/alumni',[AlumniController::class,'alumni']);
     Route::post('/addalumni',[AlumniController::class,'updateAlumni']);
 });

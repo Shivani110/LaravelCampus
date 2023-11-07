@@ -56,16 +56,16 @@
                                     </ul><!-- .nk-menu-sub -->
                                 </li>
                                 
-                                <?php $userid = Auth::user()->id; ?>
-                                @foreach(\App\Models\Staff::where('user_id','=',$userid)->get() as $staff)
-                                  <?php  
-                                        $clg_id = $staff->college_name; 
-                                        $id = $staff->id;
-                                  ?>
-                                @endforeach
+                                <?php 
+                                $userid = Auth::user()->id; 
+                                $staff = (\App\Models\Staff::where('user_id','=',$userid)->first());
 
-                                <?php $moderator = (\App\Models\CollegeName::where('id','=',$clg_id)->first()); 
-                                $mod_id = $moderator->id ?>
+                                if(isset($staff->college_name)) {
+                                    $clg_id = $staff->college_name;
+                                    $id = $staff->id;
+
+                                    $moderator = (\App\Models\CollegeName::where('id','=',$clg_id)->first()); 
+                                    $mod_id = $moderator->id; ?>
                                
                                 @if($id == $mod_id)
 
@@ -95,6 +95,7 @@
                                     </ul>
                                 </li>
                                 @endif
+                                <?php } ?>
                               </ul><!-- .nk-menu -->
                         </div><!-- .nk-sidebar-menu -->
                     </div><!-- .nk-sidebar-content -->

@@ -10,6 +10,10 @@ use App\Models\CollegeName;
 
 class AlumniController extends Controller
 {
+    public function alumniIndex(){
+        return view('alumni.index');
+    }
+
     public function alumni(Request $request){
         $alumni = Alumni::where('user_id','=',Auth::user()->id)->first();
         $college = CollegeName::get();

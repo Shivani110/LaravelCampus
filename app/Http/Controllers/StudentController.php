@@ -10,6 +10,10 @@ use App\Models\CollegeName;
 
 class StudentController extends Controller
 {
+    public function studentIndex(){
+        return view('student.index');
+    }
+
     public function student(Request $request){
         $student = Student::where('user_id','=',Auth::user()->id)->first();
         $college = CollegeName::get();

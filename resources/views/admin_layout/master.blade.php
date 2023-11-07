@@ -94,9 +94,17 @@
                                         </li>
                                     </ul><!-- .nk-menu-sub -->
                                 </li>
-                                <li class="nk-menu-heading">
-                                    <h6 class="overline-title text-primary-alt">Dashboards</h6>
-                                </li><!-- .nk-menu-item -->
+                                <li class="nk-menu-item has-sub active">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class=""></em></span>
+                                        <span class="nk-menu-text">Products</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/product') }}" class="nk-menu-link"><span class="nk-menu-text">Products</span></a>
+                                        </li>
+                                    </ul><!-- .nk-menu-sub -->
+                                </li>
                               </ul><!-- .nk-menu -->
                         </div><!-- .nk-sidebar-menu -->
                     </div><!-- .nk-sidebar-content -->
