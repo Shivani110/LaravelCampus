@@ -62,6 +62,10 @@ Route::middleware(['Auth'=>'admin'])->group(function () {
     Route::post('/admin-dashboard/deletetag',[AdminController::class,'deleteTag']);
     Route::get('/admin-dashboard/product',[AdminController::class,'products']);
     Route::post('/admin-dashboard/addproduct',[AdminController::class,'addproducts']);
+    Route::get('/admin-dashboard/getproduct',[AdminController::class,'getProducts']);
+    Route::get('/admin-dashboard/product/{slug}',[AdminController::class,'editproducts']);
+    Route::post('/admin-dashboard/updateproduct',[AdminController::class,'updateProduct']);
+    Route::post('/admin-dashboard/deletemedia',[AdminController::class,'deleteMedia']);
 });
 
 Route::middleware(['Auth'=>'student'])->group(function() {

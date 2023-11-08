@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
+
+    public function media(){
+        return $this->hasMany(Media::class,'product_id','id');
+    }
+
+    public function variation(){
+        return $this->hasMany(Variation::class,'product_id','id');
+    }
 }

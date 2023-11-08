@@ -286,10 +286,18 @@ class AdminController extends Controller
 
         $files = [];
         if($request->hasFile('g_image')){
-            foreach($request->file('g_image') as $file){
+            for($i=0;$i<count($request->file('g_image'));$i++){
+                $file = $request->file('g_image')[$i];
                 $name = time().rand(1,50).'.'.$file->extension();
-                $file->move(public_path('images'), $name);  
-                $files[] = $name; 
+                $file->move(public_path('images'), $name); 
+                $path = asset('images/'.$name);
+                $files = $name;
+
+                $media = new Media;
+                $media->image_name = $files;
+                $media->image_path = $path;
+                $media->product_id = $product->id;
+                $media->save();
             }
         }
 
@@ -309,5 +317,67 @@ class AdminController extends Controller
         }
 
         return redirect('/admin-dashboard/product')->with('success','Product Added Successfully..');
+    }
+
+    public function getProducts(Product $product){
+        $product = Product::get();
+        $c_id = $product[0]->category;
+        $category = Category::where('id','=',$c_id)->first();
+        return view('admin.allProducts',compact('product','category'));
+    }
+
+    public function editproducts($slug){
+        $category = Category::all();
+        $tag = Tag::all();
+        $product = Product::where('slug','=',$slug)->with('media','variation')->first();
+        return view('admin.product',compact('category','tag','product'));
+    }
+
+    public function deleteMedia(Request $request){
+        $id = $request->id;
+        $media = Media::where('id','=',$id)->delete();
+        return response()->json($media);
+    }
+
+    public function updateProduct(Request $request){
+       $id = $request->p_id;
+
+       if(isset($request->strength)){
+            $strength = $request->strength;
+            $quantity = $request->quantity;
+            $price = $request->variation_price;
+
+            // for($i=0;$i<count($strength);$i++){
+                $variation = Variation::where([['product_id','=',$id],['strength','=',$strength]])->first();
+                echo '<pre>';
+                print_r($variation);
+                echo '</pre>';
+            // }
+       }
+       die();
+
+       $product = Product::where('id','=',$id)->first();
+
+       if($request->hasFile('f_image')){
+            $featureimage = $request->file('f_image');
+            $extension = $featureimage->getClientOriginalExtension();
+            $imageName =  time().rand(1,50).'.'.$extension;
+            $featureimage->move(public_path('images'), $imageName);
+       }else{
+            $imageName = $product->feature_images;
+       }
+      
+        $products = Product::where('id','=',$id)->first();
+        $products->product_name = $request->pname;
+        $products->slug = $request->pslug;
+        $products->category = $request->category;
+        $products->tags = $tag;
+        $products->feature_images = $imageName;
+        $products->price = $request->price;
+        $products->description = $request->description;
+        // $products->save();
+      
+
+        
     }
 }

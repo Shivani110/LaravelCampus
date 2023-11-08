@@ -103,6 +103,11 @@
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/product') }}" class="nk-menu-link"><span class="nk-menu-text">Products</span></a>
                                         </li>
+                                    </ul>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/getproduct') }}" class="nk-menu-link"><span class="nk-menu-text">All Products</span></a>
+                                        </li>
                                     </ul><!-- .nk-menu-sub -->
                                 </li>
                               </ul><!-- .nk-menu -->
