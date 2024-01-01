@@ -21,7 +21,7 @@
     <br>
 
     <div class="card card-bordered card-preview">
-        <table class="table table-tranx" id="table"><table class="table table-tranx" id="table">
+        <table class="table table-tranx" id="table">
             <thead>
                 <tr class="tb-tnx-head">
                     <th class="tb-tnx-id"><span class="">#</span></th>
