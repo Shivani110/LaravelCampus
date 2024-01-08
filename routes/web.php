@@ -67,6 +67,9 @@ Route::middleware(['Auth'=>'admin'])->group(function () {
     Route::post('/admin-dashboard/updateproduct',[AdminController::class,'updateProduct']);
     Route::post('/admin-dashboard/deletemedia',[AdminController::class,'deleteMedia']);
     Route::get('/admin-dashboard/profile',[AdminController::class,'profile']);
+    Route::get('/admin-dashboard/accountsetting',[AdminController::class,'accountsetting']);
+    Route::get('/admin-dashboard/changepassword',[AdminController::class,'changePassword']);
+    Route::post('/admin-dashboard/password',[AdminController::class,'password']);
 });
 
 Route::middleware(['Auth'=>'student'])->group(function() {

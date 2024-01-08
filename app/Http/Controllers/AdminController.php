@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Mail;
 use App\Mail\ApproveUsers;
@@ -17,6 +18,7 @@ use App\Models\Tag;
 use App\Models\Product;
 use App\Models\Media;
 use App\Models\Variation;
+use Hash;
 
 class AdminController extends Controller
 {
@@ -381,5 +383,36 @@ class AdminController extends Controller
 
     public function profile(){
         return view('admin.profile');
+    }
+
+    public function accountsetting(){
+        return view('admin.accountsetting');
+    }
+
+    public function changePassword(){
+        return view('admin.changepassword');
+    }
+
+    public function password(Request $request){
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required',
+            'confirm_password' => 'required'
+        ]);
+
+        if(Hash::check($request->old_password, Auth()->user()->password)){
+            if($request->new_password == $request->confirm_password){
+                $password = Hash::make($request->new_password);
+                $user = User::where('id','=',Auth::user()->id)->first();
+                $user->password = $password;
+                $user->update();
+            
+                return back()->with('success','Password Changed Successfully');
+            }else{
+                return back()->with('error','Password confirmation not matched');
+            }
+        }else{
+            return back()->with('error','Old Password is not matched');
+        }
     }
 }
