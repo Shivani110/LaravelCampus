@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('username');
             $table->string('password');
             $table->string('user_type');
-            $table->integer('is_admin');
-            $table->integer('is_approved');
+            $table->integer('is_admin')->default('0');
+            $table->integer('is_approved')->default('0');
             $table->tinyInteger('status')->default('1');
             $table->rememberToken();
             $table->timestamps();

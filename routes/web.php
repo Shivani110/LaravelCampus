@@ -66,12 +66,14 @@ Route::middleware(['Auth'=>'admin'])->group(function () {
     Route::get('/admin-dashboard/product/{slug}',[AdminController::class,'editproducts']);
     Route::post('/admin-dashboard/updateproduct',[AdminController::class,'updateProduct']);
     Route::post('/admin-dashboard/deletemedia',[AdminController::class,'deleteMedia']);
+    Route::get('/admin-dashboard/profile',[AdminController::class,'profile']);
 });
 
 Route::middleware(['Auth'=>'student'])->group(function() {
     Route::get('/student-dashboard',[StudentController::class,'studentIndex']);
     Route::get('/student-dashboard/student',[StudentController::class,'student']);
     Route::post('/addstudent',[StudentController::class,'updateStudent']);
+    Route::get('/student-dashboard/profile',[StudentController::class,'profile']);
 });
 
 Route::middleware(['Auth'=>'staff'])->group(function() {
@@ -89,16 +91,19 @@ Route::middleware(['Auth'=>'staff'])->group(function() {
     Route::get('/staff-dashboard/allposts',[StaffController::class,'getposts']);
     Route::get('/staff-dashboard/addposts/{slug}',[StaffController::class,'editposts']);
     Route::post('/editposts',[StaffController::class,'updateposts']);
+    Route::get('/staff-dashboard/profile',[StaffController::class,'profile']);
 });
 
 Route::middleware(['Auth'=>'sponsor'])->group(function() {
     Route::get('/sponsor-dashboard',[SponsorController::class,'sponsorIndex']);
     Route::get('/sponsor-dashboard/sponsor',[SponsorController::class,'sponsor']);
     Route::post('/addsponsor',[SponsorController::class,'updateSponsor']);
+    Route::get('/sponsor-dashboard/profile',[SponsorController::class,'profile']);
 });
 
 Route::middleware(['Auth'=>'alumni'])->group(function() {
     Route::get('/alumni-dashboard',[AlumniController::class,'alumniIndex']);
     Route::get('/alumni-dashboard/alumni',[AlumniController::class,'alumni']);
     Route::post('/addalumni',[AlumniController::class,'updateAlumni']);
+    Route::get('/alumni-dashboard/profile',[AlumniController::class,'profile']);
 });

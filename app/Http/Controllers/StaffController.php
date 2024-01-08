@@ -431,4 +431,7 @@ class StaffController extends Controller
         return redirect('/staff-dashboard/addposts/'.$posts->slug)->with('success','Post Updated');
     }
     
+    public function profile(){
+        return view('staff.profile');
+    }
 }

@@ -91,12 +91,17 @@
                                      <li class="dropdown user-dropdown">
                                         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
                                             <div class="user-toggle">
+                                                <?php 
+                                                    $role = Auth::user()->user_type; 
+                                                    $user = Auth::user();
+                                                    $alumni = (App\Models\Alumni::where('user_id','=',Auth::user()->id)->first());
+                                                ?>
                                                 <div class="user-avatar sm">
-                                                    <em class="icon ni ni-user-alt"></em>
+                                                    <img src="{{ asset('/images/'.$alumni->pictures) }}">
                                                 </div>
                                                 <div class="user-info d-none d-md-block">
-                                                    <div class="user-status">Administrator</div>
-                                                    <div class="user-name dropdown-indicator">Abu Bin Ishityak</div>
+                                                    <div class="user-status">Alumni</div>
+                                                    <div class="user-name dropdown-indicator">{{ $user->realname }}</div>
                                                 </div>
                                             </div>
                                         </a>
@@ -104,17 +109,17 @@
                                             <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
                                                 <div class="user-card">
                                                     <div class="user-avatar">
-                                                        <span>AB</span>
+                                                        <span><img src="{{ asset('/images/'.$alumni->pictures) }}"></span>
                                                     </div>
                                                     <div class="user-info">
-                                                        <span class="lead-text">Abu Bin Ishtiyak</span>
-                                                        <span class="sub-text">info@softnio.com</span>
+                                                        <span class="lead-text">{{ $user->realname }}</span>
+                                                        <span class="sub-text">{{ $user->email }}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
-                                                    <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                                                    <li><a href="{{ url('alumni-dashboard/profile') }}"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
                                                     <li><a href="html/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
                                                     <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
                                                     <!-- {{ Auth::user()->user_type }} -->

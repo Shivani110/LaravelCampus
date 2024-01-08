@@ -55,4 +55,8 @@ class SponsorController extends Controller
             return redirect('/sponsor-dashboard/sponsor')->with('success','Successfully updated...');
         }
     }
+
+    public function profile(){
+        return view('sponsor.profile');
+    }
 }

@@ -376,8 +376,10 @@ class AdminController extends Controller
         $products->price = $request->price;
         $products->description = $request->description;
         // $products->save();
-      
+    
+    }
 
-        
+    public function profile(){
+        return view('admin.profile');
     }
 }

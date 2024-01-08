@@ -57,4 +57,8 @@ class AlumniController extends Controller
         }
 
     }
+
+    public function profile(){
+        return view('alumni.profile');
+    }
 }

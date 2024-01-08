@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('type_of_support')->nullable();
             $table->string('social_link')->nullable();
             $table->string('profession')->nullable();
-            $table->string('company')>nullable();
+            $table->string('company')->nullable();
             $table->string('mailbox')->nullable();
             $table->string('calendar')->nullable();
             $table->string('political_position')->nullable();

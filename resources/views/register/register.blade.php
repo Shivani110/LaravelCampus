@@ -126,7 +126,7 @@
                                     <button class="btn btn-lg btn-primary btn-block">Register</button>
                                 </div> 
                             </form>
-                            <div class="form-note-s2 pt-4"> Already have an account ? <a href="{{ url('login/') }}"><strong>Sign In </strong></a>
+                            <div class="form-note-s2 pt-4"> Already have an account ? <a href="{{ url('/') }}"><strong>Sign In </strong></a>
                             </div>
                             <div class="nk-block nk-auth-footer">
                                 <div class="mt-3">
