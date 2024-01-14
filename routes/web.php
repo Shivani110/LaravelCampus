@@ -77,6 +77,9 @@ Route::middleware(['Auth'=>'student'])->group(function() {
     Route::get('/student-dashboard/student',[StudentController::class,'student']);
     Route::post('/addstudent',[StudentController::class,'updateStudent']);
     Route::get('/student-dashboard/profile',[StudentController::class,'profile']);
+    Route::get('/student-dashboard/accountsetting',[StudentController::class,'accountsetting']);
+    Route::get('/student-dashboard/changepassword',[StudentController::class,'changepassword']);
+    Route::post('/student-dashboard/updatepassword',[StudentController::class,'updatepassword']);
 });
 
 Route::middleware(['Auth'=>'staff'])->group(function() {
@@ -95,6 +98,9 @@ Route::middleware(['Auth'=>'staff'])->group(function() {
     Route::get('/staff-dashboard/addposts/{slug}',[StaffController::class,'editposts']);
     Route::post('/editposts',[StaffController::class,'updateposts']);
     Route::get('/staff-dashboard/profile',[StaffController::class,'profile']);
+    Route::get('/staff-dashboard/accountsetting',[StaffController::class,'accountsetting']);
+    Route::get('/staff-dashboard/changepassword',[StaffController::class,'changepassword']);
+    Route::post('/staff-dashboard/updatepassword',[StaffController::class,'updatepassword']);
 });
 
 Route::middleware(['Auth'=>'sponsor'])->group(function() {
@@ -102,6 +108,9 @@ Route::middleware(['Auth'=>'sponsor'])->group(function() {
     Route::get('/sponsor-dashboard/sponsor',[SponsorController::class,'sponsor']);
     Route::post('/addsponsor',[SponsorController::class,'updateSponsor']);
     Route::get('/sponsor-dashboard/profile',[SponsorController::class,'profile']);
+    Route::get('/sponsor-dashboard/accountsetting',[SponsorController::class,'accountsetting']);
+    Route::get('/sponsor-dashboard/changepassword',[SponsorController::class,'changepassword']);
+    Route::post('/sponsor-dashboard/updatepassword',[SponsorController::class,'updatepassword']);
 });
 
 Route::middleware(['Auth'=>'alumni'])->group(function() {
@@ -109,4 +118,7 @@ Route::middleware(['Auth'=>'alumni'])->group(function() {
     Route::get('/alumni-dashboard/alumni',[AlumniController::class,'alumni']);
     Route::post('/addalumni',[AlumniController::class,'updateAlumni']);
     Route::get('/alumni-dashboard/profile',[AlumniController::class,'profile']);
+    Route::get('/alumni-dashboard/accountsetting',[AlumniController::class,'accountsetting']);
+    Route::get('/alumni-dashboard/changepassword',[AlumniController::class,'changepassword']);
+    Route::post('/alumni-dashboard/updatepassword',[AlumniController::class,'updatepassword']);
 });

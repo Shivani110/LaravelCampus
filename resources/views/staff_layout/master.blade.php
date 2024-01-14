@@ -155,7 +155,7 @@
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
                                                     <li><a href="{{ url('staff-dashboard/profile') }}"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
-                                                    <li><a href="html/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
+                                                    <li><a href="{{ url('staff-dashboard/accountsetting') }}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
                                                     <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
                                                     <!-- {{ Auth::user()->user_type }} -->
                                                     <li><a href="{{ url('index') }}"><em></em><span>Public Dashboard</span></a></li>

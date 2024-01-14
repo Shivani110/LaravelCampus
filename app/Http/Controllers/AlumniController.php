@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User; 
 use App\Models\Alumni;
 use App\Models\CollegeName;
+use Hash;
 
 class AlumniController extends Controller
 {
@@ -60,5 +61,36 @@ class AlumniController extends Controller
 
     public function profile(){
         return view('alumni.profile');
+    }
+
+    public function accountsetting(){
+        return view('alumni.accountsetting');
+    }
+
+    public function changepassword(){
+        return view('alumni.changepassword');
+    }
+
+    public function updatepassword(Request $request){
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required',
+            'confirm_password' => 'required',
+        ]);
+
+        if(Hash::check($request->old_password,Auth()->user()->password)){
+            if($request->new_password == $request->confirm_password){
+                $password = Hash::make($request->new_password);
+                $user = User::where('id','=',Auth::user()->id)->first();
+                $user->password = $password;
+                $user->update();
+
+                return back()->with("success","Password changed successfully");
+            }else{
+                return back()->with("error","Password confirmation not matched");
+            }
+        }else{
+            return back()->with("error","Old Password not matched");
+        }
     }
 }

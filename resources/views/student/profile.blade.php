@@ -106,7 +106,7 @@
                                     <div class="card-inner">
                                         <div class="user-card">
                                             <div class="user-avatar bg-primary">
-                                                <span> <img src="{{ asset('/images/'.$student->pictures) }}"></span>
+                                                <span><img src="{{ asset('/images/'.$student->pictures) }}"></span>
                                             </div>
                                             <div class="user-info">
                                                 <span class="lead-text">{{ $user->realname }}</span>
@@ -130,7 +130,7 @@
                                             <li><a class="active" href="{{ url('student-dashboard/profile') }}"><em class="icon ni ni-user-fill-c"></em><span>Personal Infomation</span></a></li>
                                             <li><a href="html/user-profile-notification.html"><em class="icon ni ni-bell-fill"></em><span>Notifications</span></a></li>
                                             <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-round-fill"></em><span>Account Activity</span></a></li>
-                                            <li><a href="html/user-profile-setting.html"><em class="icon ni ni-lock-alt-fill"></em><span>Security Settings</span></a></li>
+                                            <li><a href="{{ url('student-dashboard/accountsetting') }}"><em class="icon ni ni-lock-alt-fill"></em><span>Security Settings</span></a></li>
                                             <li><a href="html/user-profile-social.html"><em class="icon ni ni-grid-add-fill-c"></em><span>Connected with Social</span></a></li>
                                         </ul>
                                     </div><!-- .card-inner -->
