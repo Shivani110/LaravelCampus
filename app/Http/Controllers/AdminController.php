@@ -186,6 +186,11 @@ class AdminController extends Controller
 
     public function createCategory(Request $request){
         if($request->id){
+            $request->validate([
+                'category' => 'required',
+                'slug' => 'required',
+            ]);
+
             $catgry = Category::where('id','=', $request->id)->first(); 
             $catgry->category_name = $request->category;
             $catgry->slug = $request->slug;
@@ -194,7 +199,7 @@ class AdminController extends Controller
         }else{
             $request->validate([
                 'category' => 'required',
-                'slug' => 'unique:categories,slug'
+                'slug' => 'unique:categories,slug',
             ]);
             $catgry = new Category;
             $catgry->category_name = $request->category;
@@ -221,6 +226,11 @@ class AdminController extends Controller
 
     public function createTag(Request $request){
         if($request->id){
+            $request->validate([
+                'name' => 'required',
+                'slug' => 'required'
+            ]);
+
             $tag = Tag::where('id','=',$request->id)->first();
             $tag->name = $request->name;
             $tag->slug = $request->slug;
@@ -256,7 +266,7 @@ class AdminController extends Controller
     }
 
     public function addproducts(Request $request){
-       $request->validate([
+        $request->validate([
             'pname' => 'required',
             'pslug' => 'unique:products,slug',
             'category' => 'required',
@@ -266,7 +276,12 @@ class AdminController extends Controller
             'strength' => 'required',
             'quantity' => 'required',
             'variation_price' => 'required',
+            'g_image' => 'required',
         ]);
+
+        // return count($request->strength);
+       
+
         $tag = json_encode($request->tag);
 
         if($request->hasFile('f_image')) {
@@ -317,7 +332,7 @@ class AdminController extends Controller
                 $variation->save();
             }
         }
-
+     
         return redirect('/admin-dashboard/product')->with('success','Product Added Successfully..');
     }
 
@@ -342,33 +357,48 @@ class AdminController extends Controller
     }
 
     public function updateProduct(Request $request){
-       $id = $request->p_id;
+        echo '<pre>';
+        print_r($request->all());
 
-       if(isset($request->strength)){
+        echo '</pre>';
+        
+        $id = $request->p_id;
+        if($request->hasFile('g_image')){
+            echo 'done';
+        }
+        die();
+        if($request->strength != null){
             $strength = $request->strength;
             $quantity = $request->quantity;
             $price = $request->variation_price;
 
-            // for($i=0;$i<count($strength);$i++){
-                $variation = Variation::where([['product_id','=',$id],['strength','=',$strength]])->first();
-                echo '<pre>';
-                print_r($variation);
-                echo '</pre>';
-            // }
-       }
-       die();
+            $variation = Variation::where([['product_id','=',$id],['strength','=',$strength]])->first();
 
-       $product = Product::where('id','=',$id)->first();
+            for($i=0;$i<count($strength);$i++){
+                $variation->strength = $strength[$i];
+                $variation->quantity = $quantity[$i];
+                $variation->price = $price[$i];
+                $variation->update();
+            }
+        }
 
-       if($request->hasFile('f_image')){
+        $product = Product::where('id','=',$id)->first();
+
+        if($request->hasFile('f_image')){
             $featureimage = $request->file('f_image');
             $extension = $featureimage->getClientOriginalExtension();
             $imageName =  time().rand(1,50).'.'.$extension;
             $featureimage->move(public_path('images'), $imageName);
-       }else{
+        }else{
             $imageName = $product->feature_images;
-       }
+        }
       
+        if($request->tag != null){
+            $tag = json_encode($request->tag);
+        }else{
+            $tag = $product->tags;
+        }
+
         $products = Product::where('id','=',$id)->first();
         $products->product_name = $request->pname;
         $products->slug = $request->pslug;
@@ -377,8 +407,48 @@ class AdminController extends Controller
         $products->feature_images = $imageName;
         $products->price = $request->price;
         $products->description = $request->description;
-        // $products->save();
+        $products->update();
     
+        $files = [];
+        if($request->g_image != null){
+
+            $media = Media::where('product_id','=',$id)->first();
+
+            if($media != null){
+                if($request->hasFile('g_image')){
+                    for($i=0;$i<count($request->file('g_image'));$i++){
+                        $file = $request->file('g_image')[$i];
+                        $name = time().rand(1,50).'.'.$file->extension();
+                        $file->move(public_path('images'), $name); 
+                        $path = asset('images/'.$name);
+                        $files = $name;
+    
+                        $media = new Media();
+                        $media->image_name = $files;
+                        $media->image_path = $path;
+                        $media->update();
+                    }
+                }
+            }else{
+                if($request->hasFile('g_image')){
+                    for($i=0;$i<count($request->file('g_image'));$i++){
+                        $file = $request->file('g_image')[$i];
+                        $name = time().rand(1,50).'.'.$file->extension();
+                        $file->move(public_path('images'), $name); 
+                        $path = asset('images/'.$name);
+                        $files = $name;
+        
+                        $medias = new Media;
+                        $medias->image_name = $files;
+                        $medias->image_path = $path;
+                        $medias->product_id = $id;
+                        $medias->save();
+                    }
+                }
+            }
+        }
+
+        return redirect('/admin-dashboard/product/'.$products->slug)->with("success","Product Updated Successfully");
     }
 
     public function profile(){

@@ -15,10 +15,10 @@
                 </div>
             @endif
             @if(isset($product))
-                <form method="post" action="{{ url('admin-dashboard/updateproduct/') }}" enctype="mutlipart/form-data">
+                <form method="post" action="{{ url('admin-dashboard/updateproduct') }}" enctype="mutlipart/form-data">
                 @csrf
             @else
-                <form method="post" action="{{ url('admin-dashboard/addproduct/') }}" enctype="multipart/form-data">
+                <form method="post" action="{{ url('admin-dashboard/addproduct') }}" enctype="multipart/form-data">
             @endif   
                 @csrf
                 <div class="row">
@@ -143,68 +143,68 @@
                         <label class="form-label" for="variation">Variation</label>
                         <div id="vartn">
                             @if(isset($product->variation))
-                            @foreach($product->variation as $vratn)
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="form-control-wrap">
-                                        <input type="text" name="strength[]" id="strength{{ $vratn->id }}" class="form-control" placeholder="Strength" value="{{ old('strength[]',$vratn->strength ??'') }}">
-                                        @error('strength')
-                                        {{ $message }}
-                                        @enderror
+                                @foreach($product->variation as $vratn)
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="form-control-wrap">
+                                            <input type="text" name="strength[]" id="strength{{ $vratn->id }}" class="form-control" placeholder="Strength" value="{{ old('strength[]',$vratn->strength ??'') }}">
+                                            @error('strength')
+                                            {{ $message }}
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-control-wrap">
+                                            <input type="text" name="quantity[]" id="quantity{{ $vratn->id }}" class="form-control" placeholder="Quantity" value="{{ old('quantity[]',$vratn->quantity ??'') }}">
+                                            @error('quantity')
+                                            {{ $message }}
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-control-wrap">
+                                            <input type="text" name="variation_price[]" id="variation_price{{ $vratn->id }}" class="form-control" placeholder="Price" value="{{ old('price[]',$vratn->price ??'') }}">
+                                            @error('variation_price')
+                                            {{ $message }}
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <button type="button" class="btn btn-primary add-btn">Add</button>
+                                        <button type="button" class="btn btn-danger delete-btn" var_id="{{ $vratn->id }}">Delete</button>
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
-                                    <div class="form-control-wrap">
-                                        <input type="text" name="quantity[]" id="quantity{{ $vratn->id }}" class="form-control" placeholder="Quantity" value="{{ old('strength[]',$vratn->quantity ??'') }}">
-                                        @error('quantity')
-                                        {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-control-wrap">
-                                        <input type="text" name="variation_price[]" id="variation_price{{ $vratn->id }}" class="form-control" placeholder="Price" value="{{ old('price[]',$vratn->price ??'') }}">
-                                        @error('variation_price')
-                                        {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <button type="button" class="btn btn-primary add-btn">Add</button>
-                                    <button type="button" class="btn btn-danger delete-btn" var_id="{{ $vratn->id }}">Delete</button>
-                                </div>
-                            </div>
-                            @endforeach
+                                @endforeach
                             @else
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="form-control-wrap">
-                                        <input type="text" name="strength[]" id="strength" class="form-control" placeholder="Strength" value="">
-                                        @error('strength')
-                                        {{ $message }}
-                                        @enderror
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="form-control-wrap">
+                                            <input type="text" name="strength[]" id="strength" class="form-control" placeholder="Strength" value="">
+                                            @error('strength')
+                                            {{ $message }}
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-control-wrap">
+                                            <input type="text" name="quantity[]" id="quantity" class="form-control" placeholder="Quantity" value="">
+                                            @error('quantity')
+                                            {{ $message }}
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-control-wrap">
+                                            <input type="text" name="variation_price[]" id="variation_price" class="form-control" placeholder="Price" value="">
+                                            @error('variation_price')
+                                            {{ $message }}
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <button type="button" class="btn btn-primary add-btn">Add</button>
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
-                                    <div class="form-control-wrap">
-                                        <input type="text" name="quantity[]" id="quantity" class="form-control" placeholder="Quantity" value="">
-                                        @error('quantity')
-                                        {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-control-wrap">
-                                        <input type="text" name="variation_price[]" id="variation_price" class="form-control" placeholder="Price" value="">
-                                        @error('variation_price')
-                                        {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <button type="button" class="btn btn-primary add-btn">Add</button>
-                                </div>
-                            </div>
                             @endif
                         </div>
                     </div>

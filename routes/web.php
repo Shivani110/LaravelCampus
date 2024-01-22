@@ -41,6 +41,8 @@ Route::post('/likes',[PublicController::class,'postlikes']);
 Route::post('/comments',[PublicController::class,'postcomments']);
 Route::post('/reply',[PublicController::class,'replyComments']);
 Route::post('/search',[PublicController::class,'searchPost']);
+Route::get('/products',[PublicController::class,'products']);
+Route::get('/productdetails/{slug}',[PublicController::class,'productdetails']);
 
 Route::middleware(['Auth'=>'admin'])->group(function () {
     Route::get('/admin-dashboard',[AdminController::class,'admin']);

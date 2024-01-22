@@ -85,9 +85,9 @@
     }) 
 
     $(document).ready(function(){
+        var i= parseInt({{ $i }});
         $('#myform').submit(function(e){
             e.preventDefault();
-            var i='{{ $i }}';
             var data = {
                 id:$('#c_id').val(),
                 category:$('#catgry').val(),
@@ -112,9 +112,14 @@
                     }
 
                     if(response[1] == 'add'){
-                        var row = $('<tr class="tb-tnx-item"><td class="tb-tnx-id"><a href="#"><span>'+ +i +'</span></a></td><td class="tb-tnx-info"><div class="tb-tnx-desc"><input type="text" data-id="'+id+'" class="" value="'+response[0].category_name+'" disabled="" style="border: none; background: transparent;"></div></td><td class="tb-tnx-info"><div class="tb-tnx-desc"><input type="text" data-id="'+id+'" class="" value="'+response[0].slug+'" disabled="" style="border: none; background: transparent;"></div></td><td><div class="dropdown drop"><a class="text-soft=" dropdown-toggle="" btn="" btn-icon="" btn-trigger="" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em><div class="dropdown-menu dropdown-menu-end dropdown-menu-xs"><ul class="link-list-plain"><li><a data-id="'+id+'" data-name="'+response[0].category_name+'" data-slug="'+response[0].slug+'" class="edit-category">Edit</a></li><li><a href="#" data-id="'+id+'" class="remove-category">Remove</a></li></ul></div></div></td></tr>');
+                        var row = $('<tr class="tb-tnx-item"><td class="tb-tnx-id"><a href="#"><span>'+i+'</span></a></td><td class="tb-tnx-info"><div class="tb-tnx-desc"><input type="text" data-id="'+id+'" class="" value="'+response[0].category_name+'" disabled="" style="border: none; background: transparent;"></div></td><td class="tb-tnx-info"><div class="tb-tnx-desc"><input type="text" data-id="'+id+'" class="" value="'+response[0].slug+'" disabled="" style="border: none; background: transparent;"></div></td><td><div class="dropdown drop"><a class="text-soft=" dropdown-toggle="" btn="" btn-icon="" btn-trigger="" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em><div class="dropdown-menu dropdown-menu-end dropdown-menu-xs"><ul class="link-list-plain"><li><a data-id="'+id+'" data-name="'+response[0].category_name+'" data-slug="'+response[0].slug+'" class="edit-category">Edit</a></li><li><a href="#" data-id="'+id+'" class="remove-category">Remove</a></li></ul></div></div></td></tr>');
                         $("tbody").append(row);
+                        i = i+1;
                     }
+                },
+                error: function(errors){
+                    var message = errors.responseJSON.message;
+                    NioApp.Toast(message, 'error' ,{position:'top-right'});
                 }
             });
         });

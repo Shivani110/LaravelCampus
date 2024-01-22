@@ -104,27 +104,28 @@
 									<div class="blog-meta">
 										<?php 
 										$like_id = $post->id;
-										$likes = json_decode($post->likes);
-										$userId = Auth::user()->id;
-										$like_count = count($likes);
-										
-										if($likes != null){
+										if($post->likes ?? ''){
+											
+											$likes = json_decode($post->likes);
+											$userId = Auth::user()->id;
+											$like_count = count($likes);
+
 											if(in_array($userId, $likes)){
-											?>
-											<div class="pull-left like" id="dislike={{ $post->id }}">
-												<button class="fa fa-thumbs-down dislike-btn like{{ $post->id }}" d_likeid="{{ $post->id }}" onclick="likepost(postid={{ $post->id }})"><?php echo $like_count ?></button>
-											</div>
-										<?php }else{ ?>
-											<div class="pull-left" id="like={{ $post->id }}">
-												<button class="fa fa-thumbs-up like-btn like{{ $post->id }}" likeid="{{ $post->id }}" onclick="likepost(postid={{ $post->id }})"><?php echo $like_count ?></button>
-												
-											</div>
-										<?php }
+												?>
+												<div class="pull-left like" id="dislike={{ $post->id }}">
+													<button class="fa fa-thumbs-down dislike-btn like{{ $post->id }}" d_likeid="{{ $post->id }}" onclick="likepost(postid={{ $post->id }})"><?php echo $like_count ?></button>
+												</div>
+									<?php 	}else{ ?>
+												<div class="pull-left" id="like={{ $post->id }}">
+													<button class="fa fa-thumbs-up like-btn like{{ $post->id }}" likeid="{{ $post->id }}" onclick="likepost(postid={{ $post->id }})"><?php echo $like_count ?></button>
+													
+												</div>
+									<?php 	}
 										}else{ ?>
-											<div class="pull-left" id="like={{ $post->id }}">
-												<button class="fa fa-thumbs-up like-btn like{{ $post->id }}" likeid="{{ $post->id }}" onclick="likepost(postid={{ $post->id }})"><?php echo $like_count ?></button>
-											</div>
-										<?php 
+												<div class="pull-left" id="like={{ $post->id ?? ''}}">
+													<button class="fa fa-thumbs-up like-btn like{{ $post->id ?? '' }}" likeid="{{ $post->id ?? '' }}" onclick="likepost(postid={{ $post->id ?? '' }})"><?php if($like_count ?? ''){ echo $like_count; } ?></button>
+												</div>
+											<?php 
 											}
 										?>
 										

@@ -10,6 +10,7 @@ use App\Models\CollegeName;
 use App\Models\CollegeTemplate;
 use App\Models\Post;
 use App\Models\Comment;
+use App\Models\Product;
 
 class PublicController extends Controller
 {
@@ -121,5 +122,19 @@ class PublicController extends Controller
         $post = Post::where('text','LIKE',$text.'%')->where('clg_id','=',$clg_id)->with('commentss.users','commentss.users.students','commentss.users.staff','commentss.users.sponsor','commentss.users.alumni','commentss.reply.users','commentss.reply.users.students','commentss.reply.users.staff','commentss.reply.users.sponsor','commentss.reply.users.alumni')->get();
       
         return response()->json($post);
+    }
+
+    public function products(){
+        $product = Product::all();
+        return view('publicdashboard.product',compact('product'));
+    }
+
+    public function productdetails($slug){
+        $product = Product::where('slug','=',$slug)->first();
+        $pid = $product->id;
+
+        $products = Product::where('id','=',$pid)->with('media','variation')->get();
+
+        return view('publicdashboard.productdetails',compact('products'));
     }
 }

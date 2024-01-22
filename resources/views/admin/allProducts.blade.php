@@ -20,7 +20,7 @@
                                 <div class="nk-tb-list">
                                     <div class="nk-tb-item nk-tb-head">
                                         <div class="nk-tb-col tb-col-sm"><span>Name</span></div>
-                                        <div class="nk-tb-col"><span>Slug</span></div>
+                                        <div class="nk-tb-col"><span>Tags</span></div>
                                         <div class="nk-tb-col tb-col-md"><span>Category</span></div>
                                         <div class="nk-tb-col nk-tb-col-tools">
                                             <ul class="nk-tb-actions gx-1 my-n1">
@@ -37,7 +37,20 @@
                                             </span>
                                         </div>
                                         <div class="nk-tb-col">
-                                            <span class="tb-sub">{{ $pd->slug }}</span>
+                                            <span class="tb-sub">
+                                                <?php
+                                                    if($pd->tags ?? ''){
+                                                        $tag = json_decode($pd->tags); ?>
+                                                        <ul>
+                                                <?php   foreach($tag as $tid){
+                                                            $tags = (App\Models\Tag::where('id','=',$tid)->first()); ?>
+
+                                                            <li>{{ $tags->name }}</li>
+                                                <?php   }   ?>
+                                                        </ul>
+                                            <?php   }
+                                                ?>
+                                            </span>
                                         </div>
                                         <div class="nk-tb-col">
                                             <span class="tb-lead">{{ $category->category_name }}</span>
