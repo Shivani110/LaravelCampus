@@ -357,16 +357,8 @@ class AdminController extends Controller
     }
 
     public function updateProduct(Request $request){
-        echo '<pre>';
-        print_r($request->all());
-
-        echo '</pre>';
-        
         $id = $request->p_id;
-        if($request->hasFile('g_image')){
-            echo 'done';
-        }
-        die();
+
         if($request->strength != null){
             $strength = $request->strength;
             $quantity = $request->quantity;

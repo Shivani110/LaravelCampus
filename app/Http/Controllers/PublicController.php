@@ -11,6 +11,9 @@ use App\Models\CollegeTemplate;
 use App\Models\Post;
 use App\Models\Comment;
 use App\Models\Product;
+use App\Models\Cart;
+use App\Models\Variation;
+use Stripe;
 
 class PublicController extends Controller
 {
@@ -136,5 +139,128 @@ class PublicController extends Controller
         $products = Product::where('id','=',$pid)->with('media','variation')->get();
 
         return view('publicdashboard.productdetails',compact('products'));
+    }
+
+    public function createcart(Request $request){
+        $pId = $request->pid;
+        $vId = $request->v_id;
+        $quantity = $request->quantity;
+        $userid = $request->user_id;
+
+        $cart = new Cart;
+        $cart->product_id = $pId;
+        $cart->variation_id = $vId;
+        $cart->userid = $userid;
+        $cart->quantity = $quantity;
+        $cart->save();
+        
+        return response()->json($cart);
+    }
+
+    public function cartItems(){
+        $cart = Cart::where('userid','=',Auth::user()->id)->get();
+
+        return view('publicdashboard.cart',compact('cart'));
+    }
+
+    public function quantityMinus(Request $request){
+        $id = $request->id;
+        $quantity = $request->quantity;
+
+        $cart = Cart::where('id','=',$id)->first();
+        $cart->quantity = $quantity;
+        $cart->update();
+
+        $carts = Cart::where('id','=',$id)->first();
+        $qnty = $carts->quantity;
+        $v_id = $carts->variation_id;
+        $variation = Variation::where('id','=',$v_id)->first();
+        $vprice = $variation->price;
+        $amnt = (int)$vprice * (int)$qnty;
+
+        $cartss = Cart::where('userid','=',Auth::user()->id)->get();
+        $subtotal = '';
+        foreach($cartss as $data){
+            $qty = $data->quantity;
+            $vid = $data->variation_id;
+            $variations = Variation::where('id','=',$vid)->first();
+            $price = $variations->price;
+            $total = (int)$price * (int)$qty;
+            $subtotal = (int)$subtotal;
+            $subtotal += $total;
+        }
+
+        return response()->json([$cart,$amnt,$subtotal]);
+    }
+
+    public function quantityPlus(Request $request){
+        $id = $request->id;
+        $quantity = $request->quantity;
+
+        $cart = Cart::where('id','=',$id)->first();
+        $cart->quantity = $quantity;
+        $cart->update();
+
+        $carts = Cart::where('id','=',$id)->first();
+        $qnty = $carts->quantity;
+        $v_id = $carts->variation_id;
+        $variation = Variation::where('id','=',$v_id)->first();
+        $vprice = $variation->price;
+        $amnt = (int)$vprice * (int)$qnty;
+
+        $cartss = Cart::where('userid','=',Auth::user()->id)->get();
+        $subtotal = '';
+        foreach($cartss as $data){
+            $qty = $data->quantity;
+            $vid = $data->variation_id;
+            $variations = Variation::where('id','=',$vid)->first();
+            $price = $variations->price;
+            $total = (int)$price * (int)$qty;
+            $subtotal = (int)$subtotal;
+            $subtotal += $total;
+        }
+       
+        return response()->json([$cart,$amnt,$subtotal]);
+    }
+
+    public function checkout(){
+        $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY'));
+        $setup_intent = $stripe->setupIntents->create();
+        $client_secret = $setup_intent->client_secret;
+
+        return view('checkout.checkout',compact('client_secret'));
+    }
+
+    public function payment(Request $request){
+        // dd($request->all());
+
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
+        $customer = $stripe->customers->create([
+            'name' => '$request->name', 
+            'email' => $request->email,
+            'address' => [
+                'line1' => $request->address,
+                'city' => $request->city,
+                'postal_code' => $request->zip,
+                'state' => $request->state,
+                'country' => 'US'
+            ],
+            'payment_method' => $request->token,
+        ]);
+        $paymentMethodId = $request->token; 
+        $paymentIntentObject = $stripe->paymentIntents->create([
+            'amount' => 278* 100,
+            'currency' => 'usd',
+            'customer' => $customer->id,
+            'payment_method_types' => ['card'],
+            'payment_method' => $paymentMethodId,
+            'metadata' => ['order_id' => '1234'],
+            'capture_method' => 'automatic',
+            'confirm' => true,
+            'off_session'=> true,
+            'description' => 'Product purchase payment',
+        ]);
+
+        print_r($paymentIntentObject);
     }
 }

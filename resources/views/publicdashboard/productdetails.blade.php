@@ -11,10 +11,6 @@
                         <div class="nk-block-head-content">
                             <h3 class="nk-block-title page-title">Product Details</h3>
                         </div>
-                        <div class="nk-block-head-content">
-                            <a href="html/product-list.html" class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em class="icon ni ni-arrow-left"></em><span>Back</span></a>
-                            <a href="html/product-list.html" class="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none"><em class="icon ni ni-arrow-left"></em></a>
-                        </div>
                     </div>
                 </div><!-- .nk-block-head -->
                 <div class="nk-block">
@@ -55,7 +51,7 @@
                                                 @foreach($data->variation as $variation)
                                                 <li>
                                                     <div class="custom-control custom-radio custom-control-pro no-control">
-                                                        <input type="radio" class="custom-control-input variation" name="sizeCheck" id="sizeCheck{{ $variation->id }}" value="{{ $variation->price }}">
+                                                        <input type="radio" class="custom-control-input variation" name="sizeCheck" id="sizeCheck{{ $variation->id }}" value="{{ $variation->price }}" varID="{{ $variation->id }}">
                                                         <label class="custom-control-label" for="sizeCheck{{ $variation->id }}">${{ number_format($variation->price,2) }}</label>
                                                     </div>
                                                 </li>
@@ -67,15 +63,34 @@
                                                 <li class="w-140px">
                                                     <div class="form-control-wrap number-spinner-wrap">
                                                         <button class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus"><em class="icon ni ni-minus"></em></button>
-                                                        <input type="number" class="form-control number-spinner" value="0">
+                                                        <input type="number" class="form-control number-spinner" value="1" name="number" id="number" min="1">
                                                         <button class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus"><em class="icon ni ni-plus"></em></button>
                                                     </div>
                                                 </li>
                                                 <li>
-                                                    <button class="btn btn-primary">Add to Cart</button>
+                                                    <button class="btn btn-primary" id="cart" dataid="{{ $data->id }}">Add to Cart</button>
                                                 </li>
                                             </ul>
                                         </div><!-- .product-meta -->
+                                        <div class="product-meta">
+                                            <ul class="d-flex flex-wrap ailgn-center g-2 pt-1">
+                                                <li class="w-140px">
+                                                    <a href="{{ url('checkout') }}" class="btn btn-dark">Buy Now</a>
+                                                </li>
+                                            </ul>
+                                        </div><!-- .product-meta -->
+                                        <?php 
+                                            $cart = (App\Models\Cart::where('userid','=',Auth::user()->id))->first();
+                                            if($cart != null){ ?>
+                                                <div class="product-meta view">
+                                                    <ul class="d-flex flex-wrap ailgn-center g-2 pt-1">
+                                                        <li>
+                                                            <a class="btn btn-success" href="{{ url('viewcart') }}">View Cart</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                        <?php   }
+                                            ?>
                                     </div><!-- .product-info -->
                                 </div><!-- .col -->
                             </div><!-- .row -->
@@ -89,12 +104,55 @@
 </div>
 
 <script>
-    $('.variation').change(function(){
-        v_price = $(this).val();
-        price = new Intl.NumberFormat().format(v_price);
-        formattedprice = '$'+price+'.00';
-        $('.product-price').html('<span>'+formattedprice+'</span>');
+
+    $(document).ready(function(){
+        variation = '';
+        quantity = '';
+
+        $('.variation').change(function(){
+            v_price = $(this).val();
+            vid = $(this).attr('varID');
+            variation = vid;
+            price = new Intl.NumberFormat().format(v_price);
+            formattedprice = '$'+price+'.00';
+            $('.product-price').html('<span>'+formattedprice+'</span>');
+        });
+
+        $('.number-minus').click(function(){
+            qty = $('#number').val();
+            quantity = qty-1;
+        });
+
+        $('.number-plus').click(function(){
+            qty = $('#number').val();
+            quantity = parseInt(qty)+1;
+        });
+
+        $('#cart').click(function(){
+           pid = $(this).attr('dataid');
+           var data={
+                pid: pid,
+                v_id: variation,
+                quantity: quantity,
+                user_id: "{{ Auth::user()->id }}",
+                _token: "{{ csrf_token() }}"
+            }
+            $.ajax({
+                url: "{{ url('addtocart') }}",
+                type: "POST",
+                data: data,
+                dataType: "JSON",
+                success:function(response){
+                    if(response){
+                        NioApp.Toast("Product Added to Cart..","success",{position:'top-right'});
+                    }
+                }
+            });
+        });
     });
+   
+
+ 
 </script>
 
 @endsection

@@ -63,7 +63,7 @@
                                         <span class="nk-menu-icon"><em class=""></em></span>
                                         <span class="nk-menu-text">Products</span>
                                     </a>
-                                    <ul class="nk-menu-sub" style="display: block;"> 
+                                    <ul class="nk-menu-sub"> 
                                         <li class="nk-menu-item">
                                             <a href="{{ url('products') }}" class="nk-menu-link"><span class="nk-menu-text">Product Details</span></a>
                                         </li>
@@ -130,15 +130,15 @@
                                                     <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
                                                     <!-- {{ Auth::user()->user_type }} -->
                                                     @if((Auth::user()->user_type) == 0)
-                                                        <li><a href="{{ url('/admin-dashboard/allusers') }}"><span>Back</span></a></li>
+                                                        <li><a href="{{ url('admin-dashboard') }}"><span>Back</span></a></li>
                                                     @elseif((Auth::user()->user_type) == 1)
-                                                        <li><a href="{{ url('/student-dashboard/student') }}"><span>Back</span></a></li>
+                                                        <li><a href="{{ url('student-dashboard') }}"><span>Back</span></a></li>
                                                     @elseif((Auth::user()->user_type) == 2)
-                                                        <li><a href="{{ url('/staff-dashboard/staff') }}"><span>Back</span></a></li>
+                                                        <li><a href="{{ url('staff-dashboard') }}"><span>Back</span></a></li>
                                                     @elseif((Auth::user()->user_type) == 3)
-                                                        <li><a href="{{ url('/sponsor-dashboard/sponsor') }}"><span>Back</span></a></li>  
+                                                        <li><a href="{{ url('sponsor-dashboard') }}"><span>Back</span></a></li>  
                                                     @elseif((Auth::user()->user_type) == 4)
-                                                        <li><a href="{{ url('/alumni-dashboard/alumni') }}"><span>Back</span></a></li>  
+                                                        <li><a href="{{ url('alumni-dashboard') }}"><span>Back</span></a></li>  
                                                     @endif
                                                     <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
                                                 </ul>

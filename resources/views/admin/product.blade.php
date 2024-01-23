@@ -15,7 +15,7 @@
                 </div>
             @endif
             @if(isset($product))
-                <form method="post" action="{{ url('admin-dashboard/updateproduct') }}" enctype="mutlipart/form-data">
+                <form method="post" action="{{ url('admin-dashboard/updateproduct') }}" enctype="multipart/form-data">
                 @csrf
             @else
                 <form method="post" action="{{ url('admin-dashboard/addproduct') }}" enctype="multipart/form-data">

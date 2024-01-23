@@ -44,7 +44,7 @@
                                     <h6 class="overline-title text-primary-alt">Use-Case Preview</h6>
                                 </li><!-- .nk-menu-item -->
 
-                                <li class="nk-menu-item has-sub active">
+                                <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class=""></em></span>
                                         <span class="nk-menu-text">Users</span>
@@ -58,7 +58,7 @@
                                         </li>
                                     </ul><!-- .nk-menu-sub -->
                                 </li>
-                                <li class="nk-menu-item has-sub active">
+                                <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class=""></em></span>
                                         <span class="nk-menu-text">Colleges</span>
@@ -72,7 +72,7 @@
                                         </li>
                                     </ul><!-- .nk-menu-sub -->
                                 </li>
-                                <li class="nk-menu-item has-sub active">
+                                <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class=""></em></span>
                                         <span class="nk-menu-text">Categories</span>
@@ -83,7 +83,7 @@
                                         </li>
                                     </ul><!-- .nk-menu-sub -->
                                 </li>
-                                <li class="nk-menu-item has-sub active">
+                                <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class=""></em></span>
                                         <span class="nk-menu-text">Tags</span>
@@ -94,7 +94,7 @@
                                         </li>
                                     </ul><!-- .nk-menu-sub -->
                                 </li>
-                                <li class="nk-menu-item has-sub active">
+                                <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class=""></em></span>
                                         <span class="nk-menu-text">Products</span>
@@ -103,8 +103,6 @@
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/product') }}" class="nk-menu-link"><span class="nk-menu-text">Products</span></a>
                                         </li>
-                                    </ul>
-                                    <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/getproduct') }}" class="nk-menu-link"><span class="nk-menu-text">All Products</span></a>
                                         </li>

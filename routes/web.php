@@ -43,6 +43,12 @@ Route::post('/reply',[PublicController::class,'replyComments']);
 Route::post('/search',[PublicController::class,'searchPost']);
 Route::get('/products',[PublicController::class,'products']);
 Route::get('/productdetails/{slug}',[PublicController::class,'productdetails']);
+Route::post('/addtocart',[PublicController::class,'createcart']);
+Route::get('/viewcart',[PublicController::class,'cartItems']);
+Route::post('/decreasequantity',[PublicController::class,'quantityMinus']);
+Route::post('/increasequantity',[PublicController::class,'quantityPlus']);
+Route::get('/checkout',[PublicController::class,'checkout']);
+Route::post('/purchase',[PublicController::class,'payment']);
 
 Route::middleware(['Auth'=>'admin'])->group(function () {
     Route::get('/admin-dashboard',[AdminController::class,'admin']);
