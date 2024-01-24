@@ -13,6 +13,8 @@ use App\Models\Comment;
 use App\Models\Product;
 use App\Models\Cart;
 use App\Models\Variation;
+use App\Models\Order;
+use App\Models\OrderMeta;
 use Stripe;
 
 class PublicController extends Controller
@@ -228,15 +230,25 @@ class PublicController extends Controller
         $setup_intent = $stripe->setupIntents->create();
         $client_secret = $setup_intent->client_secret;
 
-        return view('checkout.checkout',compact('client_secret'));
+        $cart = Cart::where('userid','=',Auth::user()->id)->get();
+        $subtotal = '';
+        foreach($cart as $data){
+            $qty = $data->quantity;
+            $vid = $data->variation_id;
+            $variations = Variation::where('id','=',$vid)->first();
+            $price = $variations->price;
+            $total = (int)$price * (int)$qty;
+            $subtotal = (int)$subtotal;
+            $subtotal += $total;
+        }
+
+        return view('checkout.checkout',compact('client_secret','subtotal'));
     }
 
     public function payment(Request $request){
-        // dd($request->all());
-
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
         $customer = $stripe->customers->create([
-            'name' => '$request->name', 
+            'name' => '$request->f-name', 
             'email' => $request->email,
             'address' => [
                 'line1' => $request->address,
@@ -247,20 +259,65 @@ class PublicController extends Controller
             ],
             'payment_method' => $request->token,
         ]);
+
         $paymentMethodId = $request->token; 
+        $amount = $request->amount;
         $paymentIntentObject = $stripe->paymentIntents->create([
-            'amount' => 278* 100,
+            'amount' => (int)$amount*100,
             'currency' => 'usd',
             'customer' => $customer->id,
             'payment_method_types' => ['card'],
             'payment_method' => $paymentMethodId,
-            'metadata' => ['order_id' => '1234'],
+            'metadata' => [],
             'capture_method' => 'automatic',
             'confirm' => true,
             'off_session'=> true,
             'description' => 'Product purchase payment',
         ]);
+        $p_status = $paymentIntentObject->status;
 
-        print_r($paymentIntentObject);
+        if($p_status == "succeeded"){
+            $order = new Order;
+            $order->orderID = 'ORD'.'_'.time();
+            $order->street = $request->address;
+            $order->city = $request->city;
+            $order->state = $request->state;
+            $order->zip = $request->zip;
+            $order->payment_intent = $paymentMethodId;
+            $order->currency = $paymentIntentObject->currency;
+            $order->amount = $paymentIntentObject->amount;
+            $order->payment_status = $p_status;
+            $order->status = '2';
+            $order->save();
+
+            $cart = Cart::where('userid','=',Auth::user()->id)->get();
+
+            foreach($cart as $data){
+                $ordermeta = new OrderMeta;
+                $ordermeta->order_id = $order->id;
+                $ordermeta->product_id = $data->product_id;
+                $ordermeta->variation_id = $data->variation_id;
+                $ordermeta->userid = $data->userid;
+                $ordermeta->quantity = $data->quantity;
+                $ordermeta->save();
+            }
+
+            $carts = Cart::where('userid','=',Auth::user()->id)->delete();
+        }
+
+        return back()->with("success","Payment successfull");
+    }
+
+    public function orderlist(){
+        $ordermeta = OrderMeta::where('userid','=',Auth::user()->id)->with('order')->first();
+        return view('publicdashboard.orderlist',compact('ordermeta'));
+    }
+
+    public function orderdetail(){
+        $ordermeta = OrderMeta::where('userid','=',Auth::user()->id)->with('order')->get();
+        return view('publicdashboard.orders',compact('ordermeta'));
+    }
+
+    public function confirmstatus(Request $request){
     }
 }

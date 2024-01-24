@@ -17,7 +17,6 @@
                     <div class="card card-bordered">
                         <div class="card-inner-group">
                             <div class="card-inner p-0">
-                            <?php $amount = ''; ?> 
                                 <div class="nk-tb-list">
                                     <div class="nk-tb-item nk-tb-head">
                                         <div class="nk-tb-col tb-col-sm"><span>Product</span></div>
@@ -25,8 +24,9 @@
                                         <div class="nk-tb-col tb-col-sm"><span>Quantity</span></div>
                                         <div class="nk-tb-col tb-col-sm">Amount</div>
                                     </div><!-- .nk-tb-item -->
+                                    <?php $amount = ''; ?> 
                                     @foreach($cart as $data)
-                                        <?php 
+                                        <?php
                                             $price = '';
                                             $quantity = $data->quantity;
                                         ?>
@@ -89,8 +89,24 @@
                                             ?>
                                             <span class="tb-lead">${{ number_format($subtotal,2) }}</span>
                                         </div>
+                                        
                                     </div>
-                                </div><!-- .nk-tb-list -->
+                                    <div class="nk-tb-item">
+                                        <div class="nk-tb-col tb-col-2">
+                                        </div>
+                                        <div class="nk-tb-col tb-col-2">
+                                        </div>
+                                        <div class="nk-tb-col tb-col-1">
+                                        </div>
+                                        <div class="nk-tb-col tb-col-2">
+                                            <ul class="d-flex flex-wrap ailgn-center g-2 pt-1">
+                                                <li class="w-140px">
+                                                    <a href="{{ url('checkout') }}" class="btn btn-dark">Buy Now</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

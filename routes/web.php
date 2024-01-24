@@ -49,6 +49,8 @@ Route::post('/decreasequantity',[PublicController::class,'quantityMinus']);
 Route::post('/increasequantity',[PublicController::class,'quantityPlus']);
 Route::get('/checkout',[PublicController::class,'checkout']);
 Route::post('/purchase',[PublicController::class,'payment']);
+Route::get('/orderlist',[PublicController::class,'orderlist']);
+Route::get('/orders',[PublicController::class,'orderdetail']);
 
 Route::middleware(['Auth'=>'admin'])->group(function () {
     Route::get('/admin-dashboard',[AdminController::class,'admin']);

@@ -72,13 +72,6 @@
                                                 </li>
                                             </ul>
                                         </div><!-- .product-meta -->
-                                        <div class="product-meta">
-                                            <ul class="d-flex flex-wrap ailgn-center g-2 pt-1">
-                                                <li class="w-140px">
-                                                    <a href="{{ url('checkout') }}" class="btn btn-dark">Buy Now</a>
-                                                </li>
-                                            </ul>
-                                        </div><!-- .product-meta -->
                                         <?php 
                                             $cart = (App\Models\Cart::where('userid','=',Auth::user()->id))->first();
                                             if($cart != null){ ?>

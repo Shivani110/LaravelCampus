@@ -19,6 +19,11 @@
 <body>
     <div class="wrapper">
         <div class="container">
+            @if ($message = Session::get('success'))
+                <div class="alert alert-success col-8">
+                    <p>{{ $message }}</p>
+                </div>
+            @endif
             <form action="{{ url('purchase') }}" method="post" id="payment-form">
                 @csrf
                 <h1>
@@ -57,7 +62,7 @@
                     <i class="far fa-credit-card"></i> Payment Information
                 </h1>
                 <div id="card-elements"></div>
-                <input type="hidden" name="amount" value="">
+                <input type="hidden" name="amount" id="amount" value="{{ $subtotal }}">
                 <div class="btns">
                     <button id="card-button" data-secret="{{ $client_secret }}">Purchase</button>
                 </div>
@@ -76,6 +81,7 @@
         form.addEventListener('submit', async (e) => {
             const cardBtn = document.getElementById('card-button');
             const cardHolderName = $('#f-name').val();
+            const amount = $('#amount').val();
             e.preventDefault()
 
             const { setupIntent, error } = await stripe.confirmCardSetup(
@@ -83,7 +89,8 @@
                 payment_method: {
                     card: cardElement,
                     billing_details: {
-                        name: cardHolderName.value
+                        name: cardHolderName.value,
+                        amount: amount.value
                     }
                 }
             })
