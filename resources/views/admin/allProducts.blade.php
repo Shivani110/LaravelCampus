@@ -81,11 +81,5 @@
         </div>
     </div>
 </div>
-               
-                                                       
-                                                       
-                                                        
-
-
-
+            
 @endsection

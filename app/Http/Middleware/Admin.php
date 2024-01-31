@@ -17,11 +17,11 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-       if(Auth::user()->user_type == 0){
-            return $next($request);
-       }else{
-            return redirect('login');
-       }
+      if(Auth::user()->user_type == 0){
+         return $next($request);
+      }else{
+         return redirect('login');
+      }
         
     }
 }

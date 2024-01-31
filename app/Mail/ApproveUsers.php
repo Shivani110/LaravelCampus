@@ -47,7 +47,7 @@ class ApproveUsers extends Mailable
             view: 'mail.email',
             with: [
                 'mailData' => $this->mailData,
-                ],
+            ],
         );
     }
 
